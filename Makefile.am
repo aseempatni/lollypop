@@ -1,9 +1,9 @@
 ACLOCAL_AMFLAGS = -I m4
 NULL =
 
-bin_SCRIPTS = yaelle
+bin_SCRIPTS = Yaelle
 
-SUBDIRS = src data 
+SUBDIRS = yaelle data 
 #po
 
 EXTRA_DIST = \
@@ -46,7 +46,7 @@ gen-AUTHORS:
 	   mv -f $(distdir)/AUTHORS-tmp $(distdir)/AUTHORS ;           \
 	fi
 
-yaelle: yaelle.in Makefile
+Yaelle: yaelle.in Makefile
 	$(AM_V_GEN)sed						\
 		-e s!\@srcdir\@!$(abs_top_srcdir)!	\
 		-e s!\@prefix\@!$(prefix)!		\

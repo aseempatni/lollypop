@@ -1,6 +1,6 @@
 AC_PREREQ(2.63)
 AC_INIT([yaelle],
-        [3.15.1],
+        [0.1],
         [https://bugzilla.gnome.org/enter_bug.cgi?product=yaelle],
         [yaelle],
         [https://wiki.gnome.org/Apps/Music])
@@ -11,7 +11,8 @@ AM_INIT_AUTOMAKE([1.11 tar-ustar dist-xz no-dist-gzip -Wno-portability subdir-ob
 AM_MAINTAINER_MODE([enable])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-AM_PATH_PYTHON([3.3])
+AM_PATH_PYTHON(2.7)
+AM_PYTHON_CHECK_VERSION(2.7)
 
 GETTEXT_PACKAGE=yaelle
 AC_SUBST(GETTEXT_PACKAGE)
@@ -36,7 +37,7 @@ AC_CONFIG_FILES([
   Makefile
   data/Makefile
   data/AboutDialog.ui
-  src/Makefile
+  yaelle/Makefile
   po/Makefile.in
 ])
 AC_OUTPUT

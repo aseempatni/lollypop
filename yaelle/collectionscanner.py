@@ -1,12 +1,12 @@
-#!/usr/bin/python2
+#!/usr/bin/python
 # Copyright (c) 2014 Cedric Bellegarde <gnumdk@gmail.com>
 #
 
 import os, time
 import sqlite3
-from thread import start_new_thread
+from _thread import start_new_thread
 from gi.repository import GLib
-from mutagen.easyid3 import EasyID3
+from mutagenx.easyid3 import EasyID3
 from database import Database
 
 class CollectionScanner:
@@ -99,7 +99,3 @@ class CollectionScanner:
 
 		# Add song to db
 		self._db.add_song(sql, title, filename, length, tracknumber, year, album_id)
-
-scanner = CollectionScanner()
-scanner.update()
-time.sleep(300)
