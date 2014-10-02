@@ -1,9 +1,10 @@
-ACLOCAL_AMFLAGS = -I m4 -I libgd
+ACLOCAL_AMFLAGS = -I m4
 NULL =
 
 bin_SCRIPTS = yaelle
 
-SUBDIRS = libgd gnomemusic data po help
+SUBDIRS = src data 
+#po
 
 EXTRA_DIST = \
 	AUTHORS.in \
