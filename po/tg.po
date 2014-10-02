@@ -1,0 +1,351 @@
+# Tajik translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Victor Ibragimov <victor.ibragimov@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-02-26 21:05+0000\n"
+"PO-Revision-Date: 2014-02-27 12:24+0500\n"
+"Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
+"Language-Team: Tajik <tg@li.org>\n"
+"Language: tg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Андозаи равзана"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Андозаи равзана (бар ва баландӣ)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Мавқеи равзана"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Мавқеи равзана (x ва y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Равзана дар ҳадди аксар"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Вазъияти равзана дар ҳадди аксар"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Ҳолати такрори пахш"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Қиматҳо такрорӣ ё тасодуфии пахшро дар тамоми коллексия муайян мекунанд. "
+"Қиматҳои иҷозашуда: \"none\" (такрорӣ ва тасодуфӣ хомӯш мебошанд), \"song"
+"\" (такрор кардани суруди ҷорӣ), \"all\" (такрор кардани рӯйхати пахш, бе "
+"тасодуфӣ), \"shuffle\" (тасодуфии рӯйхати пахш, пахши ҳамаи сурудҳоро такрор "
+"мекунад)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Ҳолати ҷустуҷӯ"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Агар \"true\" бошад, навори ҷустуҷӯ намоиш дода мешавад."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Мусиқӣ"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Плеери мусиқӣ"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Коллексияи мусиқии худро мураттаб ва пахш кунед"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Мусиқии GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Мусиқии GNOME - барномаи нави пахши мусиқӣ мебошад."
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Беном"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "Ҳозир пахш намекунад"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:357
+#: ../gnomemusic/view.py:249 ../gnomemusic/view.py:435
+#: ../gnomemusic/view.py:648 ../gnomemusic/view.py:962
+msgid "Unknown Artist"
+msgstr "Ҳунарманди номаълум"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:533
+msgid "Unknown Album"
+msgstr "Албоми номаълум"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "Ҳунарманди %s, албоми %s"
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "Қаблӣ"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr "Таваққуф"
+
+#: ../gnomemusic/notification.py:129
+msgid "Play"
+msgstr "Пахш кардан"
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "Навбатӣ"
+
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:211
+#, python-format
+#| msgid "Selected %d item"
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "%d объект интихоб шудааст"
+msgstr[1] "%d объект интихоб шудаанд"
+
+#: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Барои интихоби объект онро зер кунед"
+
+#: ../gnomemusic/view.py:318
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Ягон мусиқӣ ёфт нашуд!\n"
+"Баъзе файлҳоро ба ҷузвдони %s гузоред"
+
+#: ../gnomemusic/view.py:325
+msgid "Albums"
+msgstr "Албомҳо"
+
+#: ../gnomemusic/view.py:391
+msgid "Songs"
+msgstr "Сурудҳо"
+
+#: ../gnomemusic/view.py:546
+msgid "Artists"
+msgstr "Ҳунармандон"
+
+#: ../gnomemusic/view.py:583 ../gnomemusic/view.py:585
+#: ../gnomemusic/widgets.py:451
+msgid "All Artists"
+msgstr "Ҳамаи ҳунармандон"
+
+#: ../gnomemusic/view.py:715
+msgid "Playlists"
+msgstr "Феҳристҳои пахш"
+
+#: ../gnomemusic/view.py:979
+#, python-format
+#| msgid "%d Song"
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d суруд"
+msgstr[1] "%d суруд"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
+msgid "Load More"
+msgstr "Бештар бор кардан"
+
+#: ../gnomemusic/widgets.py:85
+msgid "Loading..."
+msgstr "Бор шуда истодааст..."
+
+#: ../gnomemusic/widgets.py:670
+msgid "New Playlist"
+msgstr "Феҳристи пахши нав"
+
+#: ../gnomemusic/window.py:181
+msgid "Empty"
+msgstr "Холӣ кардан"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Ҳуқуқи муаллиф © 2013 Барноманависони Мусиқии GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Плеери мусиқӣ ва барномаи идоракунӣ барои GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Гузариш ба вебсайти Мусиқии GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"Ин нармафзор ройгон аст. Шумо метавонед онро мувофиқи шартҳои Иҷозатномаи "
+"\"\"иҷтимоии умумии GNU, чи тавре ки Иҷозатномаи мазкур аз ҷониби Фонди "
+"\"Мусиқии GNOME - нармафзорест, ки ройнгон нашр шудааст, ва шумо метавонед "
+"онро дар асоси шартҳои Иҷозатномаи ҷамъиятии умумии GNU, версияи Иҷозатномаи "
+"рақами 2 ё ягон версияи охирин, пахш кунед ва/ё тағйир диҳед.\n"
+"\n"
+"\"Мо умедворем, ки шумо аз истифодабарии нармафзори Мусиқии GNOME фоида "
+"мегиред, вале мо ба шумо ЯГОН КАФОЛАТ НАМЕДИҲЕМ; ҳатто барои мақсадҳои "
+"ТИҶОРӢ шумо ё ягон МАҚСАДҲОИ МАХСУСИ ШУМО ягон кафолат намедиҳем. Барои "
+"маълумоти муфассал Иҷозатномаи иҷтимоии умумии GNU-ро мутолиа кунед.\n"
+"\n"
+"Шумо бояд нусхаи Иҷозатномаи иҷтимоии умумии GNU-ро якҷоя бо нармафзори "
+"Мусиқии GNOME қабул кунед. Агар қабул накунед, метавонед барои гирифтани "
+"нусхаи иҷозатнома ба суроғаи мо нависед: The Free Software Foundation, Inc., "
+"51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA\n"
+"\n"
+"Муаллифони нармафзори Мусиқии GNOME иҷозат медиҳанд, то ки шумо тавонед "
+"плагинҳои GStreamer-ро, ки ба Иҷозатномаи GPL мувофиқа намекунанд, якҷоя бо "
+"GStreamer ва Мусиқии GNOME истифода баред. Ин иҷозат ба иҷозатномаи GPL-и "
+"нармафзори Мусиқии GNOME мувофиқат намекунад ва метавонад онро тавсиф "
+"накунад.  Агар шумо ин рамзро тағйир диҳед, метавонед истисноро ба версияи "
+"рамзи худ васеъ кунед, вале шумо барои кардани ин вазифадор намебошед. Агар "
+"кардани ин нахоҳед, баёнияи ин истисноро аз версияи худ тоза кунед."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Санаи нашр"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Давомнокии пахш"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Феҳристи пахши нав"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Кӯмак"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "_Дар бораи барнома"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Хуруҷ"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Тасодуфӣ"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Ҳамаро такрор кардан"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Такрор кардани суруд"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Хомӯш кардани тасодуфӣ/такрорӣ"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Ягон мусиқӣ ёфт нашуд"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Ҳамаро интихоб кардан"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "Ҳеҷ чизро интихоб накардан"
+
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
+msgid "Cancel"
+msgstr "Бекор кардан"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Илова кардан ба феҳристи пахш"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Тоза кардан аз феҳристи пахш"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Пахш кардан"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Нест кардан"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "Интихоби феҳристи пахш"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "Интихоб кардан"
+
+#~ msgid "Selected %d items"
+#~ msgstr "%d объект интихоб шудаанд"
+
+#~| msgid "Songs"
+#~ msgid "%d Songs"
+#~ msgstr "%d суруд"
+
+#~ msgid "Now _Playing"
+#~ msgstr "_Ҳозир пахш мекунад"

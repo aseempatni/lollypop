@@ -1,0 +1,379 @@
+# Korean translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2013, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-09-20 21:07+0000\n"
+"PO-Revision-Date: 2014-09-21 11:57+0900\n"
+"Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
+"Language-Team: Korean <gnome-kr@googlegroups.com>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "창 크기"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "창 크기(너비 및 높이)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "창 위치"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "창 위치(가로 및 세로)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "창 최대화"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "창 최대화 상태."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "재생 반복 모드"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"값은 모음에 있는 음악을 반복 재생할지 무작위로 재생할지를 나타냅니다. 사용할 "
+"수 있는 값은 \"none\"(반복 및 임의재생 끔), \"song\"(현재 노래 반복), \"all"
+"\"(재생 목록 반복, 무작위 재생 안함), \"shuffle\"(재생 목록 무작위 재생, 모"
+"든 곡 반복으로 간주)입니다."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "검색 모드"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "참이면, 검색 표시줄이 나타납니다."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "음악"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "음악 재생기"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "음악 모음을 재생하고 정리합니다."
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "그놈 음악"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "음악은 새로운 그놈 음악 재생 프로그램입니다."
+
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+msgid "Untitled"
+msgstr "제목 없음"
+
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
+#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
+msgid "Unknown Album"
+msgstr "알 수 없는 앨범"
+
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
+#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
+#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:560
+msgid "Unknown Artist"
+msgstr "알 수 없는 음악가"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "재생 중 아님"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "%s 음악가, %s 앨범"
+
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "이전"
+
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+msgid "Pause"
+msgstr "일시 정지"
+
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "재생"
+
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "다음"
+
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "모두"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "음악가"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "앨범"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "트랙 제목"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "로컬"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "원본"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "일치"
+
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "항목 %d개 선택함"
+
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "선택할 항목 누름"
+
+#: ../gnomemusic/view.py:337
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"음악이 없습니다!\n"
+" %s 폴더에 파일을 넣으십시오"
+
+#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
+msgid "Albums"
+msgstr "앨범"
+
+#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
+msgid "Songs"
+msgstr "노래"
+
+#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
+msgid "Artists"
+msgstr "음악가"
+
+#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
+#: ../gnomemusic/widgets.py:448
+msgid "All Artists"
+msgstr "모든 음악가"
+
+#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
+msgid "Playlists"
+msgstr "재생 목록"
+
+#: ../gnomemusic/view.py:1077
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "노래 %d곡"
+
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d분"
+
+#: ../gnomemusic/widgets.py:674
+msgid "New Playlist"
+msgstr "새 재생 목록"
+
+#: ../gnomemusic/window.py:226
+msgid "Empty"
+msgstr "비어 있음"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 GNOME Music Developers"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "그놈용 음악 재생기 및 관리 프로그램."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "그놈 음악 웹사이트를 방문하세요"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"그놈 음악은 자유 소프트웨어 입니다. 자유 소프트웨어 재단이 공표한 GNU 일반 공"
+"중 사용허가서 라이선스 버전 2 또는(여러분의 취향에 따라) 그 이상의 조항에 따"
+"라 재배포 또는 수정할 수 있습니다.\n"
+"\n"
+"그놈 음악은 쓸모 있게 사용되길 바라며 배포되지만, 그 어떤 보증을 하지 않으며 "
+"심지어 상업성 또는 일부 목적의 적합성에 대한 암시적 보증도 하지 않습니다. 자"
+"세한 내용은 GNU 일반 공중 사용허가서를 참조하십시오.\n"
+"\n"
+"그놈 음악과 함께 GNU 일반 공중 사용허가서의 사본을 받아야 합니다. 만약 받지 "
+"못했다면 Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, "
+"Boston, MA 02110-1301 USA로 요청하십시오.\n"
+"\n"
+"그놈 음악 제작자는 비 GPL 호환 GStreamer 플러그인에 대한 사용을 허가 받았으"
+"며, GStreamer와 GNOME 음악을 함께 배포합니다. 이 권한은 GNOME 음악에 대해 효"
+"력을 미치는 GNU 일반 공중 사용허가서에 따라 허가받습니다. 만약 이 코드를 수정"
+"하면, 여러분 버전의 코드에 이 예외를 확장할 수 있겠지만, 의무적인 것은 아닙니"
+"다. 이를 원치 않는다면 여러분의 코드 버전에서 예외 조항을 삭제하십시오."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "발매일"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "재생 시간"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "새 재생 목록(_N)"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "도움말(_H)"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "정보(_A)"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "끝내기(_Q)"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "뒤섞기"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "모두 반복"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "한 곡만 반복"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "뒤섞기/반복 끔"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "음악이 없습니다"
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "모두 선택"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "선택하지 않음"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "검색"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "선택"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "취소"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "뒤로"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "재생 목록에 추가"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "재생 목록에서 제거"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "재생(_P)"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "삭제(_D)"
+
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "재생 목록 이름"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "재생 목록 선택"
+
+#~ msgid "Load More"
+#~ msgstr "더 불러오기"
+
+#~ msgid "Loading..."
+#~ msgstr "불러오는 중..."

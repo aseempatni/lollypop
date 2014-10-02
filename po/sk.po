@@ -1,0 +1,398 @@
+# Slovak translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Dušan Kazik <prescott66@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-09-19 21:46+0000\n"
+"PO-Revision-Date: 2014-09-17 19:12+0100\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
+"Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Veľkosť okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Veľkosť okna (šírka a výška)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Pozícia okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Pozícia okna (x a y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Maximalizované okno"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Maximalizovaný stav okna."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Režim opakovaného prehrávania"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Hodnota, ktorá udáva, či sa má opakovať, alebo zamiešať prehrávanie zbierky. "
+"Dovolené hodnoty sú: „none“(opakovanie a zamiešanie je vypnuté), "
+"„song“(opakovanie aktuálnej skladby), „all“(opakovanie zoznamu piesní, bez "
+"zamiešania), „shuffle“(zamiešanie zoznamu skladieb, použije sa opakovanie "
+"všetkých skladieb)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Režim vyhľadávania"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Ak je nastavené na true, bude zobrazený panel vyhľadávania."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Hudba"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Prehrávač hudby"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Prehráva a organizuje vašu hudobnú zbierku"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Hudba prostredia GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Hudba je nová aplikácia na prehrávanie hudby v prostredí GNOME."
+
+# uri
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+msgid "Untitled"
+msgstr "Nepomenovaný"
+
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
+#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
+msgid "Unknown Album"
+msgstr "Neznámy album"
+
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
+#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
+#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:560
+msgid "Unknown Artist"
+msgstr "Neznámy interpret"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Neprehráva sa"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "od interpreta %s, z albumu %s"
+
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "Predchádzajúca"
+
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+msgid "Pause"
+msgstr "Pozastaviť"
+
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "Prehrať"
+
+# DK: skladba
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "Nasledujúca"
+
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Všetko"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "Interpret"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "Album"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Názov stopy"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Miestne"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Zdroje"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Vhodné hľadanému výrazu"
+
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Vybraných %d položiek"
+msgstr[1] "Vybraná %d položka"
+msgstr[2] "Vybrané %d položky"
+
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Kliknutím na položku ju vyberiete"
+
+#: ../gnomemusic/view.py:337
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Nenašla sa žiadna hudba!\n"
+"Vložte nejaké súbory do priečinka %s"
+
+#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
+msgid "Albums"
+msgstr "Albumy"
+
+#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
+msgid "Songs"
+msgstr "Skladby"
+
+#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
+msgid "Artists"
+msgstr "Interpreti"
+
+#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
+#: ../gnomemusic/widgets.py:448
+msgid "All Artists"
+msgstr "Všetci interpreti"
+
+#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
+msgid "Playlists"
+msgstr "Zoznamy skladieb"
+
+#: ../gnomemusic/view.py:1077
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d skladieb"
+msgstr[1] "%d skladba"
+msgstr[2] "%d skladby"
+
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d min"
+
+#: ../gnomemusic/widgets.py:674
+msgid "New Playlist"
+msgstr "Nový zoznam skladieb"
+
+#: ../gnomemusic/window.py:226
+msgid "Empty"
+msgstr "Prázdne"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Autorské práva © 2013 Vývojári programu Hudba prostredia GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Aplikácia na prehrávanie a správu hudby prostredia GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Navštíviť domovskú stránku aplikácie Hudba prostredia GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"Program Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej šíriť a "
+"upravovať podľa ustanovení licencie GNU General Public Licence (Všeobecná "
+"zverejňovacia licencia GNU), vydávanej nadáciou Free Software Foundation a "
+"to buď podľa 2. verzie tejto licencie, alebo (podľa vášho uváženia) "
+"ktorejkoľvek neskoršej verzie.\n"
+"\n"
+"Tento program je rozširovaný v nádeji, že bude užitočný, avšak BEZ "
+"AKEJKOĽVEK ZÁRUKY. Neposkytujú sa ani odvodené záruky PREDAJNOSTI alebo "
+"VHODNOSTI NA URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte v licencii GNU General "
+"Public License.\n"
+"\n"
+"Kópiu licencie GNU General Public License by ste mali dostať spolu s týmto "
+"programom. Ak sa tak nestalo, napíšte na adresu Free Software Foundation, "
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+"\n"
+"Autori programu Hudba prostredia GNOME týmto vyhlasujú, že udeľujú právo "
+"použiť a distribuovať zásuvné moduly knižnice GStreamer, ktoré nie sú "
+"kompatibilné s GPL, spolu s týmto programom. Toto právo je nadrámec práv "
+"zaručených licenciou GPL, pod ktorú tento program spadá.  Ak upravíte "
+"zdrojový kód tohto programu, môžete túto výnimku použiť aj na vašu verziu "
+"kódu, no nie ste povinný tak urobiť. Ak to nechcete urobiť, vymažte z túto "
+"výnimku z vyhlásenia vo vašej verzii kódu."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Vydaný"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Dĺžka"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nový zoznam skladieb"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Pomocník"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "_O programe"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "U_končiť"
+
+# GtkRadioMenuItem
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Zamiešať"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Opakovať všetko"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Opakovať skladbu"
+
+# GtkRadioMenuItem
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Vypnúť zamiešanie/opakovanie"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Nenašla sa žiadna hudba"
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Vybrať všetko"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Zrušiť výber"
+
+# DK:tooltip
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Vyhľadávanie"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Vybrať"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Späť"
+
+# gtk button
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Pridať do zoznamu"
+
+# gtk button
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Odstrániť zo zoznamu"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Prehrať"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "O_dstrániť"
+
+#: ../data/PlaylistControls.ui.h:3
+#| msgid "Playlists"
+msgid "Playlist Name"
+msgstr "Názov zoznamu skladieb"
+
+# dialog title
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Výber zoznamu skladieb"
+
+#~ msgid "Load More"
+#~ msgstr "Načítať viac"
+
+#~ msgid "Loading..."
+#~ msgstr "Načítava sa"

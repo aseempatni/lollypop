@@ -1,0 +1,375 @@
+# Norwegian bokmål translation of gnome-music.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Kjartan Maraas <kmaraas@gnome.org>, 2012-2014.
+# Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music 3.13.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-16 11:50+0200\n"
+"PO-Revision-Date: 2014-08-16 11:50+0200\n"
+"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
+"Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
+"Language: no\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Vindustørrelse"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Vindustørrelse (bredde og høyde)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Vinduposisjon"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Vindusposisjon (x og y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Vindu maksimert"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Vindu maksimert."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Repeteringsmodus for avspilling"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Verdien bestemmer om samlingen skal spilles av i blandet rekkefølge og/eller "
+"om avspilling skal gjentas. Gyldige verdier er «none» (gjentakelse og "
+"blanding er slått av), «song» (gjenta sangen som spilles av nå), "
+"«all» (gjenta spillelista, uten å blande den) og «shuffle» (bland "
+"spillelista, og - implisitt - gjenta den)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Søkemodus"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Vis søkelinje hvis denne er satt til «true»."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musikk"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Musikkavspiller"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Spill av og organiser musikksamlingen din"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Musikk"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Musikk er det nye GNOME programmet for avspilling av musikk."
+
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+msgid "Untitled"
+msgstr "Uten tittel"
+
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1293
+msgid "Unknown Album"
+msgstr "Ukjent album"
+
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1291
+#: ../gnomemusic/view.py:1322 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
+msgid "Unknown Artist"
+msgstr "Ukjent artist"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Spiller ikke"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "av %s, fra %s"
+
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "Forrige"
+
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
+msgid "Pause"
+msgstr "Pause"
+
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "Spill av"
+
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "Neste"
+
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Alle"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "Artist"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "Album"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Navn på spor"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Lokal"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Kilder"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Treff"
+
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "%d oppføring valgt"
+msgstr[1] "%d oppføringer valgt"
+
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Klikk på oppføringer for å velge dem"
+
+#: ../gnomemusic/view.py:340
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Ingen musikk ble funnet!\n"
+" Plasser noen filer i mappa %s"
+
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1537
+msgid "Albums"
+msgstr "Album"
+
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1539
+msgid "Songs"
+msgstr "Sanger"
+
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1538
+msgid "Artists"
+msgstr "Artister"
+
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
+#: ../gnomemusic/widgets.py:451
+msgid "All Artists"
+msgstr "Alle artister"
+
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1540
+msgid "Playlists"
+msgstr "Spillelister"
+
+#: ../gnomemusic/view.py:1080
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d sang"
+msgstr[1] "%d sanger"
+
+#: ../gnomemusic/widgets.py:273 ../gnomemusic/widgets.py:311
+#, python-format
+msgid "%d min"
+msgstr "%d min"
+
+#: ../gnomemusic/widgets.py:677
+msgid "New Playlist"
+msgstr "Ny spilleliste"
+
+#: ../gnomemusic/window.py:226
+msgid "Empty"
+msgstr "Tom"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Opphavsrett © 2013 GNOME Music-utviklerene"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Et program for avspilling og håndtering av musikk for GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Besøk nettstedet for GNOME Music"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME musikk er fri programvare. Du kan redistribuere og/eller endre "
+"programmet under betingelsene gitt i GNU General Public License som utgitt "
+"av Free Software Foundation; enten versjon 2 av lisensen, eller (hvis du "
+"ønsker det) enhver senere versjon.\n"
+"\n"
+"GNOME musikk distribueres i håp om at programmet er nyttig, men uten NOEN "
+"GARANTI, ikke engang implisitt garanti om at det er SALGBART eller PASSER ET "
+"BESTEMT FORMÅL. Se GNU General Public License for detaljer.\n"
+"\n"
+"Du skal ha mottatt en kopi av GNU General Public License sammen med dette "
+"programmet. Hvis dette ikke er tilfelle, kan du skrive til Free Software "
+"Foundation, Inc. 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, "
+"USA.\n"
+"\n"
+"GNOME musikk utviklerene gir herved rettigheter for bruk og distribusjon av "
+"GStreamer-tillegg som ikke er kompatible med GPL sammen med GStreamer og "
+"GNOME musikk. Denne rettigheten går foran rettighetene som gis av GPL-"
+"lisensen som gjelder for GNOME musikk. Hvis du endrer denne koden kan du "
+"bruke dette unntaket for din versjon av koden, men du er ikke pliktig til "
+"gjøre dette. Hvis du ikke ønsker å gjøre dette kan du slette denne teksten "
+"fra din versjon."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Utgitt"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Spillelengde"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Ny spilleliste"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Hjelp"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "_Om"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "A_vslutt"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Bland"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Gjenta alle"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Gjenta sang"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Bland/Gjenta av"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Fant ingen musikk"
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Velg alle"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Velg ingen"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Søk"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Velg"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Tilbake"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Legg til i spilleliste"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Fjern fra spilleliste"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "S_pill av"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Slett"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Velg spilleliste"

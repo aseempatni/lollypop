@@ -1,0 +1,414 @@
+# Basque translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+#
+# asiersar <asiersar@yahoo.com>, 2013.
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-08-07 12:06+0200\n"
+"PO-Revision-Date: 2014-07-29 19:24+0200\n"
+"Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
+"Language-Team: Basque <librezale@librezale.org>\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.4\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Leihoaren tamaina"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Leihoaren tamaina (zabalera eta altuera)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Leihoaren posizioa"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Leihoaren posizioa (x eta y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Leiho maximizatua"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Leiho maximizatuaren egoera."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Erreprodukzioa errepikatzeko modua"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Balioak erreprodukzioa errepikatuko edo ausaz erreproduzituko den bilduman "
+"zehar zehazten du. Balio erabilgarriak: 'none' (errepikatzea edo ausaz "
+"erreproduzitzea desgaituta), 'song' (errepikatu uneko abestia), "
+"'all' (errepikatu erreprodukzio-zerrenda, ez-ausaz) eta 'shuffle' (ausaz "
+"erreproduzitu zerrenda, osoa errepikatuko duela suposatzen da)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Bilaketa-modua"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Egia bada, bilaketa-barra erakutsiko da."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musika"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Musika-erreproduzitzailea"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Erreproduzitu eta antolatu zure musika-bilduma"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Musika"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Musika GNOMEren musika erreproduzitzeko aplikazio berria da."
+
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+msgid "Untitled"
+msgstr "Izengabea"
+
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
+msgid "Unknown Album"
+msgstr "Album ezezaguna"
+
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
+#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
+msgid "Unknown Artist"
+msgstr "Artista ezezaguna"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Ez da erreproduzitzen ari"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "'%s'(e)k,  '%s'(e)n"
+
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "Aurrekoa"
+
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
+msgid "Pause"
+msgstr "Pausarazi"
+
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "Erreproduzitu"
+
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "Hurrengoa"
+
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Denak"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "Artista"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "Albuma"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Pistaren titulua"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Lokala"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Iturburuak"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Parekatu"
+
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Elementu %d hautatuta"
+msgstr[1] "%d elementu hautatuta"
+
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Egin klik elementuen gainean hautatzeko"
+
+#: ../gnomemusic/view.py:340
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Ez da musikarik aurkitu.\n"
+"Jarri fitxategi batzuk '%s' karpetan"
+
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
+msgid "Albums"
+msgstr "Albumak"
+
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
+msgid "Songs"
+msgstr "Abestiak"
+
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
+msgid "Artists"
+msgstr "Artistak"
+
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
+#: ../gnomemusic/widgets.py:451
+msgid "All Artists"
+msgstr "Artista guztiak"
+
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
+msgid "Playlists"
+msgstr "Erreprodukzio-zerrendak"
+
+#: ../gnomemusic/view.py:1080
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "Abesti %d"
+msgstr[1] "%d abesti"
+
+#: ../gnomemusic/widgets.py:677
+msgid "New Playlist"
+msgstr "Zerrenda berria"
+
+#: ../gnomemusic/window.py:226
+msgid "Empty"
+msgstr "Hutsik"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright-a © 2013 GNOME Music-eko garatzaileak"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "GNOMEren aplikazio bat musika erreproduzitzeko eta kudeatzeko."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Bisitatu GNOME Music-en webgunea"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME Music software librea da; birbana eta/edo alda dezakezu Software "
+"Foundation-ek argitaratutako GNU Lizentzia Publiko Orokorraren 2. bertsioan, "
+"edo (nahiago baduzu) beste berriago batean, jasotako baldintzak betez gero.\n"
+"\n"
+"GNOME Music erabilgarria izango delakoan banatzen da, baina, INOLAKO "
+"BERMERIK GABE; era berean, ez da bermatzen beraren EGOKITASUNA "
+"MERKATURATZEKO edo HELBURU PARTIKULARRETARAKO ERABILTZEKO. Argibide gehiago "
+"nahi izanez gero, ikus GNU Lizentzia Publiko Orokorra.\n"
+"\n"
+"Programa honekin batera GNU Lizentzia Publiko Orokorraren kopia bat jasoko "
+"zenuen; hala ez bada, idatzi hona: Free SoftwareFoundation, Inc., 59 Temple "
+"Place - Suite 330, Boston, MA 02111-1307, USA.\n"
+"\n"
+"Honen bidez, GNOME Music-eko garatzaileek baimena ematen dute GPL "
+"lizentziarekin bateragarriak ez diren GStreamer-eko pluginak GStreamer-ekin "
+"eta GNOME Music-ekin batera erabiltzeko eta banatzeko. GNOME Music estaltzen "
+"duen GPL lizentziak eskainitako baimenen gainetik eta haratago dago baimen "
+"hau. Kode hau eraldatzen baduzu, salbuespen hau kodearen zure bertsiora "
+"zabal dezakezu, baina ez zaude hori egitera derrigortuta. Ez baduzu "
+"halakorik egiterik nahi, ezabatu salbuespenaren paragrafo hau zure "
+"bertsiotik."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Argitaratua"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Iraupena"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "Zerrenda _berria"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Laguntza"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "Honi _buruz"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "I_rten"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Ausaz"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Errepikatu dena"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Errepikatu abestia"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Ausaz/Ez errepikatu"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Ez da musikarik aurkitu"
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Hautatu dena"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Hautatu bat ere ez"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Bilatu"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Hautatu"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Utzi"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Atzera"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Gehitu zerrendari"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Kendu zerrendatik"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Erreproduzitu"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Ezabatu"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Hautatu zerrenda"
+
+#~ msgid "Load More"
+#~ msgstr "Kargatu gehiago"
+
+#~ msgid "Loading..."
+#~ msgstr "Kargatzen..."
+
+#~ msgid "_Now Playing"
+#~ msgstr "_Orain erreproduzitzen"
+
+#~ msgid "_Change Address Book..."
+#~ msgstr "_Aldatu helbide-liburua..."
+
+#~ msgid "_About Contacts"
+#~ msgstr "_Contacts-i buruz"
+
+#~ msgid "New"
+#~ msgstr "Berria"
+
+#~ msgid "Quit"
+#~ msgstr "Irten"
+
+#~ msgid "translator-credits"
+#~ msgstr ""
+#~ "Asier Sarasua Garmendia <asiersar@yahoo.com>\n"
+#~ "Iñaki Larrañaga Murgoitio <dooteo@zundan.com>"
+
+#~ msgid "A GNOME 3 application to listen and manage music playlists"
+#~ msgstr "Abesti-zerrendak entzun eta kudeatzeko GNOME 3ko aplikazioa"
+
+#~ msgid "Collection name"
+#~ msgstr "BIldumaren izena"
+
+#~ msgid "%02u:%02u:%02u"
+#~ msgstr "%02u:%02u:%02u"
+
+#~ msgid "%02u:%02u"
+#~ msgstr "%02u:%02u"
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr "Ezarrita badago, erreproduzitu bildumako abestiak ausaz"

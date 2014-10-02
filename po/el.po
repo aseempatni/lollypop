@@ -1,0 +1,411 @@
+# Greek translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Dimitris Spingos <dmtrs32@gmail.com>, 2013.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013, 2014.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-09-21 06:53+0000\n"
+"PO-Revision-Date: 2014-09-21 16:46+0200\n"
+"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
+"Language-Team: www.gnome.gr\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Μέγεθος παραθύρου"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Μέγεθος παραθύρου (πλάτος και ύψος)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Θέση παραθύρου"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Θέση παραθύρου (x και y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Μεγιστοποιημένο παράθυρο"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Κατάσταση μεγιστοποιημένου παραθύρου."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Λειτουργία επανάληψης αναπαραγωγής"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Η τιμή αναγνωρίζει αν θα επαναληφθεί θα αναπαραχθεί τυχαία η συλλογή. "
+"Επιτρεπτές τιμές είναι: \"none\" (με απενεργοποίηση της επανάληψης και της "
+"τυχαίας σειράς), \"song\" (επανάληψη τρέχοντος τραγουδιού), \"all"
+"\" (επανάληψη λίστας αναπαραγωγής, χωρίς τυχαία σειρά), \"shuffle\" (τυχαία "
+"σειρά λίστας αναπαραγωγής, προϋποθέτει την επανάληψη όλων)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Λειτουργία αναζήτησης"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Αν είναι αληθές, εμφανίζεται η γραμμή αναζήτησης."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Μουσική"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Αναπαραγωγή μουσικής"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Αναπαραγωγή και οργάνωση της μουσικής σας συλλογής"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Μουσική GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Η νέα εφαρμογή του GNOME για αναπαραγωγή μουσικής λέγεται Μουσική."
+
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+msgid "Untitled"
+msgstr "Χωρίς τίτλο"
+
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
+#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
+msgid "Unknown Album"
+msgstr "Άγνωστο άλμπουμ"
+
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
+#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
+#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:560
+msgid "Unknown Artist"
+msgstr "Άγνωστος καλλιτέχνης"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Δεν αναπαράγεται"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "από τον %s, από το %s"
+
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "Προηγούμενο"
+
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+msgid "Pause"
+msgstr "Παύση"
+
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "Αναπαραγωγή"
+
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "Επόμενο"
+
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Όλα"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "Καλλιτέχνης"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "Άλμπουμ"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Τίτλος κομματιού"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Τοπικά"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Πηγές"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Ταίριασμα"
+
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Επιλέχθηκε %d αντικείμενο"
+msgstr[1] "Επιλέχθηκαν %d αντικείμενα"
+
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Πατήστε σε αντικείμενα για να τα επιλέξετε"
+
+#: ../gnomemusic/view.py:337
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Δεν βρέθηκε μουσική!\n"
+" Τοποθετήστε μερικά αρχεία στον φάκελο %s"
+
+#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
+msgid "Albums"
+msgstr "Άλμπουμ"
+
+#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
+msgid "Songs"
+msgstr "Τραγούδια"
+
+#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
+msgid "Artists"
+msgstr "Καλλιτέχνες"
+
+#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
+#: ../gnomemusic/widgets.py:448
+msgid "All Artists"
+msgstr "Όλοι οι καλλιτέχνες"
+
+#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
+msgid "Playlists"
+msgstr "Λίστες αναπαραγωγής"
+
+#: ../gnomemusic/view.py:1077
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d τραγούδι"
+msgstr[1] "%d τραγούδια"
+
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d λεπτ."
+
+#: ../gnomemusic/widgets.py:674
+msgid "New Playlist"
+msgstr "Νέα λίστα αναπαραγωγής"
+
+#: ../gnomemusic/window.py:226
+msgid "Empty"
+msgstr "Άδειο"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Πνευματικά δικαιώματα © 2013 GNOME Music Developers"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Εφαρμογή για αναπαραγωγή και διαχείριση μουσικής, για το GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Επισκεφθείτε τον ιστότοπο της εφαρμογής Μουσική GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"Η Μουσική GNOME είναι ελεύθερο λογισμικό. Μπορείτε να το αναδιανείμετε ή/και "
+"να το τροποποιήσετε, υπό τους όρους της άδειας GNU General Public License, "
+"όπως αυτή εκδίδεται από το Ίδρυμα Ελεύθερου Λογισμικού (Free Software "
+"Foundation), είτε της έκδοσης 2 της άδειας, είτε (κατ'επιλογήν σας) "
+"οποιασδήποτε άλλης μεταγενέστερης έκδοσης.\n"
+"\n"
+"Το GNOME Music διανέμεται με την ελπίδα πως θα είναι χρήσιμο, αλλά ΧΩΡΙΣ "
+"ΚΑΜΙΑ ΕΓΓΥΗΣΗ, χωρίς καν την υπονοούμενη εγγύηση της ΕΜΠΟΡΕΥΣΙΜΟΤΗΤΑΣ ή της "
+"ΚΑΤΑΛΛΗΛΟΤΗΤΑΣ ΓΙΑ ΣΥΓΚΕΚΡΙΜΕΝΟ ΣΚΟΠΟ. Δείτε την άδεια GNU General Public "
+"License για περισσότερες λεπτομέρειες.\n"
+"\n"
+"Πρέπει να έχετε λάβει αντίγραφο της άδειας GNU General Public License μαζί "
+"με το GNOME Music. Αν όχι, γράψτε στο: Free Software Foundation, Inc., 51 "
+"Franklin St, Fifth Floor, Boston, MA 02110-1301 USA\n"
+"\n"
+"Οι προγραμματιστές του GNOME Music επιτρέπουν στα μη-συμβατά με την άδεια "
+"GPL πρόσθετα GStreamer, να χρησιμοποιούνται και να διανέμονται μαζί με το "
+"GStreamer και το GNOME Music.  Η άδεια είναι υπεράνω και πέραν των "
+"απαγορεύσεων της άδειας χρήσης GPL, και στις οποίες υπάγεται η εφαρμογή "
+"GNOME Music.  Εάν τροποποιήσετε τον κώδικα, μπορείτε να επεκτείνετε αυτήν "
+"την εξαίρεση στη δική σας έκδοση του κώδικα, χωρίς όμως να είστε "
+"υποχρεωμένοι να το κάνετε.  Εάν δεν θέλετε να το κάνετε, διαγράψτε αυτή τη "
+"δήλωση εξαίρεσης από τη δική σας έκδοση."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Κυκλοφόρησε"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Εκτελούμενη διάρκεια"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Νέα λίστα αναπαραγωγής"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Βοήθεια"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "_Περί"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "Έ_ξοδος"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Τυχαία σειρά"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Επανάληψη όλων"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Επανάληψη τραγουδιού"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Τυχαία σειρά/Ανενεργή επανάληψη"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Δεν βρέθηκε μουσική"
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Επιλογή όλων"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Καμία επιλογή"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Επιλογή"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Πίσω"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Προσθήκη στη λίστα αναπαραγωγής"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Αφαίρεση από την λίστα αναπαραγωγής"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Αναπαραγωγή"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Διαγραφή"
+
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Όνομα λίστας αναπαραγωγής"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Επιλογή λίστας αναπαραγωγής"
+
+#~ msgid "Load More"
+#~ msgstr "Φόρτωση περισσοτέρων"
+
+#~ msgid "Loading..."
+#~ msgstr "Γίνεται φόρτωση..."
+
+#~ msgid "Now _Playing"
+#~ msgstr "Αναπαράγεται _Τώρα"
+
+#~ msgid "<span color='grey'>Released</span>"
+#~ msgstr "<span color='grey'>Κυκλοφόρησε</span>"
+
+#~ msgid "<span color='grey'>Running Length</span>"
+#~ msgstr "<span color='grey'>Διάρκεια εκτέλεσης</span>"
+
+#~ msgid "----"
+#~ msgstr "----"
+
+#~ msgid "--:--"
+#~ msgstr "--:--"
+
+#~ msgid "00:00"
+#~ msgstr "00:00"
+
+#~ msgid "/"
+#~ msgstr "/"

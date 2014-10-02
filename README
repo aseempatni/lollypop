@@ -1,0 +1,31 @@
+GNOME Music 3.9.92 Alpha
+========================
+
+Music is the new GNOME music playing application.
+
+
+=== Where can I find more? ===
+
+We have a wiki page at
+https://wiki.gnome.org/Apps/Music
+
+You can join us on the IRC:
+#yaelle on GIMPNet
+
+
+=== Building from git ===
+
+$ git clone git://git.gnome.org/yaelle
+$ cd yaelle
+$ ./autogen.sh
+$ make
+
+
+=== Troubleshooting ===
+
+Jhbuild fires import errors for python packages like:
+"ImportError: /opt/gnome/lib64/python2.7/site-packages/"
+Do:
+ $ jhbuild shell
+ $ export PYTHONPATH=/opt/gnome/lib/python3.3/site-packages:/opt/gnome/lib64/python3.3/site-packages
+ $ yaelle

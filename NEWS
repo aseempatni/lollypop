@@ -1,0 +1,368 @@
+Overview of changes in 3.14.0
+=============================
+
+* Updated translations and help files
+
+Overview of changes in 3.13.92
+=============================
+
+* Bugs fixed:
+ 735890 Fix the icons in RTL with new GTK+
+
+* Updated translations and help files
+
+Overview of changes in 3.13.90
+=============================
+
+* Ported to GtkActionbBar - now requires GTK+ 3.12
+* Correct icoin is displayed for playlist menu (https://wiki.gnome.org/Initiatives/GnomeGoals/GearIcons)
+* Better search UI
+* HighContrast icons
+* Improved Back navigation
+* Notifications now behave correctly when paused and less flicker
+
+* Bugs fixed:
+ 734786 center the search results
+ 734404 Missing high contrast icon
+ 734122 unable to switch to all albums view after return from search view
+ 734117 Pause button does not change to play button in the notification
+ 732150 Remove custom player bar styling
+ 732951 Don't use emblem-system-symbolic
+
+* Updated translations and help files
+
+
+Overview of changes in 3.13.4
+=============================
+
+* Bump python3 requirement to 3.3 (due to str.casefold)
+
+* Bugs fixed:
+ 733095  Seeking in track above 36 minutes leads to crash
+
+* Updated translations and help files
+
+
+Overview of changes in 3.13.3
+=============================
+
+* Playlists are now stored in Tracker
+* Back button now returns back to Search if available
+
+* Bugs fixed:
+ 707461 add man page
+ 729311 Use Tracker to save Playlists
+ 728254 Incorrect item is removed in playlists if it has duplicates
+ 728255 Don't show playlists in Songs
+ 728330 Crash when the name of the new playlist contains special characters
+
+* Updated translations and help files
+
+
+Overview of changes in 3.13.2
+=============================
+
+* Improved search with source and match type selection
+* Remote sources support: Jamendo, Magnatune, UPnP/DLNA
+* Player bar now looks better when window is small
+
+* Bugs fixed:
+ 729100 Media art in notifications is blank instead of symbolic when media art is not found
+ 729102 Notification doesn't show up when media art doesn't exist
+ 728255 Don't show playlists in Songs
+ 725949 yaelle buttons have no tooltips
+ 728407 Enabling selection mode via right-click doesn't work inside albums in Albums view
+ 729521 Albums list in Artists view shouldn't be sensitive when in selection mode
+ 706948 Only show music from my ~/Music folder
+ 699807 PlayerToolbar - artist and track name can shrink to nothing
+ 730205 AttributeError: 'Stack' object has no attribute 'get_child_by_name'
+ 726713 Update of songs interferes with selection mode
+
+* Updated translations and help files
+
+
+Overview of changes in 3.13.1
+=============================
+
+* Thumbnail fetching was reworked. now should be much faster
+* New dependency: libmediaart
+* Updated playlist UI
+* Now requires GTK 3.10
+* Shuffle menu is now a popover
+* Load More button was removed
+
+* Bugs fixed:
+ 724627 Playlists UX review
+ 726721 Some tracks are identified as 'MediaVideo' and crash in various places
+ 727444 yaelle crashed with OSError in_on_source_added(): [Errno 5] I/O error
+ 727522 Accelerator for Select All doesn't work
+ 728323 Set the icon name of the window as "yaelle"
+ 724112 Crashes when cannot connect to tracker
+ 702565 Load cover art on scroll in Albums and Artists view
+ 699832 Replace Load More with autoloading on pressure
+ 729096 Media art is not shown in MPRIS clients
+
+* Updated translations and help files
+
+
+Overview of changes in 3.11.92
+=============================
+
+* Improved and tranlated help
+* Space now plays/pauses the current song
+* Minor UI updates to playlists
+
+
+* Bugs fixed:
+ 707454 Space switches to next item
+ 724627 Make select button insensitive while creating New Playlist
+ 725904 Tracks don't appear in artists view for albums that have many tracks
+
+
+* Updated translations
+
+Overview of changes in 3.11.91
+=============================
+
+* Initial help infrastructure
+* More info is printed if the track cannot be played
+* Last 10 played tracks are stored in shuffle history
+* Other minor improvements and bug fixes
+
+
+* Bugs fixed:
+ 707744 Song is being replayed when paused
+ 724228 Remove 'now playing' from the app menu
+ 707457 Restart current track when Previous button was clicked and position is more than 3 seconds
+ 725355 Do not crash if we happen to come across a filename we can't decode
+ 723942 Search on keypress function opens search bar even when pressing any key
+ 724954 Selecting all albums is not visible at first
+ 707376 Set the position of the view scrollbar to current song when a song is changed
+
+
+* Updated translations:
+ Spanish
+ Norwegian bokmål
+ Tajik
+ Czech
+ Brazilian Portuguese
+ Hebrew
+ Chinese
+ Lithuanian
+ Italian
+ Hungarian
+ Finnish
+
+Overview of changes in 3.11.90
+=============================
+
+* Initial playlists support
+* Filter-as-you-type
+* Misc fixes and improvements
+
+
+* Bugs fixed:
+ 700022 app no longer fits half maximized
+ 721297 Shuffle is not random enough
+ 723765 Static spinner superimposed over album artwork
+ 708154 Crash when Search button is toggled on No Music view
+ 724027 theme: actionbar has a doubleborder
+ 724025 searchbar isn't styled properly
+ 724016 don't segment artist list sidebar
+ 721595 Typing should trigger a search
+ 723750 The stack switcher is gone when run yaelle with GTK+ 3.11
+ 709234 Music cannot be run via ssh forwarding
+
+
+* Added translations:
+ Aragonese
+ Esperanto
+
+* Updated translations:
+ Hebrew
+ Lithuanian
+ Traditional Chinese
+ Norwegian bokmål
+ Turkish
+ Finnish
+ Czech
+ Greek
+ Brazilian Portuguese
+ Galician
+ Chinese simplified
+ Slovenian
+ German
+ Italian
+ Spanish
+ Tajik
+
+
+Overview of changes in 3.11.2
+=============================
+
+* Exit selection mode on pressing Esc
+* Pep8 compatibility
+* Broken AppData file was removed from sources
+
+* Bugs fixed:
+ 707590 Fix app menu accelerator conflict
+ 708279 Make the cancel button as center vertically
+ 709033 Album Cover art not displayed in the notifications
+ 707399 Add translator comment to not translate GSettings values
+ 705853 Enter selection mode on right-click
+ 707633 Save window position, size and maximization state
+ 709465 Update position while switching songs
+
+* Added translations:
+ Afrikaans
+ Catalan (Valencian)
+ Malayalam
+ Telugu
+
+* Updated translations:
+ Norwegian bokmål
+ Turkish
+ Persian
+ Simplified Chinese
+ Slovenian
+ Tajik
+ Spanish
+ Galician
+ Greek
+ Dutch
+
+
+Overview of changes in 3.10.0
+=============================
+
+* Added translations:
+ Estonian
+ Belarusian
+ 
+* Updated translations:
+ Assamese
+ Portuguese
+ Latvian
+ Slovak
+ Ukrainian
+ Traditional Chinese
+ Catalan
+ Kannada
+ Indonesian
+ Hebrew
+
+
+Overview of changes in 3.9.92
+=============================
+
+* Added AppData description
+
+* Icons are now RTL-compatible
+
+* Notifications appear during the playback
+
+* All views can be filtered via search button or Ctrl+F shortcut
+
+* URLs with no FileDataObject (*.cue) are now filtered
+
+* Fixed MPRIS commands: close, play, thumbnail display
+
+* Songs view now displays 'Unknown Album' for tracks with no album set
+
+* Gnome Music notifies about startup
+
+
+* Bugs fixed:
+ 702377 Add support for notifications
+ 703303 Music doesn't properly tell MPRIS clients that the song is replayed when in repeat song mode
+ 706576 Repeat/Shuffle icons should have RTL variants
+ 707388 Add AppData description
+ 707632 MPRIS Close command is broken
+ 707824 No notification when Music starts
+ 707937 freeze-break branch | Crash when try to start song
+ 707938 yaelle crashes with TypeError: Argument 0 does not allow None as a value
+ 708102 Thumbnail no longer shows up in MPRIS clients
+ 708103 Playing default playlist is broken
+ 708116 Crash in notification when the current track gets hidden while searching
+ 708117 Use RTL variants of buttons in notifications on RTL languages
+ 708159 Empty album column when an album title is unknown
+
+* Added translations:
+ Basque
+ British English
+ Catalan
+ Danish
+ Dutch
+ French
+ Indonesian
+ Korean
+ Latvian
+ Traditional Chinese
+ 
+* Updated translations:
+ Brazilian Portuguese
+ Czech
+ Finnish
+ Galician
+ German
+ Hungarian
+ Italian
+ Lithuanian
+ Norwegian bokmål
+ Polish
+ Russian
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Tajik
+
+
+Overview of changes in 3.9.91
+=============================
+
+* All songs will now be loaded in Songs view after switching to it
+  for the first time
+
+* First song in Songs view will play if Play is executed in MPRIS and
+  there is no current playlist
+
+* The URIs are now discovered asynchronously, to make loading songs
+  faster
+
+* An error icon will now show up when the file is deleted
+
+* The message when no music files are found is now more verbose
+
+* Bugs fixed:
+ 700776 Licensing problems
+ 705855 Crash when attempting to get properties over DBus
+ 706019 Don't use the discoverer if we don't care of the results
+ 706294 Duration in Albums view increases every time an album is se...
+ 706353 About box changes size when license button is toggled on, l...
+ 706457 Invalid copyright headers
+ 706533 More explanation when Music says "No Music Found"
+ 706800 Cancel button in toolbar shouldn't be emphasized
+ 706947 Can't shuffle my entire library without clicking "load more...
+
+* Added translations:
+ Irish
+ Tajik
+
+* Updated translations:
+ Brazilian Portuguese
+ Czech
+ Galician
+ Italian
+ Lithuanian
+ Norwegian bokmål
+ Polish
+ Slovak
+ Slovenian
+ Spanish
+
+
+Overview of changes in 3.9.90
+=============================
+
+* Initial release
