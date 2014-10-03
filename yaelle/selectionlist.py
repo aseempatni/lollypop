@@ -21,7 +21,9 @@ class SelectionList(GObject.GObject):
 
 		self._view = Gtk.TreeView(self._model)
 		self._view.connect('cursor-changed', self._new_item_selected)
-		self._view.append_column(Gtk.TreeViewColumn(title, Gtk.CellRendererText(), text=0))
+		renderer = Gtk.CellRendererText()
+		renderer.set_fixed_size(200, -1)
+		self._view.append_column(Gtk.TreeViewColumn(title, renderer, text=0))
 		self._view.show()
 		
 		self.widget = Gtk.ScrolledWindow()
