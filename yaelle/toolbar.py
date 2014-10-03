@@ -5,11 +5,6 @@ class Toolbar(GObject.GObject):
 
 	def __init__(self):
 		GObject.GObject.__init__(self)
-		self._stack_switcher = Gtk.StackSwitcher(
-			margin_top=2, margin_bottom=2, 
-			can_focus=False, halign="center")
-		self._stack_switcher.show()
-	
 		self._ui = Gtk.Builder()
 		self._ui.add_from_resource('/org/gnome/Yaelle/headerbar.ui')
 		self.header_bar = self._ui.get_object('header-bar')

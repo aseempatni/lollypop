@@ -1,7 +1,10 @@
 from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
 from gettext import gettext as _, ngettext
 
+from yaelle.collectionscanner import CollectionScanner
 from yaelle.toolbar import Toolbar
+from yaelle.database import Database
+from yaelle.selectionlist import SelectionList
 
 class Window(Gtk.ApplicationWindow):
 
@@ -57,25 +60,39 @@ class Window(Gtk.ApplicationWindow):
         #    pass
 		self._setup_view()
 
-	def _setup_view(self):
-		self._box = Gtk.VBox()
-		self.toolbar = Toolbar()
-		self.views = []
-		self._stack = Gtk.Stack(
-			transition_type=Gtk.StackTransitionType.CROSSFADE,
-			transition_duration=100,
-			visible=True,
-			can_focus=False)
-		self._overlay = Gtk.Overlay(child=self._stack)
-		#self._overlay.add_overlay(self.toolbar.dropdown)
-		self.set_titlebar(self.toolbar.header_bar)
-		#self._box.pack_start(self.toolbar.searchbar, False, False, 0)
-		self._box.pack_start(self._overlay, True, True, 0)
-		#self._box.pack_start(self.selection_toolbar.actionbar, False, False, 0)
-		self.add(self._box)
 
-		#self.toolbar.set_state(ToolbarState.MAIN)
+	def _setup_view(self):
+		self._box = Gtk.HBox()
+		self.toolbar = Toolbar()
+		self.set_titlebar(self.toolbar.header_bar)
 		self.toolbar.header_bar.show()
-		self._overlay.show()
+
+		self._db = Database()
+		self._scanner = CollectionScanner()
+		self._scanner.update()
+		self._list_genres = SelectionList("Genre")
+		self._list_artists = SelectionList("Artist")
+
+		view_genres = self._list_genres.widget
+		view_artists = self._list_artists.widget
+		view_genres.show()		
+		view_artists.show()
+		
+		separator = Gtk.Separator()
+		separator.show()
+		self._box.pack_start(view_genres, False, False, 0)
+		self._box.pack_start(separator, False, False, 0)
+		self._box.pack_start(view_artists, False, False, 0)
+		self.add(self._box)
 		self._box.show()
+
+		self._list_genres.populate(self._db.get_genres())
+		#self._list_artists.populate(self._db.get_artists_by_genre(1))
+		self._list_genres.connect('item-selected', self._current_genre_changed)
+		
 		self.show()
+		
+		
+	def _current_genre_changed(self, plop, id):
+		self._list_artists.populate(self._db.get_artists_by_genre(id))
+			

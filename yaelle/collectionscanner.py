@@ -7,27 +7,23 @@ import sqlite3
 from _thread import start_new_thread
 from gi.repository import GLib
 from mutagenx.easyid3 import EasyID3
-from database import Database
+from yaelle.database import Database
 
 class CollectionScanner:
 
 	_mimes = [ "mp3", "ogg", "flac", "wma", "m4a", "mp4" ]
 	def __init__(self):
 		self._path = GLib.get_user_special_dir(GLib.USER_DIRECTORY_MUSIC)
-		self._db = Database()
 
 	# Update database if empty
 	def update(self):
-		sql = sqlite3.connect(Database.DB_PATH)
-		self._db.init(sql)
-		sql.close()
-
-		start_new_thread(self._scan, ())
+		#start_new_thread(self._scan, ())
+		self._scan()
 
 
 	def _scan(self):
-		sql = sqlite3.connect(Database.DB_PATH)
-		songs = self._db.get_songs_filenames(sql)
+		db = Database()
+		songs = db.get_songs_filenames()
 		for root, dirs, files in os.walk(self._path):
 			for f in files:
 				lowername = f.lower()
@@ -41,7 +37,7 @@ class CollectionScanner:
 					try:
 						if filename not in songs:
 							tag = EasyID3(filename)
-							self._add2db(sql, filename, tag)
+							self._add2db(db, filename, tag)
 						else:
 							songs.remove(filename)
 						
@@ -49,53 +45,36 @@ class CollectionScanner:
 						pass
 		# Clean deleted files
 		for song in songs:
-			self._db.remove_song(sql, song)
-		self._db.clean(sql)
-		sql.close()
+			db.remove_song(song)
+		db.clean()
 
-	def _add2db(self, sql, filename, tag):
-		title="Unknown"
-		artist="Unknown"
-		album="Unknown"
-		genre="Unknown"
-		length="0"
-		tracknumber="0"
-		year="0"
+	def _add2db(self, db, filename, tag):
 
-		keys = tag.keys()
-		if "title" in keys:
-			title = tag["title"][0]
-		if "artist" in keys:
-			artist = tag["artist"][0]
-		if "album" in keys:
-			album = tag["album"][0]
-		if "genre" in keys:
-			genre = tag["genre"][0]
-		else: print (keys)
-		if "length" in keys:
-			length = tag["length"][0]
-		if "tracknumber" in keys:
-			tracknumber = tag["tracknumber"][0]
-		if "date" in keys:
-			year = tag["date"][0]
+		title = tag["title"][0]
+		artist = tag["artist"][0]
+		album = tag["album"][0]
+		genre = tag["genre"][0]
+		length = tag["length"][0]
+		tracknumber = tag["tracknumber"][0]
+		year = tag["date"][0]
 
 		# Get artist id, add it if missing
-		artist_id = self._db.get_artist(sql, artist)
+		artist_id = db.get_artist(artist)
 		if not artist_id:
-			self._db.add_artist(sql, artist)
-			artist_id = self._db.get_artist(sql, artist)
+			db.add_artist(artist)
+			artist_id = db.get_artist(artist)
 
 		# Get genre id, add genre if missing
-		genre_id = self._db.get_genre(sql, genre)
+		genre_id = db.get_genre(genre)
 		if not genre_id:
-			self._db.add_genre(sql, genre)
-			genre_id = self._db.get_genre(sql, genre)
+			db.add_genre(genre)
+			genre_id = db.get_genre(genre)
 
 		# Get album id, add it if missing
-		album_id = self._db.get_album(sql, album, artist_id, genre_id)
+		album_id = db.get_album(album, artist_id, genre_id)
 		if not album_id:
-			self._db.add_album(sql, album, artist_id, genre_id)
-			album_id = self._db.get_album(sql, album, artist_id, genre_id)
+			db.add_album(album, artist_id, genre_id)
+			album_id = db.get_album(album, artist_id, genre_id)
 
 		# Add song to db
-		self._db.add_song(sql, title, filename, length, tracknumber, year, album_id)
+		db.add_song(title, filename, length, tracknumber, year, album_id)
