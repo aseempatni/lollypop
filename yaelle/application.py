@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Copyright (c) 2014 Cedric Bellegarde <gnumdk@gmail.com>
+# Copyright (c) 2014 Cedric Bellegarde <gnome@gmail.com>
 #
 
 
@@ -10,11 +10,11 @@ from yaelle.window import Window
 class Application(Gtk.Application):
 	def __init__(self):
 		Gtk.Application.__init__(self,
-					 application_id='org.gnumdk.Yaelle',
+					 application_id='org.gnome.Yaelle',
 					 flags=Gio.ApplicationFlags.FLAGS_NONE)
 		GLib.set_application_name(_("Yaelle"))
 		GLib.set_prgname('yaelle')
-		cssProviderFile = Gio.File.new_for_uri('resource:///org/gnumdk/Yaelle/application.css')
+		cssProviderFile = Gio.File.new_for_uri('resource:///org/gnome/Yaelle/application.css')
 		cssProvider = Gtk.CssProvider()
 		cssProvider.load_from_file(cssProviderFile)
 		screen = Gdk.Screen.get_default()
@@ -26,7 +26,7 @@ class Application(Gtk.Application):
 	def build_app_menu(self):
 		builder = Gtk.Builder()
 
-		builder.add_from_resource('/org/gnumdk/Yaelle/app-menu.ui')
+		builder.add_from_resource('/org/gnome/Yaelle/app-menu.ui')
 
 		menu = builder.get_object('app-menu')
 		self.set_app_menu(menu)
@@ -42,7 +42,7 @@ class Application(Gtk.Application):
 
 	def about(self, action, param):
         	builder = Gtk.Builder()
-        	builder.add_from_resource('/org/gnumdk/Yaelle/AboutDialog.ui')
+        	builder.add_from_resource('/org/gnome/Yaelle/AboutDialog.ui')
         	about = builder.get_object('about_dialog')
         	about.set_transient_for(self._window)
         	about.connect("response", self.about_response)

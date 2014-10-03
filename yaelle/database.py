@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Copyright (c) 2014 Cedric Bellegarde <gnumdk@gmail.com>
+# Copyright (c) 2014 Cedric Bellegarde <gnome@gmail.com>
 #
 
 import sqlite3

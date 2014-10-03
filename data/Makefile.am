@@ -70,7 +70,7 @@ update-icon-cache:
 	fi
 
 
-gsettings_SCHEMAS = org.gnumdk.Yaelle.gschema.xml
+gsettings_SCHEMAS = org.gnome.Yaelle.gschema.xml
 
 # For uninstalled use
 gschemas.compiled: $(gsettings_SCHEMAS) Makefile
@@ -85,7 +85,7 @@ EXTRA_DIST = \
 	yaelle.appdata.xml.in \
 	yaelle.desktop.in \
 	yaelle.gresource.xml \
-	org.gnumdk.Yaelle.gschema.xml \
+	org.gnome.Yaelle.gschema.xml \
 	$(NULL)
 
 CLEANFILES = \

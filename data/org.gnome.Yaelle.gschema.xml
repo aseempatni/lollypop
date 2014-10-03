@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-    <enum id="org.gnumdk.Yaelle.RepeatType">
+    <enum id="org.gnome.Yaelle.RepeatType">
         <value nick="none" value="0"/>
         <value nick="song" value="1"/>
         <value nick="all" value="2"/>
         <value nick="shuffle" value="3"/>
     </enum>
-    <schema path="/org.gnumdk.Yaelle/" id="org.gnumdk.Yaelle" gettext-domain="yaelle">
+    <schema path="/org/gnome/Yaelle/" id="org.gnome.Yaelle" gettext-domain="yaelle">
         <key type="ai" name="window-size">
             <default>[768, 600]</default>
             <summary>Window size</summary>
@@ -22,7 +22,7 @@
             <summary>Window maximized</summary>
             <description>Window maximized state.</description>
         </key>
-        <key enum="org.gnumdk.Yaelle.RepeatType" name="repeat">
+        <key enum="org.gnome.Yaelle.RepeatType" name="repeat">
             <default>'none'</default>
             <summary>Playback repeat mode</summary>
             <!-- Translators: Don't translate allowed values, just the description in the brackets -->

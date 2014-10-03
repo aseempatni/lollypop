@@ -11,7 +11,7 @@ class Toolbar(GObject.GObject):
 		self._stack_switcher.show()
 	
 		self._ui = Gtk.Builder()
-		self._ui.add_from_resource('/org/gnumdk/Yaelle/headerbar.ui')
+		self._ui.add_from_resource('/org/gnome/Yaelle/headerbar.ui')
 		self.header_bar = self._ui.get_object('header-bar')
 
 		self.prevBtn = self._ui.get_object('previous_button')

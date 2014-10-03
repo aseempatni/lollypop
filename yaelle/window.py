@@ -8,9 +8,9 @@ class Window(Gtk.ApplicationWindow):
 	def __init__(self, app):
 		Gtk.ApplicationWindow.__init__(self,
 					       application=app,
-					       title=_("Music"))
+					       title=_("Yaelle"))
 		#self.connect('focus-in-event', self._windows_focus_cb)
-		self.settings = Gio.Settings.new('org.gnome.Music')
+		self.settings = Gio.Settings.new('org.gnome.Yaelle')
 		self.add_action(self.settings.create_action('repeat'))
 		selectAll = Gio.SimpleAction.new('selectAll', None)
 		app.add_accelerator('<Primary>a', 'win.selectAll', None)
@@ -20,7 +20,7 @@ class Window(Gtk.ApplicationWindow):
 		#selectNone.connect('activate', self._on_select_none)
 		self.add_action(selectNone)
 		self.set_size_request(200, 100)
-		self.set_icon_name('gnome-music')
+		self.set_icon_name('yaelle')
 
 		self.prev_view = None
 		self.curr_view = None
