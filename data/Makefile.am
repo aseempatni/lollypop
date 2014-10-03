@@ -52,6 +52,7 @@ hicontrast_icon_files = \
 	$(hicontrast_icon48_DATA) \
 	$(hicontrast_icon256_DATA)
 
+gtk_update_hicolor_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 gtk_update_hicontrast_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/HighContrast
 
 install-data-hook: update-icon-cache
@@ -61,7 +62,7 @@ update-icon-cache:
 		echo "Updating Gtk hicolor icon cache."; \
 		$(gtk_update_hicolor_icon_cache); \
 		echo "Updating Gtk highcontrast icon cache."; \
-		$(gtk_update_hicolor_icon_cache); \
+		$(gtk_update_hicontrast_icon_cache); \
 	else \
 		echo "*** Icon cache not updated.  After (un)install, run this:"; \
 		echo "***   $(gtk_update_hicolor_icon_cache)"; \
