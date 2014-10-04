@@ -28,6 +28,8 @@ class Window(Gtk.ApplicationWindow):
 		self.prev_view = None
 		self.curr_view = None
 
+		self._setup_view()
+
 		self._app = app
 
 		size_setting = self.settings.get_value('window-size')
@@ -58,7 +60,6 @@ class Window(Gtk.ApplicationWindow):
         #except GLib.GError:
             # We cannot grab media keys if no settings daemon is running
         #    pass
-		self._setup_view()
 
 
 	def _setup_view(self):
@@ -70,8 +71,8 @@ class Window(Gtk.ApplicationWindow):
 		self._db = Database()
 		self._scanner = CollectionScanner()
 		self._scanner.update()
-		self._list_genres = SelectionList("Genre")
-		self._list_artists = SelectionList("Artist")
+		self._list_genres = SelectionList("Genre", 150)
+		self._list_artists = SelectionList("Artist", 200)
 
 		view_genres = self._list_genres.widget
 		view_artists = self._list_artists.widget
