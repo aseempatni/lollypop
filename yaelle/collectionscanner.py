@@ -14,12 +14,11 @@ class CollectionScanner:
 	_mimes = [ "mp3", "ogg", "flac", "wma", "m4a", "mp4" ]
 	def __init__(self):
 		self._path = GLib.get_user_special_dir(GLib.USER_DIRECTORY_MUSIC)
-		self._path = "/home/gnumdk/Musique/Collection/Rap"
 
 	# Update database if empty
 	def update(self):
-		#start_new_thread(self._scan, ())
-		self._scan()
+		start_new_thread(self._scan, ())
+		#self._scan()
 
 
 	def _scan(self):
@@ -48,7 +47,6 @@ class CollectionScanner:
 		# Clean deleted files
 		for song in songs:
 			db.remove_song(song)
-		db.clean()
 
 	def _add2db(self, db, filepath, tag):
 

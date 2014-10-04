@@ -1,5 +1,0 @@
-GtkTreeView row:selected {
-	background-color: @theme_bg_color;
-	color: @theme_fg_color;
-}
-

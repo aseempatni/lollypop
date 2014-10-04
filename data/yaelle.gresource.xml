@@ -3,7 +3,6 @@
   <gresource prefix="/org/gnome/Yaelle">
     <file preprocess="xml-stripblanks">AboutDialog.ui</file>
     <file preprocess="xml-stripblanks">app-menu.ui</file>
-    <file>application.css</file>
     <file preprocess="xml-stripblanks">AlbumWidget.ui</file>
     <file preprocess="xml-stripblanks">ArtistAlbumWidget.ui</file>
     <file preprocess="xml-stripblanks">ArtistAlbumsWidget.ui</file>

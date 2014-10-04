@@ -69,8 +69,7 @@ class Window(Gtk.ApplicationWindow):
 		self.toolbar.header_bar.show()
 
 		self._db = Database()
-		self._scanner = CollectionScanner()
-		self._scanner.update()
+
 		self._list_genres = SelectionList("Genre", 150)
 		self._list_artists = SelectionList("Artist", 200)
 
@@ -90,6 +89,9 @@ class Window(Gtk.ApplicationWindow):
 		self._list_genres.populate(self._db.get_genres())
 		#self._list_artists.populate(self._db.get_artists_by_genre(1))
 		self._list_genres.connect('item-selected', self._current_genre_changed)
+
+		self._scanner = CollectionScanner()
+		self._scanner.update()
 		
 		self.show()
 		
