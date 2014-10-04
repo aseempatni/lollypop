@@ -1,4 +1,4 @@
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, GObject, Pango
 
 from yaelle.database import Database
 
@@ -14,7 +14,7 @@ class SelectionList(GObject.GObject):
 		'item-selected': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
 	}
 
-	def __init__(self, title):
+	def __init__(self, title, width):
 		GObject.GObject.__init__(self)
 		
 		self._model = Gtk.ListStore(str, int)
@@ -22,10 +22,13 @@ class SelectionList(GObject.GObject):
 		self._view = Gtk.TreeView(self._model)
 		self._view.connect('cursor-changed', self._new_item_selected)
 		renderer = Gtk.CellRendererText()
-		renderer.set_fixed_size(200, -1)
+		renderer.set_fixed_size(width, -1)
+		renderer.set_property('ellipsize-set',True)
+		renderer.set_property('ellipsize', Pango.EllipsizeMode.END)
 		self._view.append_column(Gtk.TreeViewColumn(title, renderer, text=0))
+		self._view.set_headers_visible(False)
 		self._view.show()
-		
+
 		self.widget = Gtk.ScrolledWindow()
 		self.widget.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		self.widget.add(self._view)
