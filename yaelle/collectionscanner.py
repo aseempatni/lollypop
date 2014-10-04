@@ -6,7 +6,7 @@ import os, time
 import sqlite3
 from _thread import start_new_thread
 from gi.repository import GLib
-from mutagenx.easyid3 import EasyID3
+import mutagen
 from yaelle.database import Database
 
 class CollectionScanner:
@@ -14,6 +14,7 @@ class CollectionScanner:
 	_mimes = [ "mp3", "ogg", "flac", "wma", "m4a", "mp4" ]
 	def __init__(self):
 		self._path = GLib.get_user_special_dir(GLib.USER_DIRECTORY_MUSIC)
+		self._path = "/home/gnumdk/Musique/Collection/Rap"
 
 	# Update database if empty
 	def update(self):
@@ -23,7 +24,7 @@ class CollectionScanner:
 
 	def _scan(self):
 		db = Database()
-		songs = db.get_songs_filenames()
+		songs = db.get_songs_filepath()
 		for root, dirs, files in os.walk(self._path):
 			for f in files:
 				lowername = f.lower()
@@ -33,30 +34,55 @@ class CollectionScanner:
 						supported = True
 						break	
 				if (supported):
-					filename = os.path.join(root, f)
+					filepath = os.path.join(root, f)
 					try:
-						if filename not in songs:
-							tag = EasyID3(filename)
-							self._add2db(db, filename, tag)
+						if filepath not in songs:
+							tag = mutagen.File(filepath, easy=True)
+							self._add2db(db, filepath, tag)
 						else:
-							songs.remove(filename)
+							songs.remove(filepath)
 						
 					except Exception as e:
-						pass
+						print("CollectionScanner::_scan(): %s" %e)
+
 		# Clean deleted files
 		for song in songs:
 			db.remove_song(song)
 		db.clean()
 
-	def _add2db(self, db, filename, tag):
+	def _add2db(self, db, filepath, tag):
 
-		title = tag["title"][0]
-		artist = tag["artist"][0]
-		album = tag["album"][0]
-		genre = tag["genre"][0]
-		length = tag["length"][0]
-		tracknumber = tag["tracknumber"][0]
-		year = tag["date"][0]
+		if ("title" in tag):
+			title = tag["title"][0]
+		else:
+			title = os.path.basename(filepath)
+
+		if ("artist" in tag):
+			artist = tag["artist"][0]
+		else:
+			artist = "Unknown"
+
+		if("album" in tag):
+			album = tag["album"][0]
+		else:
+			album = "Unknown"
+
+		if("genre" in tag):
+			genre = tag["genre"][0]
+		else:
+			genre = "Unknown"
+
+		length = int(tag.info.length)
+
+		if("tracknumber" in tag):
+			tracknumber = tag["tracknumber"][0]
+		else:
+			tracknumber = ""
+		
+		if("date" in tag):
+			year = tag["date"][0]
+		else:
+			year = ""
 
 		# Get artist id, add it if missing
 		artist_id = db.get_artist(artist)
@@ -77,4 +103,4 @@ class CollectionScanner:
 			album_id = db.get_album(album, artist_id, genre_id)
 
 		# Add song to db
-		db.add_song(title, filename, length, tracknumber, year, album_id)
+		db.add_song(title, filepath, length, tracknumber, year, album_id)

@@ -21,11 +21,11 @@ class Database:
 						name TEXT NOT NULL)'''
 	create_songs = '''CREATE TABLE songs (id INTEGER PRIMARY KEY AUTOINCREMENT,
 				              name TEXT NOT NULL,
-						      filename TEXT NOT NULL,
-				              length TEXT,
-						      tracknumber TEXT,
-						      year TEXT,
-						      album_id INT NOT NULL)'''
+					      filepath TEXT NOT NULL,
+				              length INT,
+					      tracknumber TEXT,
+					      year TEXT,
+					      album_id INT NOT NULL)'''
 	def __init__(self):
 
 		if not os.path.exists(self.LOCAL_PATH):
@@ -74,8 +74,8 @@ class Database:
 		self._sql.execute("INSERT INTO genres (name) VALUES (?)", (name,))
 		self._sql.commit()
 
-	def add_song(self, name, filename, length, tracknumber, year, album_id):
-		self._sql.execute("INSERT INTO songs (name, filename, length, tracknumber, year, album_id) VALUES (?, ?, ?, ?, ?, ?)", (name, filename, length, tracknumber, year, album_id))
+	def add_song(self, name, filepath, length, tracknumber, year, album_id):
+		self._sql.execute("INSERT INTO songs (name, filepath, length, tracknumber, year, album_id) VALUES (?, ?, ?, ?, ?, ?)", (name, filepath, length, tracknumber, year, album_id))
 		self._sql.commit()
 
 	# Return genre id
@@ -125,7 +125,7 @@ class Database:
 		
 	# Return album path
 	def get_album_path(self, album_id):
-		result = self._sql.execute("SELECT filename FROM songs where album_id=? LIMIT 1", (album_id))
+		result = self._sql.execute("SELECT filepath FROM songs where album_id=? LIMIT 1", (album_id))
 		path = result.fetchone()
 		if path:
 			return os.path.dirname(path[0])
@@ -148,23 +148,23 @@ class Database:
 			albums += (row,)
 		return albums
 
-	# Return a list of songs (id, name, filename, length, tracknumber, year)
+	# Return a list of songs (id, name, filepath, length, tracknumber, year)
 	def get_songs_by_album(self, album_id):
 		songs = []
-		result = self._sql.execute("SELECT id, name, filename, length, tracknumber, year FROM songs WHERE album_id=?", (album_id,))
+		result = self._sql.execute("SELECT id, name, filepath, length, tracknumber, year FROM songs WHERE album_id=?", (album_id,))
 		for row in result:
 			songs += (row,)
 		return songs
 
-	# Return a list of songs filenames
-	def get_songs_filenames(self):
+	# Return a list of songs filepaths
+	def get_songs_filepath(self):
 		songs = []
-		result = self._sql.execute("SELECT filename FROM songs;")
+		result = self._sql.execute("SELECT filepath FROM songs;")
 		for row in result:
 			songs += row
 		return songs
 
-	# Remove song with filename
-	def remove_song(self, filename):
-		self._sql.execute("DELETE FROM songs where filename=?",  (filename,))
+	# Remove song with filepath
+	def remove_song(self, filepath):
+		self._sql.execute("DELETE FROM songs where filepath=?",  (filepath,))
 		self._sql.commit()
