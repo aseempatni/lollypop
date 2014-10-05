@@ -48,6 +48,11 @@ class Database:
 			print("Can't connect to %s" % self.DB_PATH)
 			pass
 
+	def close(self):
+		self._sql.close()
+
+	def commit(self):
+		self._sql.commit()
 
 	def reset(self):
 		self._sql.execute("DELETE FROM albums")
@@ -64,19 +69,15 @@ class Database:
 
 	def add_album(self, name, artist_id, genre_id):
 		self._sql.execute("INSERT INTO albums (name, artist_id, genre_id) VALUES (?, ?, ?)",  (name, artist_id, genre_id))
-		self._sql.commit()
 
 	def add_artist(self, name):
 		self._sql.execute("INSERT INTO artists (name) VALUES (?)", (name,))
-		self._sql.commit()
 
 	def add_genre(self, name):
 		self._sql.execute("INSERT INTO genres (name) VALUES (?)", (name,))
-		self._sql.commit()
 
 	def add_song(self, name, filepath, length, tracknumber, year, album_id):
 		self._sql.execute("INSERT INTO songs (name, filepath, length, tracknumber, year, album_id) VALUES (?, ?, ?, ?, ?, ?)", (name, filepath, length, tracknumber, year, album_id))
-		self._sql.commit()
 
 	# Return genre id
 	def get_genre(self, name):

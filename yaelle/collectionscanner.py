@@ -11,17 +11,17 @@ from yaelle.database import Database
 
 class CollectionScanner:
 
-	_mimes = [ "mp3", "ogg", "flac", "wma", "m4a", "mp4" ]
+	_mimes = [ "mp3", "ogg", "flac", "m4a", "mp4" ]
 	def __init__(self):
 		self._path = GLib.get_user_special_dir(GLib.USER_DIRECTORY_MUSIC)
 
 	# Update database if empty
-	def update(self):
-		start_new_thread(self._scan, ())
-		#self._scan()
+	def update(self, callback):
+		start_new_thread(self._scan, (callback,))
+		#self._scan(callback)
 
 
-	def _scan(self):
+	def _scan(self, callback):
 		db = Database()
 		songs = db.get_songs_filepath()
 		for root, dirs, files in os.walk(self._path):
@@ -36,7 +36,7 @@ class CollectionScanner:
 					filepath = os.path.join(root, f)
 					try:
 						if filepath not in songs:
-							tag = mutagen.File(filepath, easy=True)
+							tag = mutagen.File(filepath, easy = True)
 							self._add2db(db, filepath, tag)
 						else:
 							songs.remove(filepath)
@@ -47,37 +47,41 @@ class CollectionScanner:
 		# Clean deleted files
 		for song in songs:
 			db.remove_song(song)
+		db.commit()
+		callback(db.get_genres())
+		db.close()
+		del db
 
 	def _add2db(self, db, filepath, tag):
-
-		if ("title" in tag):
+		keys = tag.keys()
+		if ("title" in keys):
 			title = tag["title"][0]
 		else:
 			title = os.path.basename(filepath)
 
-		if ("artist" in tag):
+		if ("artist" in keys):
 			artist = tag["artist"][0]
 		else:
 			artist = "Unknown"
 
-		if("album" in tag):
+		if("album" in keys):
 			album = tag["album"][0]
 		else:
 			album = "Unknown"
 
-		if("genre" in tag):
+		if("genre" in keys):
 			genre = tag["genre"][0]
 		else:
 			genre = "Unknown"
 
 		length = int(tag.info.length)
 
-		if("tracknumber" in tag):
+		if("tracknumber" in keys):
 			tracknumber = tag["tracknumber"][0]
 		else:
 			tracknumber = ""
 		
-		if("date" in tag):
+		if("date" in keys):
 			year = tag["date"][0]
 		else:
 			year = ""

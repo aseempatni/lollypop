@@ -72,30 +72,29 @@ class Window(Gtk.ApplicationWindow):
 
 		self._list_genres = SelectionList("Genre", 150)
 		self._list_artists = SelectionList("Artist", 200)
-
-		view_genres = self._list_genres.widget
-		view_artists = self._list_artists.widget
-		view_genres.show()		
-		view_artists.show()
 		
 		separator = Gtk.Separator()
 		separator.show()
-		self._box.pack_start(view_genres, False, False, 0)
+		self._box.pack_start(self._list_genres.widget, False, False, 0)
 		self._box.pack_start(separator, False, False, 0)
-		self._box.pack_start(view_artists, False, False, 0)
+		self._box.pack_start(self._list_artists.widget, False, False, 0)
 		self.add(self._box)
 		self._box.show()
 
-		self._list_genres.populate(self._db.get_genres())
-		#self._list_artists.populate(self._db.get_artists_by_genre(1))
-		self._list_genres.connect('item-selected', self._current_genre_changed)
-
 		self._scanner = CollectionScanner()
-		self._scanner.update()
+		self._scanner.update(self._update_genres)
 		
 		self.show()
 		
 		
-	def _current_genre_changed(self, plop, id):
-		self._list_artists.populate(self._db.get_artists_by_genre(id))
+	def _update_genres(self, genres):
+		self._list_genres.populate(genres)
+		self._list_genres.widget.show()
+		self._list_genres.connect('item-selected', self._update_artists)
+
+
+	def _update_artists(self, obj, id):
+		self._list_artists.populate(self._db.get_artists_by_genre(id))		
+		self._list_artists.widget.show()
 			
+
