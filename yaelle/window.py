@@ -5,6 +5,7 @@ from yaelle.collectionscanner import CollectionScanner
 from yaelle.toolbar import Toolbar
 from yaelle.database import Database
 from yaelle.selectionlist import SelectionList
+from yaelle.view import *
 
 class Window(Gtk.ApplicationWindow):
 
@@ -73,11 +74,14 @@ class Window(Gtk.ApplicationWindow):
 		self._list_genres = SelectionList("Genre", 150)
 		self._list_artists = SelectionList("Artist", 200)
 		
+		self._loading = Loading()
+
 		separator = Gtk.Separator()
 		separator.show()
 		self._box.pack_start(self._list_genres.widget, False, False, 0)
 		self._box.pack_start(separator, False, False, 0)
 		self._box.pack_start(self._list_artists.widget, False, False, 0)
+		self._box.pack_start(self._loading.widget, True, False, 0)
 		self.add(self._box)
 		self._box.show()
 
@@ -90,6 +94,7 @@ class Window(Gtk.ApplicationWindow):
 	def _update_genres(self, genres):
 		self._list_genres.populate(genres)
 		self._list_genres.widget.show()
+		self._loading.set_label(_("You can now listen to your music"))
 		self._list_genres.connect('item-selected', self._update_artists)
 
 

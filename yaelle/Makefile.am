@@ -7,5 +7,6 @@ app_PYTHON = \
 	database.py \
 	albumart.py\
 	selectionlist.py\
+	view.py\
 	collectionscanner.py
 
