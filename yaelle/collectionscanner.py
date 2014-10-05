@@ -64,6 +64,9 @@ class CollectionScanner:
 		else:
 			artist = "Unknown"
 
+		if("performer" in keys):
+			artist = tag["performer"][0]
+
 		if("album" in keys):
 			album = tag["album"][0]
 		else:
