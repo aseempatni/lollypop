@@ -9,6 +9,8 @@ class LoadingView(Gtk.HBox):
 		Gtk.HBox.__init__(self)
 		self._ui = Gtk.Builder()
 		self._ui.add_from_resource('/org/gnome/Yaelle/Loading.ui')
+		self.set_property('halign', Gtk.Align.CENTER)
+		self.set_property('valign', Gtk.Align.CENTER)
 		self._label = self._ui.get_object('label')
 		self._label.set_label(_("Loading please wait..."))
 		self.pack_start(self._ui.get_object('image'),
