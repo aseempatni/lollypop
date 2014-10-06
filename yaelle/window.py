@@ -13,24 +13,11 @@ class Window(Gtk.ApplicationWindow):
 		Gtk.ApplicationWindow.__init__(self,
 					       application=app,
 					       title=_("Yaelle"))
-		#self.connect('focus-in-event', self._windows_focus_cb)
+		
 		self.settings = Gio.Settings.new('org.gnome.Yaelle')
-		self.add_action(self.settings.create_action('repeat'))
-		selectAll = Gio.SimpleAction.new('selectAll', None)
-		app.add_accelerator('<Primary>a', 'win.selectAll', None)
-		#selectAll.connect('activate', self._on_select_all)
-		self.add_action(selectAll)
-		selectNone = Gio.SimpleAction.new('selectNone', None)
-		#selectNone.connect('activate', self._on_select_none)
-		self.add_action(selectNone)
+
 		self.set_size_request(200, 100)
 		self.set_icon_name('yaelle')
-
-		self.prev_view = None
-		self.curr_view = None
-
-		self._setup_view()
-
 		self._app = app
 
 		size_setting = self.settings.get_value('window-size')
@@ -41,13 +28,15 @@ class Window(Gtk.ApplicationWindow):
 		if len(position_setting) == 2 \
 			and isinstance(position_setting[0], int) \
 			and isinstance(position_setting[1], int):
- 			self.move(position_setting[0], position_setting[1])
+			self.move(position_setting[0], position_setting[1])
 
 		if self.settings.get_value('window-maximized'):
 			self.maximize()
 
-     #   self.connect("window-state-event", self._on_window_state_event)
-     #   self.connect("configure-event", self._on_configure_event)
+		self.connect("window-state-event", self._on_window_state_event)
+		self.connect("configure-event", self._on_configure_event)
+		
+		self._setup_view()
       #  self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
       #                                      Gio.DBusProxyFlags.NONE,
        #                                     None,
@@ -108,4 +97,14 @@ class Window(Gtk.ApplicationWindow):
 		self._box.pack_start(self._view, True, True, 0)
 		self._view.populate()
 			
+	def _on_configure_event(self, widget, event):
+		size = widget.get_size()
+		self.settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
+
+		position = widget.get_position()
+		self.settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
+
+	def _on_window_state_event(self, widget, event):
+		self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
+
 
