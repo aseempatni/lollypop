@@ -41,9 +41,10 @@ class ArtistView(Gtk.Grid):
 		self._albumbox = Gtk.VBox()
 		
 		self._scrolledWindow = Gtk.ScrolledWindow()
-		self._scrolledWindow.set_policy(
-										Gtk.PolicyType.NEVER,
-										Gtk.PolicyType.AUTOMATIC)
+		self.set_vexpand(True)
+		self.set_hexpand(True)
+		self._scrolledWindow.set_policy(Gtk.PolicyType.NEVER,
+						Gtk.PolicyType.AUTOMATIC)
 		self._scrolledWindow.add(self._albumbox)
 		self.add(self._ui.get_object('ArtistView'))
 		self.add(self._scrolledWindow)
