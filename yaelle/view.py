@@ -35,14 +35,16 @@ class ArtistView(Gtk.Grid):
 		self._artist_id = artist_id
 		self._db = db
 
+		self.set_property("orientation", Gtk.Orientation.VERTICAL)
+
 		artist_name = self._db.get_artist_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
 
-		self._albumbox = Gtk.VBox()
-		
+		self._albumbox = Gtk.Grid()
+		self._albumbox.set_property("orientation", Gtk.Orientation.VERTICAL)
 		self._scrolledWindow = Gtk.ScrolledWindow()
-		self.set_vexpand(True)
-		self.set_hexpand(True)
+		self._scrolledWindow.set_vexpand(True)
+		self._scrolledWindow.set_hexpand(True)
 		self._scrolledWindow.set_policy(Gtk.PolicyType.NEVER,
 						Gtk.PolicyType.AUTOMATIC)
 		self._scrolledWindow.add(self._albumbox)
