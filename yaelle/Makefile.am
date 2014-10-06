@@ -8,5 +8,6 @@ app_PYTHON = \
 	albumart.py\
 	selectionlist.py\
 	view.py\
+	widgets.py\
 	collectionscanner.py
 

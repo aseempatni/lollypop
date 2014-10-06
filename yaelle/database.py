@@ -2,6 +2,7 @@
 # Copyright (c) 2014 Cedric Bellegarde <gnome@gmail.com>
 #
 
+from gettext import gettext as _
 import sqlite3
 import os
 
@@ -20,12 +21,14 @@ class Database:
 	create_genres = '''CREATE TABLE genres (id INTEGER PRIMARY KEY AUTOINCREMENT,
 						name TEXT NOT NULL)'''
 	create_songs = '''CREATE TABLE songs (id INTEGER PRIMARY KEY AUTOINCREMENT,
-				              name TEXT NOT NULL,
+				          name TEXT NOT NULL,
 					      filepath TEXT NOT NULL,
-				              length INT,
-					      tracknumber TEXT,
+			              length INT,
+					      tracknumber INT,
 					      year TEXT,
 					      album_id INT NOT NULL)'''
+	create_sort_index = '''CREATE INDEX index_name ON table_name(tracknumber ASC)'''
+							   
 	def __init__(self):
 
 		if not os.path.exists(self.LOCAL_PATH):
@@ -41,6 +44,7 @@ class Database:
 				self._sql.execute(self.create_artists)
 				self._sql.execute(self.create_genres)
 				self._sql.execute(self.create_songs)
+				self._sql.execute(self.create_sort_index)
 				self._sql.commit()
 			except:
 					pass
@@ -106,6 +110,15 @@ class Database:
 		else:
 			return 0
 
+	# Return artist by id
+	def get_artist_by_id(self, id):
+		result = self._sql.execute("SELECT name from artists where id=?", (id,))
+		name = result.fetchone()
+		if name:
+			return name[0]
+		else:
+			return _("Unknown")
+
 	# Return a list of artists (id, name)
 	def get_artists_by_genre(self, genre_id):
 		artists = []
@@ -123,10 +136,19 @@ class Database:
 			return id[0]
 		else:
 			return 0
+
+	# Return album name
+	def get_album_name(self, album_id):
+		result = self._sql.execute("SELECT name FROM albums where id=?", (album_id,))
+		path = result.fetchone()
+		if path:
+			return os.path.dirname(path[0])
+
+		return _("Unknown")
 		
 	# Return album path
 	def get_album_path(self, album_id):
-		result = self._sql.execute("SELECT filepath FROM songs where album_id=? LIMIT 1", (album_id))
+		result = self._sql.execute("SELECT filepath FROM songs where album_id=? LIMIT 1", (album_id,))
 		path = result.fetchone()
 		if path:
 			return os.path.dirname(path[0])
@@ -149,10 +171,19 @@ class Database:
 			albums += (row,)
 		return albums
 
-	# Return a list of songs (id, name, filepath, length, tracknumber, year)
+	# Return number of tracks in an album
+	def get_tracks_count_for_album(self, album_id):
+		result = self._sql.execute("SELECT COUNT(*) FROM songs where album_id=?", (album_id,))
+		id = result.fetchone()
+		if id:
+			return id[0]
+		else:
+			return 0
+
+	# Return a list of songs (id, name, filepath, length, year)
 	def get_songs_by_album(self, album_id):
 		songs = []
-		result = self._sql.execute("SELECT id, name, filepath, length, tracknumber, year FROM songs WHERE album_id=?", (album_id,))
+		result = self._sql.execute("SELECT id, name, filepath, length, year FROM songs WHERE album_id=? ORDER BY tracknumber" , (album_id,))
 		for row in result:
 			songs += (row,)
 		return songs

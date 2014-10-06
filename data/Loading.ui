@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface domain="yaelle">
   <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkBox" id="container">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="halign">center</property>
-    <property name="valign">center</property>
-    <child>
-      <object class="GtkImage" id="image1">
+      <object class="GtkImage" id="image">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="xalign">1</property>
@@ -17,14 +11,7 @@
         <property name="icon_name">emblem-music-symbolic</property>
         <property name="icon-size">0</property>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="label1">
+      <object class="GtkLabel" id="label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="xalign">0.4699999988079071</property>
@@ -33,11 +20,4 @@
         <property name="justify">center</property>
         <property name="ellipsize">middle</property>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
 </interface>

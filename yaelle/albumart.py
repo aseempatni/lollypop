@@ -1,15 +1,17 @@
-from gi.repository import Gtk, GObject, GdkPixbuf
+from gi.repository import Gtk, Gdk, GObject, GdkPixbuf
+import cairo
+import os
+from math import pi
 from yaelle.database import Database
 
 class AlbumArt: 
 
 	_mimes = [ "jpeg", "jpg", "png", "gif" ]
-	ART_SIZE = 128
+	ART_SIZE = 200
 	CACHE_PATH = os.path.expanduser ("~") +  "/.cache/yaelle"
 	
-	def __init__(self, sql):
-		self._db = Database()
-		self._sql = sql
+	def __init__(self, db):
+		self._db = db
 
 		if not os.path.exists(self.CACHE_PATH):
 			try:
@@ -18,18 +20,22 @@ class AlbumArt:
 				print("Can't create %s" % self.CACHE_PATH)
 	
 	def get(self, album_id):
-		album_path = self._db.get_album_path(self, self._sql, album_id)
-		art_path = "%s.jpg" % album_path.replace("/", "_")
+		album_path = self._db.get_album_path(album_id)
+		cache_path = "%s/%s.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
 		cached = True
-		if not os.path.exists(cache_art):
-			art_path = self._get_art(album_path)
-			cached = False
 		try:
-			pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (art_path, self.ART_SIZE, self.ART_SIZE)
-			if not cached:
-				pixbuf.save(art_path, "jpeg", {"quality":"90"})
-		except:
-			return get_default_art()			
+			if not os.path.exists(cache_path):
+				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (self._get_art(album_path),
+																 self.ART_SIZE, self.ART_SIZE)
+				pixbuf.savev(cache_path, "jpeg", ["quality"], ["90"])
+			else:
+				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (cache_path,
+																 self.ART_SIZE, self.ART_SIZE)
+			return pixbuf
+			
+		except Exception as e:
+			print(e)
+			return self._get_default_art()			
 
 	
 	def _get_default_art(self):
@@ -52,25 +58,25 @@ class AlbumArt:
 					   icon.get_height() * 3 / 2,
 					   1, 1,
 					   GdkPixbuf.InterpType.NEAREST, 0xff)
-		return _make_icon_frame(result)
+		return self._make_icon_frame(result)
 
-		def _get_art (self, dir):
-			try:
-				for file in os.listdir (dir):
-					lowername = file.lower()
-					supported = False
-					for mime in self._mimes:
-						if lowername.endswith(mime):
-							supported = True
-							break	
-					if (supported):
-			                return "%s/%s" % (dir, file)
+	def _get_art(self, dir):
+		try:
+			for file in os.listdir (dir):
+				lowername = file.lower()
+				supported = False
+				for mime in self._mimes:
+					if lowername.endswith(mime):
+						supported = True
+						break	
+				if (supported):
+					return "%s/%s" % (dir, file)
 
-				return None
-			except:
-			    pass
+			return None
+		except:
+		    pass
 
-	def _make_icon_frame(pixbuf, path=None):
+	def _make_icon_frame(self, pixbuf):
 		border = 1.5
 		degrees = pi / 180
 		radius = 3

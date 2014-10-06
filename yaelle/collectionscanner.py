@@ -54,37 +54,42 @@ class CollectionScanner:
 
 	def _add2db(self, db, filepath, tag):
 		keys = tag.keys()
-		if ("title" in keys):
+		if "title" in keys:
 			title = tag["title"][0]
 		else:
 			title = os.path.basename(filepath)
 
-		if ("artist" in keys):
+		if "artist" in keys:
 			artist = tag["artist"][0]
 		else:
 			artist = "Unknown"
 
-		if("performer" in keys):
+		if "performer" in keys:
 			artist = tag["performer"][0]
 
-		if("album" in keys):
+		if "album" in keys:
 			album = tag["album"][0]
 		else:
 			album = "Unknown"
 
-		if("genre" in keys):
+		if "genre" in keys:
 			genre = tag["genre"][0]
 		else:
 			genre = "Unknown"
 
 		length = int(tag.info.length)
 
-		if("tracknumber" in keys):
-			tracknumber = tag["tracknumber"][0]
+		if "tracknumber" in keys:
+			str = tag["tracknumber"][0]
+			if "/" in str:
+				index = str.find("/")
+				tracknumber = int(str[0:index])
+			else:
+				tracknumber = int(str)
 		else:
-			tracknumber = ""
+			tracknumber = 0
 		
-		if("date" in keys):
+		if "date" in keys:
 			year = tag["date"][0]
 		else:
 			year = ""

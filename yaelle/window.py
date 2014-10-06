@@ -74,14 +74,14 @@ class Window(Gtk.ApplicationWindow):
 		self._list_genres = SelectionList("Genre", 150)
 		self._list_artists = SelectionList("Artist", 200)
 		
-		self._loading = Loading()
+		self._view = LoadingView()
 
 		separator = Gtk.Separator()
 		separator.show()
 		self._box.pack_start(self._list_genres.widget, False, False, 0)
 		self._box.pack_start(separator, False, False, 0)
 		self._box.pack_start(self._list_artists.widget, False, False, 0)
-		self._box.pack_start(self._loading.widget, True, False, 0)
+		self._box.pack_start(self._view, True, False, 0)
 		self.add(self._box)
 		self._box.show()
 
@@ -93,13 +93,19 @@ class Window(Gtk.ApplicationWindow):
 		
 	def _update_genres(self, genres):
 		self._list_genres.populate(genres)
-		self._list_genres.widget.show()
-		self._loading.set_label(_("You can now listen to your music"))
+		self._view.set_label(_("You can now listen to your music"))
 		self._list_genres.connect('item-selected', self._update_artists)
-
+		self._list_genres.widget.show()
 
 	def _update_artists(self, obj, id):
 		self._list_artists.populate(self._db.get_artists_by_genre(id))		
+		self._list_artists.connect('item-selected', self._update_view)
 		self._list_artists.widget.show()
+
+	def _update_view(self, obj, id):
+		self._box.remove(self._view)
+		self._view = ArtistView(self._db, id)
+		self._box.pack_start(self._view, True, True, 0)
+		self._view.populate()
 			
 
