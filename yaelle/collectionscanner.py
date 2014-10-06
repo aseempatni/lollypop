@@ -47,10 +47,10 @@ class CollectionScanner:
 		# Clean deleted files
 		for song in songs:
 			db.remove_song(song)
+
 		db.commit()
 		callback(db.get_genres())
 		db.close()
-		del db
 
 	def _add2db(self, db, filepath, tag):
 		keys = tag.keys()
