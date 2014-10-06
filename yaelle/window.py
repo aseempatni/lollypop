@@ -19,6 +19,7 @@ class Window(Gtk.ApplicationWindow):
 		self.set_size_request(200, 100)
 		self.set_icon_name('yaelle')
 		self._app = app
+		self._artist_signal_id = 0
 
 		size_setting = self.settings.get_value('window-size')
 		if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
@@ -87,9 +88,12 @@ class Window(Gtk.ApplicationWindow):
 		self._list_genres.widget.show()
 
 	def _update_artists(self, obj, id):
+		if self._artist_signal_id:
+			self._list_artists.disconnect(self._artist_signal_id)
 		self._list_artists.populate(self._db.get_artists_by_genre(id))		
-		self._list_artists.connect('item-selected', self._update_view)
+		self._artist_signal_id = self._list_artists.connect('item-selected', self._update_view)
 		self._list_artists.widget.show()
+
 
 	def _update_view(self, obj, id):
 		self._box.remove(self._view)

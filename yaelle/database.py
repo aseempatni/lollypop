@@ -140,11 +140,11 @@ class Database:
 	# Return album name
 	def get_album_name(self, album_id):
 		result = self._sql.execute("SELECT name FROM albums where id=?", (album_id,))
-		path = result.fetchone()
-		if path:
-			return os.path.dirname(path[0])
-
-		return _("Unknown")
+		name = result.fetchone()
+		if name:
+			return name[0]
+		else:
+			return _("Unknown")
 		
 	# Return album path
 	def get_album_path(self, album_id):
@@ -152,8 +152,8 @@ class Database:
 		path = result.fetchone()
 		if path:
 			return os.path.dirname(path[0])
-
-		return ""
+		else:
+			return ""
 	
 	# Return a list of albums (id, name)
 	def get_albums_by_artist(self, artist_id):

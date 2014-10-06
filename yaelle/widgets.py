@@ -2,9 +2,10 @@
 from gi.repository import Gtk, Gdk, GLib, GObject, Pango
 from gi.repository import GdkPixbuf
 
-from yaelle.albumart import AlbumArt
-
+from _thread import start_new_thread
 from gettext import gettext as _, ngettext        
+
+from yaelle.albumart import AlbumArt
 
 class AlbumWidgetSongs(Gtk.HBox):
 
@@ -20,7 +21,10 @@ class AlbumWidgetSongs(Gtk.HBox):
 		self.ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
 		self.ui.get_object('title').set_label(self._db.get_album_name(album_id))
 		self.pack_start(self.ui.get_object('AlbumWidget'), True, True, 0)
+		GLib.idle_add(self._add_tracks, album_id)
+	
 
+	def _add_tracks(self, album_id):
 		tracks = self._db.get_tracks_count_for_album(album_id)
 		i = 0
 		for (id, name, filepath, length, year) in self._db.get_songs_by_album(album_id):
