@@ -90,14 +90,21 @@ class Window(Gtk.ApplicationWindow):
 	def _update_artists(self, obj, id):
 		if self._artist_signal_id:
 			self._list_artists.disconnect(self._artist_signal_id)
-		self._list_artists.populate(self._db.get_artists_by_genre(id))		
-		self._artist_signal_id = self._list_artists.connect('item-selected', self._update_view)
+		self._list_artists.populate(self._db.get_artists_by_genre(id))
+		self._artist_signal_id = self._list_artists.connect('item-selected', self._update_view_artist)
 		self._list_artists.widget.show()
+		self._update_view_albums(self, id)
 
 
-	def _update_view(self, obj, id):
+	def _update_view_artist(self, obj, id):
 		self._box.remove(self._view)
 		self._view = ArtistView(self._db, id)
+		self._box.pack_start(self._view, True, True, 0)
+		self._view.populate()
+			
+	def _update_view_albums(self, obj, id):
+		self._box.remove(self._view)
+		self._view = AlbumView(self._db, id)
 		self._box.pack_start(self._view, True, True, 0)
 		self._view.populate()
 			

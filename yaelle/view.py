@@ -37,7 +37,6 @@ class ArtistView(Gtk.VBox):
 		artist_name = self._db.get_artist_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
 
-		self._widgets = []
 		self._albumbox = Gtk.VBox()
 		
 		self._scrolledWindow = Gtk.ScrolledWindow()
@@ -53,10 +52,33 @@ class ArtistView(Gtk.VBox):
 	def _add_album(self, album_id):
 		widget = AlbumWidgetSongs(self._db, album_id)
 		self._albumbox.pack_start(widget, True, True, 0)
-		self._widgets.append(widget)
 		widget.show()		
 
 	def populate(self):
 		for (id, name) in self._db.get_albums_by_artist(self._artist_id):
 			self._add_album(id)
 			
+class AlbumView(Gtk.ScrolledWindow):
+
+	def __init__(self, db, genre_id):
+		Gtk.ScrolledWindow.__init__(self)
+		self.set_border_width(0)
+		
+		self._genre_id = genre_id
+		self._db = db
+
+		self._widgets = []
+		self._albumbox = Gtk.FlowBox()
+		self._albumbox.set_homogeneous(True)
+		self.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+		self.add(self._albumbox)
+		self.show_all()
+        
+	def _add_albums(self):
+		for (id, name) in self._db.get_albums_by_genre(self._genre_id):
+			widget = AlbumWidget(self._db, id)
+			widget.show()
+			self._albumbox.insert(widget, -1)		
+
+	def populate(self):
+		GLib.idle_add(self._add_albums)
