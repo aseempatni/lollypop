@@ -25,8 +25,8 @@ class AlbumArt:
 		cached = True
 		try:
 			if not os.path.exists(cache_path):
-				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (self._get_art(album_path),
-																 self.ART_SIZE, self.ART_SIZE)
+				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (self._get_art(album_path),
+										  self.ART_SIZE, self.ART_SIZE, False)
 				pixbuf.savev(cache_path, "jpeg", ["quality"], ["90"])
 			else:
 				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (cache_path,
