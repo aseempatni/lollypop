@@ -30,6 +30,7 @@ class SelectionList(GObject.GObject):
 		self._view.show()
 
 		self.widget = Gtk.ScrolledWindow()
+		self.widget.set_vexpand(True)
 		self.widget.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		self.widget.add(self._view)
 		

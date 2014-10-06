@@ -7,10 +7,10 @@ from gettext import gettext as _, ngettext
 
 from yaelle.albumart import AlbumArt
 
-class AlbumWidget(Gtk.HBox):
+class AlbumWidget(Gtk.Grid):
 
 	def __init__(self, db, album_id):
-		Gtk.HBox.__init__(self)
+		Gtk.Grid.__init__(self)
 		self._ui = Gtk.Builder()
 		self._ui.add_from_resource('/org/gnome/Yaelle/AlbumWidget.ui')
 		
@@ -19,13 +19,17 @@ class AlbumWidget(Gtk.HBox):
 		self._art = AlbumArt(db)
 		
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
-		self._ui.get_object('title').set_label(self._db.get_album_name(album_id))
-		self.pack_start(self._ui.get_object('AlbumWidget'), True, True, 0)
+		#TODO Can't find a way to have ellipsized label
+		label = self._db.get_album_name(album_id)
+		if len(label) > 20:
+			label = label[0:20] + "..."
+		self._ui.get_object('title').set_label(label)
+		self.add(self._ui.get_object('AlbumWidget'))
 
-class AlbumWidgetSongs(Gtk.HBox):
+class AlbumWidgetSongs(Gtk.Grid):
 
 	def __init__(self, db, album_id):
-		Gtk.HBox.__init__(self)
+		Gtk.Grid.__init__(self)
 		self._ui = Gtk.Builder()
 		self._ui.add_from_resource('/org/gnome/Yaelle/AlbumWidgetSongs.ui')
 		
@@ -35,7 +39,7 @@ class AlbumWidgetSongs(Gtk.HBox):
 		
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
 		self._ui.get_object('title').set_label(self._db.get_album_name(album_id))
-		self.pack_start(self._ui.get_object('AlbumWidget'), True, True, 0)
+		self.add(self._ui.get_object('AlbumWidget'))
 		GLib.idle_add(self._add_tracks, album_id)
 	
 

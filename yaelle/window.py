@@ -54,7 +54,7 @@ class Window(Gtk.ApplicationWindow):
 
 
 	def _setup_view(self):
-		self._box = Gtk.HBox()
+		self._box = Gtk.Grid()
 		self.toolbar = Toolbar()
 		self.set_titlebar(self.toolbar.header_bar)
 		self.toolbar.header_bar.show()
@@ -68,10 +68,10 @@ class Window(Gtk.ApplicationWindow):
 
 		separator = Gtk.Separator()
 		separator.show()
-		self._box.pack_start(self._list_genres.widget, False, False, 0)
-		self._box.pack_start(separator, False, False, 0)
-		self._box.pack_start(self._list_artists.widget, False, False, 0)
-		self._box.pack_start(self._view, True, False, 0)
+		self._box.add(self._list_genres.widget)
+		self._box.add(separator)
+		self._box.add(self._list_artists.widget)
+		self._box.add(self._view)
 		self.add(self._box)
 		self._box.show()
 
@@ -99,13 +99,13 @@ class Window(Gtk.ApplicationWindow):
 	def _update_view_artist(self, obj, id):
 		self._box.remove(self._view)
 		self._view = ArtistView(self._db, id)
-		self._box.pack_start(self._view, True, True, 0)
+		self._box.add(self._view)
 		self._view.populate()
 			
 	def _update_view_albums(self, obj, id):
 		self._box.remove(self._view)
 		self._view = AlbumView(self._db, id)
-		self._box.pack_start(self._view, True, True, 0)
+		self._box.add(self._view)
 		self._view.populate()
 			
 	def _on_configure_event(self, widget, event):
