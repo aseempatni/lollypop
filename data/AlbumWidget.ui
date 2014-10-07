@@ -20,7 +20,7 @@
        <object class="GtkLabel" id="title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-				<property name="halign">center</property>
+		<property name="halign">center</property>
                 <property name="ellipsize">middle</property>
                 <style>
                   <class name="title"/>
@@ -34,7 +34,7 @@
        <object class="GtkLabel" id="artist">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-				<property name="halign">center</property>
+		<property name="halign">center</property>
                 <property name="ellipsize">middle</property>
                 <style>
                   <class name="title"/>
