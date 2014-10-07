@@ -5,6 +5,7 @@ from yaelle.collectionscanner import CollectionScanner
 from yaelle.toolbar import Toolbar
 from yaelle.database import Database
 from yaelle.selectionlist import SelectionList
+from yaelle.player import Player
 from yaelle.view import *
 
 class Window(Gtk.ApplicationWindow):
@@ -20,6 +21,9 @@ class Window(Gtk.ApplicationWindow):
 		self.set_icon_name('yaelle')
 		self._app = app
 		self._artist_signal_id = 0
+		
+		self._db = Database()
+		self._player = Player(self._db)
 
 		size_setting = self.settings.get_value('window-size')
 		if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
@@ -55,11 +59,9 @@ class Window(Gtk.ApplicationWindow):
 
 	def _setup_view(self):
 		self._box = Gtk.Grid()
-		self.toolbar = Toolbar()
+		self.toolbar = Toolbar(self._player)
 		self.set_titlebar(self.toolbar.header_bar)
 		self.toolbar.header_bar.show()
-
-		self._db = Database()
 
 		self._list_genres = SelectionList("Genre", 150)
 		self._list_artists = SelectionList("Artist", 200)
@@ -94,17 +96,18 @@ class Window(Gtk.ApplicationWindow):
 		self._artist_signal_id = self._list_artists.connect('item-selected', self._update_view_artist)
 		self._list_artists.widget.show()
 		self._update_view_albums(self, id)
+		self._genre_id = id
 
 
 	def _update_view_artist(self, obj, id):
 		self._box.remove(self._view)
-		self._view = ArtistView(self._db, id)
+		self._view = ArtistView(self._db, self._player, self._genre_id, id)
 		self._box.add(self._view)
 		self._view.populate()
 			
 	def _update_view_albums(self, obj, id):
 		self._box.remove(self._view)
-		self._view = AlbumView(self._db, id)
+		self._view = AlbumView(self._db, self._player, id)
 		self._box.add(self._view)
 		self._view.populate()
 			

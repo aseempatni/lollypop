@@ -9,5 +9,6 @@ app_PYTHON = \
 	selectionlist.py\
 	view.py\
 	widgets.py\
+	player.py\
 	collectionscanner.py
 

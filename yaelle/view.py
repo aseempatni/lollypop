@@ -24,18 +24,24 @@ class LoadingView(Gtk.Grid):
 		self._label.set_label(str)
 		
 
-class ArtistView(Gtk.Grid):
-
-	def __init__(self, db, artist_id):
+class View(Gtk.Grid):
+	def __init__(self, db, player, genre_id):
 		Gtk.Grid.__init__(self)
+		self.set_property("orientation", Gtk.Orientation.VERTICAL)
+		self.set_border_width(0)
+		self._db = db
+		self._player = player
+		self._genre_id = genre_id
+		
+class ArtistView(View):
+
+	def __init__(self, db, player, genre_id, artist_id):
+		View.__init__(self, db, player, genre_id)
+		self.set_property("orientation", Gtk.Orientation.VERTICAL)
 		self._ui = Gtk.Builder()
 		self._ui.add_from_resource('/org/gnome/Yaelle/ArtistView.ui')
-		self.set_border_width(0)
-		
-		self._artist_id = artist_id
-		self._db = db
 
-		self.set_property("orientation", Gtk.Orientation.VERTICAL)
+		self._artist_id = artist_id
 
 		artist_name = self._db.get_artist_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
@@ -53,26 +59,28 @@ class ArtistView(Gtk.Grid):
 		self.show_all()
         
 	def _add_album(self, album_id):
-		widget = AlbumWidgetSongs(self._db, album_id)
+		widget = AlbumWidgetSongs(self._db, self._player, album_id)
+		widget.connect("new-playlist", self._new_playlist)
 		self._albumbox.add(widget)
 		widget.show()		
 
+	def _new_playlist(self, obj, id):
+		tracks = []
+		for album_id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):
+			for song_id in self._db.get_songs_by_album_id(album_id):
+				tracks.append(song_id)
+		self._player.set_tracks(tracks)
+		self._player.load(id)
+		self._player.play()
+
 	def populate(self):
-		for id in self._db.get_albums_by_artist(self._artist_id):
+		for id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):
 			self._add_album(id)
-			
-class AlbumView(Gtk.Grid):
 
-	def __init__(self, db, genre_id):
-		Gtk.Grid.__init__(self)
+class AlbumView(View):
+	def __init__(self, db, player, genre_id):
+		View.__init__(self, db, player, genre_id)
 
-		self.set_border_width(0)
-		self.set_property("orientation", Gtk.Orientation.VERTICAL)
-
-		self._genre_id = genre_id
-		self._db = db
-
-		self._widgets = []
 		self._albumbox = Gtk.FlowBox()
 		self._albumbox.set_homogeneous(True)
 		self._albumbox.set_selection_mode(Gtk.SelectionMode.NONE)
@@ -103,7 +111,8 @@ class AlbumView(Gtk.Grid):
 			child.hide()
 			child.destroy()
 		album_id = data.get_child().get_id()
-		context = AlbumWidgetSongs(self._db, album_id)
+		context = AlbumWidgetSongs(self._db, self._player, album_id)
+		context.connect("new-playlist", self._new_playlist)
 		self._scrolledContext.add(context)
 		self._scrolledContext.show_all()		
 		
@@ -113,6 +122,15 @@ class AlbumView(Gtk.Grid):
 			widget = AlbumWidget(self._db, id)
 			widget.show()
 			self._albumbox.insert(widget, -1)		
+
+	def _new_playlist(self, obj, id):
+		tracks = []
+		for album_id in self._db.get_albums_by_genre(self._genre_id):
+			for song_id in self._db.get_songs_by_album_id(album_id):
+				tracks.append(song_id)
+		self._player.set_tracks(tracks)
+		self._player.load(id)
+		self._player.play()
 
 	def populate(self):
 		GLib.idle_add(self._add_albums)

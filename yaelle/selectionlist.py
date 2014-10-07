@@ -52,4 +52,3 @@ class SelectionList(GObject.GObject):
 			if iter:
 				self.emit('item-selected', self._model.get_value(iter, 1))
 
-		

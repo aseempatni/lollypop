@@ -6,6 +6,7 @@ from _thread import start_new_thread
 from gettext import gettext as _, ngettext        
 
 from yaelle.albumart import AlbumArt
+from yaelle.player import Player
 
 class AlbumWidget(Gtk.Grid):
 
@@ -35,14 +36,21 @@ class AlbumWidget(Gtk.Grid):
 
 class AlbumWidgetSongs(Gtk.Grid):
 
-	def __init__(self, db, album_id):
+	__gsignals__ = {
+        'new-playlist': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
+    }
+
+	def __init__(self, db, player, album_id):
 		Gtk.Grid.__init__(self)
 		self._ui = Gtk.Builder()
 		self._ui.add_from_resource('/org/gnome/Yaelle/AlbumWidgetSongs.ui')
 		
 		self._songs = []
 		self._db = db
+		self._player = player
 		self._art = AlbumArt(db)
+		
+		self._player.connect("current-changed", self._update_tracks)
 		
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
 		self._ui.get_object('title').set_label(self._db.get_album_name(album_id))
@@ -57,25 +65,50 @@ class AlbumWidgetSongs(Gtk.Grid):
 			ui = Gtk.Builder()
 			ui.add_from_resource('/org/gnome/Yaelle/TrackWidget.ui')
 			song_widget = ui.get_object('eventbox1')
-			self._songs.append(song_widget)
+			
+			song_widget.playing = ui.get_object('image1')
+			song_widget.playing.set_alignment(1, 0.6)
+			
+			song_widget.connect("button-release-event", self._track_selected)
+			self._songs.append((id, song_widget))
 			ui.get_object('num').set_markup('<span color=\'grey\'>%d</span>' % len(self._songs))
-			ui.get_object('title').set_text(name)
+			song_widget.title = ui.get_object('title')
+			if not id == self._player.current_song:
+				song_widget.playing.set_no_show_all('True')
+				song_widget.title.set_text(name)
+			else:
+				song_widget.title.set_markup('<b>%s</b>' % name)
+
 			ui.get_object('title').set_alignment(0.0, 0.5)
 			self._ui.get_object('grid1').attach(
 					song_widget,
-					int(i / (tracks / 2)),
-					int(i % (tracks / 2)), 1, 1)
+					int(i / (tracks / 3)),
+					int(i % (tracks / 3)), 1, 1)
 			song_widget.checkButton = ui.get_object('select')
 			song_widget.checkButton.set_visible(False)
+
+
 			song_widget.show_all()
 			i+=1
 			
+	def _track_selected(self, widget, data):
+		for id, song_widget in self._songs:
+			if song_widget == widget:
+				self._player.stop()
+				self.emit("new-playlist", id)
+				song_widget.title.set_markup('<b>%s</b>' % self._db.get_song_name(id))
+				song_widget.playing.show()
+			else:
+				if song_widget.playing.is_visible():
+					song_widget.playing.hide()
+					song_widget.title.set_text(self._db.get_song_name(id))
 			
-			
-			
-			
-			
-			
-			
-			
-		
+	def _update_tracks(self, widget, song_id):
+		for id, song_widget in self._songs:
+			if id == song_id:
+				song_widget.title.set_markup('<b>%s</b>' % self._db.get_song_name(id))
+				song_widget.playing.show()
+			else:
+				if song_widget.playing.is_visible():
+					song_widget.playing.hide()
+					song_widget.title.set_text(self._db.get_song_name(id))

@@ -165,9 +165,9 @@ class Database:
 			return ""
 	
 	# Return a list of albums ids
-	def get_albums_by_artist(self, artist_id):
+	def get_albums_by_artist_and_genre(self, artist_id, genre_id):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=?", (artist_id,))
+		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=? and genre_id=?", (artist_id, genre_id))
 		for row in result:
 			albums += row
 		return albums
@@ -197,6 +197,23 @@ class Database:
 			songs += (row,)
 		return songs
 
+	# Return a list of songs id
+	def get_songs_by_album_id(self, album_id):
+		songs = []
+		result = self._sql.execute("SELECT id FROM songs WHERE album_id=? ORDER BY tracknumber" , (album_id,))
+		for row in result:
+			songs += row
+		return songs
+
+	# Return song file path for id
+	def get_song_filepath(self, id):
+		result = self._sql.execute("SELECT filepath FROM songs where id=?", (id,))
+		id = result.fetchone()
+		if id:
+			return id[0]
+		else:
+			return ""
+
 	# Return a list of songs filepaths
 	def get_songs_filepath(self):
 		songs = []
@@ -204,6 +221,15 @@ class Database:
 		for row in result:
 			songs += row
 		return songs
+
+	# Return song name
+	def get_song_name(self, id):
+		result = self._sql.execute("SELECT name FROM songs where id=?", (id,))
+		id = result.fetchone()
+		if id:
+			return id[0]
+		else:
+			return ""
 
 	# Remove song with filepath
 	def remove_song(self, filepath):
