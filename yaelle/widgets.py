@@ -14,7 +14,7 @@ class AlbumWidget(Gtk.Grid):
 		self._ui = Gtk.Builder()
 		self._ui.add_from_resource('/org/gnome/Yaelle/AlbumWidget.ui')
 		
-		self._songs = []
+		self._album_id = album_id
 		self._db = db
 		self._art = AlbumArt(db)
 		
@@ -29,6 +29,9 @@ class AlbumWidget(Gtk.Grid):
 			label = label[0:20] + "..."
 		self._ui.get_object('artist').set_label(label)
 		self.add(self._ui.get_object('AlbumWidget'))
+		
+	def get_id(self):
+		return self._album_id
 
 class AlbumWidgetSongs(Gtk.Grid):
 
@@ -43,7 +46,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 		
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
 		self._ui.get_object('title').set_label(self._db.get_album_name(album_id))
-		self.add(self._ui.get_object('AlbumWidget'))
+		self.add(self._ui.get_object('AlbumWidgetSongs'))
 		GLib.idle_add(self._add_tracks, album_id)
 	
 

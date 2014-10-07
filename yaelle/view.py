@@ -61,12 +61,14 @@ class ArtistView(Gtk.Grid):
 		for id in self._db.get_albums_by_artist(self._artist_id):
 			self._add_album(id)
 			
-class AlbumView(Gtk.ScrolledWindow):
+class AlbumView(Gtk.Grid):
 
 	def __init__(self, db, genre_id):
-		Gtk.ScrolledWindow.__init__(self)
+		Gtk.Grid.__init__(self)
+
 		self.set_border_width(0)
-		
+		self.set_property("orientation", Gtk.Orientation.VERTICAL)
+
 		self._genre_id = genre_id
 		self._db = db
 
@@ -74,12 +76,34 @@ class AlbumView(Gtk.ScrolledWindow):
 		self._albumbox = Gtk.FlowBox()
 		self._albumbox.set_homogeneous(True)
 		self._albumbox.set_selection_mode(Gtk.SelectionMode.NONE)
-		self.set_vexpand(True)
-		self.set_hexpand(True)
-		self.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-		self.add(self._albumbox)
-		self.show_all()
-        
+		self._albumbox.connect("child-activated", self._album_activated)
+		self._scrolledWindow = Gtk.ScrolledWindow()
+		self._scrolledWindow.set_vexpand(True)
+		self._scrolledWindow.set_hexpand(True)
+		self._scrolledWindow.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+		self._scrolledWindow.add(self._albumbox)
+		self._scrolledWindow.show_all()
+		
+		self._scrolledContext = Gtk.ScrolledWindow()
+		self._scrolledContext.set_hexpand(True)
+		self._scrolledContext.set_min_content_height(250)
+		self._scrolledContext.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+		
+		self.add(self._scrolledWindow)
+		self.add(self._scrolledContext)
+		self.show()
+    
+	def _album_activated(self, obj, data):
+		for child in self._scrolledContext.get_children():
+			self._scrolledContext.remove(child)
+			child.hide()
+			child.destroy()
+		album_id = data.get_child().get_id()
+		context = AlbumWidgetSongs(self._db, album_id)
+		self._scrolledContext.add(context)
+		self._scrolledContext.show_all()		
+		
+    	
 	def _add_albums(self):
 		for id in self._db.get_albums_by_genre(self._genre_id):
 			widget = AlbumWidget(self._db, id)
