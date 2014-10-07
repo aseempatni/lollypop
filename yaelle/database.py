@@ -119,6 +119,15 @@ class Database:
 		else:
 			return _("Unknown")
 
+	# Return artist name by album id
+	def get_artist_name_by_album_id(self, album_id):
+		result = self._sql.execute("SELECT artists.name from artists,albums where albums.id=? AND albums.artist_id == artists.id", (album_id,))
+		name = result.fetchone()
+		if name:
+			return name[0]
+		else:
+			return _("Unknown")
+
 	# Return a list of artists (id, name)
 	def get_artists_by_genre(self, genre_id):
 		artists = []
@@ -155,20 +164,20 @@ class Database:
 		else:
 			return ""
 	
-	# Return a list of albums (id, name)
+	# Return a list of albums ids
 	def get_albums_by_artist(self, artist_id):
 		albums = []
-		result = self._sql.execute("SELECT id, name FROM albums WHERE artist_id=?", (artist_id,))
+		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=?", (artist_id,))
 		for row in result:
-			albums += (row,)
+			albums += row
 		return albums
 
-	# Return a list of albums
+	# Return a list of albums ids
 	def get_albums_by_genre(self, genre_id):
 		albums = []
-		result = self._sql.execute("SELECT id, name FROM albums WHERE genre_id=?", (genre_id,))
+		result = self._sql.execute("SELECT id FROM albums WHERE genre_id=? ORDER BY artist_id", (genre_id,))
 		for row in result:
-			albums += (row,)
+			albums += row
 		return albums
 
 	# Return number of tracks in an album

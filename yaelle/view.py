@@ -58,7 +58,7 @@ class ArtistView(Gtk.Grid):
 		widget.show()		
 
 	def populate(self):
-		for (id, name) in self._db.get_albums_by_artist(self._artist_id):
+		for id in self._db.get_albums_by_artist(self._artist_id):
 			self._add_album(id)
 			
 class AlbumView(Gtk.ScrolledWindow):
@@ -81,7 +81,7 @@ class AlbumView(Gtk.ScrolledWindow):
 		self.show_all()
         
 	def _add_albums(self):
-		for (id, name) in self._db.get_albums_by_genre(self._genre_id):
+		for id in self._db.get_albums_by_genre(self._genre_id):
 			widget = AlbumWidget(self._db, id)
 			widget.show()
 			self._albumbox.insert(widget, -1)		

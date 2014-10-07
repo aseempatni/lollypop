@@ -24,6 +24,10 @@ class AlbumWidget(Gtk.Grid):
 		if len(label) > 20:
 			label = label[0:20] + "..."
 		self._ui.get_object('title').set_label(label)
+		label = self._db.get_artist_name_by_album_id(album_id)
+		if len(label) > 20:
+			label = label[0:20] + "..."
+		self._ui.get_object('artist').set_label(label)
 		self.add(self._ui.get_object('AlbumWidget'))
 
 class AlbumWidgetSongs(Gtk.Grid):
