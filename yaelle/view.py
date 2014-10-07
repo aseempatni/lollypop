@@ -89,7 +89,11 @@ class AlbumView(Gtk.Grid):
 		self._scrolledContext.set_min_content_height(250)
 		self._scrolledContext.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		
+		separator = Gtk.Separator()
+		separator.show()
+		
 		self.add(self._scrolledWindow)
+		self.add(separator)
 		self.add(self._scrolledContext)
 		self.show()
     
