@@ -92,14 +92,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 	def _track_selected(self, widget, data):
 		for id, song_widget in self._songs:
 			if song_widget == widget:
-				self._player.stop()
 				self.emit("new-playlist", id)
-				song_widget.title.set_markup('<b>%s</b>' % self._db.get_song_name(id))
-				song_widget.playing.show()
-			else:
-				if song_widget.playing.is_visible():
-					song_widget.playing.hide()
-					song_widget.title.set_text(self._db.get_song_name(id))
 			
 	def _update_tracks(self, widget, song_id):
 		for id, song_widget in self._songs:

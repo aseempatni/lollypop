@@ -71,7 +71,6 @@ class ArtistView(View):
 				tracks.append(song_id)
 		self._player.set_tracks(tracks)
 		self._player.load(id)
-		self._player.play()
 
 	def populate(self):
 		for id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):

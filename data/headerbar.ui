@@ -108,10 +108,11 @@
       
       <child>
          <object class="GtkBox" id="nowplaying">
-            <property name="visible">False</property>
+            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
+            <property name="margin-start">20</property>
             <property name="spacing">8</property>
             <child>
                <object class="GtkImage" id="cover">
@@ -126,7 +127,7 @@
             </child>
             <child>
                <object class="GtkBox" id="nowplaying_labels">
-                  <property name="visible">False</property>
+                  <property name="visible">True</property>
                   <property name="can_focus">False</property>
                   <property name="halign">center</property>
                   <property name="valign">center</property>

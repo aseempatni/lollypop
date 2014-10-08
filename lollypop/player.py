@@ -45,10 +45,13 @@ class Player(GObject.GObject):
 					break
 			self._current_song += 1
 
+		self.stop()
 		self.load_track(song_id)
+		self.play()
 
 	def load_track(self, song_id):
 		self._player.set_property('uri', "file://"+self._db.get_song_filepath(song_id))
+		self.emit("current-changed", song_id)
 
 	def play(self):
 		self._player.set_state(Gst.State.PLAYING)
@@ -60,7 +63,6 @@ class Player(GObject.GObject):
 			
 	def stop(self):
 		self._player.set_state(Gst.State.NULL)
-		self.emit("playback-status-changed")
 	
 	def set_playing(self, playing):
 		if playing:
@@ -75,7 +77,6 @@ class Player(GObject.GObject):
 		self.stop()
 		self.load_track(self._tracks[self._current_song])
 		self.play()
-		self.emit("current-changed", self._tracks[self._current_song])
 		
 	def next(self):	
 		self._current_song += 1
@@ -84,7 +85,6 @@ class Player(GObject.GObject):
 		self.stop()
 		self.load_track(self._tracks[self._current_song])
 		self.play()
-		self.emit("current-changed", self._tracks[self._current_song])
 
 	def set_tracks(self, tracks):
 		self._tracks = tracks

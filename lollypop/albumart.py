@@ -8,6 +8,7 @@ class AlbumArt:
 
 	_mimes = [ "jpeg", "jpg", "png", "gif" ]
 	ART_SIZE = 200
+	ART_SMALL_SIZE = 32
 	CACHE_PATH = os.path.expanduser ("~") +  "/.cache/lollypop"
 	
 	def __init__(self, db):
@@ -25,9 +26,13 @@ class AlbumArt:
 		cached = True
 		try:
 			if not os.path.exists(cache_path):
-				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (self._get_art(album_path),
-																  self.ART_SIZE, self.ART_SIZE, False)
-				pixbuf.savev(cache_path, "jpeg", ["quality"], ["90"])
+				path = self._get_art(album_path)
+				if path:
+					pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (path,
+																	  self.ART_SIZE, self.ART_SIZE, False)
+					pixbuf.savev(cache_path, "jpeg", ["quality"], ["90"])
+				else:
+					pixbuf = self._get_default_art()
 			else:
 				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (cache_path,
 																 self.ART_SIZE, self.ART_SIZE)
@@ -37,6 +42,28 @@ class AlbumArt:
 			print(e)
 			return self._get_default_art()			
 
+
+	def get_small(self, album_id):
+		album_path = self._db.get_album_path(album_id)
+		cache_path = "%s/%s_small.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
+		cached = True
+		try:
+			if not os.path.exists(cache_path):
+				path = self._get_art(album_path)
+				if path:
+					pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (self._get_art(album_path),
+																	  self.ART_SMALL_SIZE, self.ART_SMALL_SIZE, False)
+					pixbuf.savev(cache_path, "jpeg", ["quality"], ["90"])
+				else:
+					pixbuf = None
+			else:
+				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (cache_path,
+																 self.ART_SMALL_SIZE, self.ART_SMALL_SIZE)
+			return pixbuf
+			
+		except Exception as e:
+			print(e)
+			return None
 	
 	def _get_default_art(self):
 		# get a small pixbuf with the given path

@@ -146,6 +146,15 @@ class Database:
 		else:
 			return 0
 
+	# Return album id
+	def get_album_by_track(self, track_id):
+		result = self._sql.execute("SELECT albums.id FROM albums,songs where songs.album_id=albums.id AND songs.id=?", (track_id,))
+		id = result.fetchone()
+		if id:
+			return id[0]
+		else:
+			return 0
+
 	# Return album name
 	def get_album_name(self, album_id):
 		result = self._sql.execute("SELECT name FROM albums where id=?", (album_id,))

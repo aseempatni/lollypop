@@ -59,7 +59,7 @@ class Window(Gtk.ApplicationWindow):
 
 	def _setup_view(self):
 		self._box = Gtk.Grid()
-		self.toolbar = Toolbar(self._player)
+		self.toolbar = Toolbar(self._db, self._player)
 		self.set_titlebar(self.toolbar.header_bar)
 		self.toolbar.header_bar.show()
 
