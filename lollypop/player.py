@@ -89,16 +89,27 @@ class Player(GObject.GObject):
 			self.play()
 
 	def prev(self):
-		self._current_track_pos -= 1
-		if self._current_track_pos < 0:
-			self._current_track_pos = 0
+		tracks = self._db.get_tracks_by_album_id(self._current_track_album_id)
+		if self._current_track_number <=0 : #Prev album
+			pos = self._albums.index(self._current_track_album_id)
+			if pos - 1 < 0: #we are on last album, go to first
+				pos = len(self._albums) - 1
+			else:
+				pos -= 1
+			self._current_track_album_id = self._albums[pos]
+			tracks = self._db.get_tracks_by_album_id(self._current_track_album_id)
+			self._current_track_number = len(tracks) - 1
+			track_id = self._db.get_tracks_by_album_id(self._albums[pos])[self._current_track_number]
+		else:
+			self._current_track_number -= 1
+			track_id = tracks[self._current_track_number]
+				
 		self.stop()
-		self._load_track(self._tracks[self._current_track_pos])
+		self._load_track(track_id)
 		self.play()
 		
 	def next(self):
 		tracks = self._db.get_tracks_by_album_id(self._current_track_album_id)
-		print(self._albums)
 		if self._current_track_number + 1 >= len(tracks): #next album
 			pos = self._albums.index(self._current_track_album_id)
 			if pos +1 >= len(self._albums): #we are on last album, go to first
