@@ -77,6 +77,7 @@ class Toolbar(GObject.GObject):
 		artist = self._db.get_artist_name_by_album_id(album_id)
 		self._title_label.set_text(title)
 		self._artist_label.set_text(artist)
+		self._progress.set_value(0.0)
 		self._progress.set_range(0.0, self._db.get_track_length(track_id) * 60)
 		
 	def _on_prev_btn_clicked(self, obj):

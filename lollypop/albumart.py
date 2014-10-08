@@ -43,6 +43,10 @@ class AlbumArt:
 			return self._get_default_art()			
 
 
+	def get_path(self, album_id):
+		album_path = self._db.get_album_path(album_id)
+		return "%s/%s.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
+
 	def get_small(self, album_id):
 		album_path = self._db.get_album_path(album_id)
 		cache_path = "%s/%s_small.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))

@@ -7,6 +7,7 @@ from lollypop.database import Database
 from lollypop.selectionlist import SelectionList
 from lollypop.player import Player
 from lollypop.view import *
+from lollypop.notification import NotificationManager
 
 class Window(Gtk.ApplicationWindow):
 
@@ -24,6 +25,7 @@ class Window(Gtk.ApplicationWindow):
 		
 		self._db = Database()
 		self._player = Player(self._db)
+		NotificationManager(self._player, self._db)
 		self._scanner = CollectionScanner()
 
 		size_setting = self.settings.get_value('window-size')

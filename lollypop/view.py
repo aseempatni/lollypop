@@ -65,12 +65,8 @@ class ArtistView(View):
 		widget.show()		
 
 	def _new_playlist(self, obj, id):
-		tracks = []
-		for album_id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):
-			for track_id in self._db.get_tracks_by_album_id(album_id):
-				tracks.append(track_id)
-		self._player.set_tracks(tracks)
 		self._player.load(id)
+		GLib.idle_add(self._player.set_tracks, self._artist_id, self._genre_id)
 
 	def populate(self):
 		for id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):
@@ -80,10 +76,12 @@ class AlbumView(View):
 	def __init__(self, db, player, genre_id):
 		View.__init__(self, db, player, genre_id)
 
+		self._context_album_id = None
+
 		self._albumbox = Gtk.FlowBox()
 		self._albumbox.set_homogeneous(True)
 		self._albumbox.set_selection_mode(Gtk.SelectionMode.NONE)
-		self._albumbox.connect("child-activated", self._album_activated)
+		self._albumbox.connect("child-activated", self._on_album_activated)
 		self._scrolledWindow = Gtk.ScrolledWindow()
 		self._scrolledWindow.set_vexpand(True)
 		self._scrolledWindow.set_hexpand(True)
@@ -103,18 +101,18 @@ class AlbumView(View):
 		self.add(self._scrolledContext)
 		self.show()
     
-	def _album_activated(self, obj, data):
+
+	def _on_album_activated(self, obj, data):
 		for child in self._scrolledContext.get_children():
 			self._scrolledContext.remove(child)
 			child.hide()
 			child.destroy()
-		album_id = data.get_child().get_id()
-		context = AlbumWidgetSongs(self._db, self._player, album_id)
+		self._context_album_id = data.get_child().get_id()
+		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
 		context.connect("new-playlist", self._new_playlist)
 		self._scrolledContext.add(context)
 		self._scrolledContext.show_all()		
 		
-    	
 	def _add_albums(self):
 		for id in self._db.get_albums_by_genre(self._genre_id):
 			widget = AlbumWidget(self._db, id)
@@ -122,13 +120,8 @@ class AlbumView(View):
 			self._albumbox.insert(widget, -1)		
 
 	def _new_playlist(self, obj, id):
-		tracks = []
-		for album_id in self._db.get_albums_by_genre(self._genre_id):
-			for track_id in self._db.get_tracks_by_album_id(album_id):
-				tracks.append(track_id)
-		self._player.set_tracks(tracks)
 		self._player.load(id)
-		self._player.play()
+		GLib.idle_add(self._player.set_tracks, None, self._genre_id)
 
 	def populate(self):
 		GLib.idle_add(self._add_albums)

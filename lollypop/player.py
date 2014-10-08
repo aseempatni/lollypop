@@ -54,13 +54,6 @@ class Player(GObject.GObject):
 			return False
 
 	def load(self, track_id):
-		self._current_track_pos = 0
-		# Search track in current playlist
-		for track in self._tracks:
-			if track == track_id:
-					break
-			self._current_track_pos += 1
-
 		self.stop()
 		self._load_track(track_id)
 		self.play()
@@ -115,9 +108,24 @@ class Player(GObject.GObject):
 	def get_current_track_id(self):
 		return self._current_track_id
 
-	def set_tracks(self, tracks):
-		self._tracks = tracks
-	
+	def set_tracks(self, artist_id, genre_id):
+		self._current_track_pos = 0
+		self._tracks = []
+		i = 0
+		if artist_id:
+			for album_id in self._db.get_albums_by_artist_and_genre(artist_id, genre_id):
+				for track_id in self._db.get_tracks_by_album_id(album_id):
+					if self._current_track_id == track_id:
+						self._current_track_pos = i
+					self._tracks.append(track_id)
+					i+=1
+		else:
+			for album_id in self._db.get_albums_by_genre(genre_id):
+				for track_id in self._db.get_tracks_by_album_id(album_id):
+					if self._current_track_id == track_id:
+						self._current_track_pos = i
+					self._tracks.append(track_id)
+					i+=1
 	"""
 		Set progress callback, will be called every seconds
 		Callback is a function with one float arg position
