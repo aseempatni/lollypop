@@ -23,6 +23,10 @@ class LoadingView(Gtk.Grid):
 	def set_label(self, str):
 		self._label.set_label(str)
 		
+	def _update_content(self):
+		pass
+	def _update_context(self):
+		pass
 
 class View(Gtk.Grid):
 	def __init__(self, db, player, genre_id):
@@ -71,6 +75,23 @@ class ArtistView(View):
 	def populate(self):
 		for id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):
 			self._add_album(id)
+
+	def update_content(self):
+		for child in self._albumbox.get_children():
+			self._albumbox.remove(child)
+			child.hide()
+			child.destroy()
+		album_id = self._db.get_album_by_track(self._player.get_current_track_id())
+		self._add_album(album_id)
+		artist_id = self._db.get_artist_by_album(album_id)
+		artist_name = self._db.get_artist_by_id(artist_id)
+		self._ui.get_object('artist').set_label(artist_name)
+		for id in self._db.get_albums_by_artist(artist_id, album_id):
+			self._add_album(id)
+
+	def update_context(self):
+		pass
+
 
 class AlbumView(View):
 	def __init__(self, db, player, genre_id):
@@ -123,5 +144,19 @@ class AlbumView(View):
 		self._player.load(id)
 		self._player.set_albums(None, self._genre_id, id)
 
+	def update_content(self):
+		pass
+
+	def update_context(self):
+		for child in self._scrolledContext.get_children():
+			self._scrolledContext.remove(child)
+			child.hide()
+			child.destroy()
+		self._context_album_id = self._db.get_album_by_track(self._player.get_current_track_id())
+		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
+		context.connect("new-playlist", self._new_playlist)
+		self._scrolledContext.add(context)
+		self._scrolledContext.show_all()
+	
 	def populate(self):
 		GLib.idle_add(self._add_albums)

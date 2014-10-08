@@ -107,6 +107,9 @@
       </child>
       
       <child>
+	<object class="GtkEventBox" id="infobox">
+	            <property name="visible">True</property>
+	<child>
          <object class="GtkBox" id="nowplaying">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -117,7 +120,7 @@
             <child>
                <object class="GtkImage" id="cover">
                   <property name="visible">False</property>
-                  <property name="can_focus">False</property>
+                  <property name="can_focus">True</property>
                </object>
                <packing>
                   <property name="expand">False</property>
@@ -182,6 +185,7 @@
                </packing>
             </child>
          </object>
+	</child></object>
       </child>
       <child>
          <object class="GtkToggleButton" id="search-button">

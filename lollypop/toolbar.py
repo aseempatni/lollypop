@@ -26,7 +26,7 @@ class Toolbar(GObject.GObject):
 		self._artist_label = self._ui.get_object('artist')
 		self._cover = self._ui.get_object('cover')
 		self.repeat_btnImage = self._ui.get_object('playlistRepeat')
-
+		self._infobox = self._ui.get_object('infobox')
 		self._player = player
 		self._player.connect("playback-status-changed", self._playback_status_changed)
 		self._player.connect("current-changed", self._update_toolbar)
@@ -74,7 +74,7 @@ class Toolbar(GObject.GObject):
 			self._cover.hide()
 		
 		title = self._db.get_track_name(track_id)
-		artist = self._db.get_artist_name_by_album_id(album_id)
+		artist = self._db.get_artist_name_by_album(album_id)
 		self._title_label.set_text(title)
 		self._artist_label.set_text(artist)
 		self._progress.set_value(0.0)
@@ -110,3 +110,8 @@ class Toolbar(GObject.GObject):
 	def _change_play_btn_status(self, image, status):
 		self._play_btn.set_image(image)
 		self._play_btn.set_tooltip_text(status)
+
+	def get_infobox(self):
+		return self._infobox
+
+

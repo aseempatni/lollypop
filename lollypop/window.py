@@ -65,6 +65,7 @@ class Window(Gtk.ApplicationWindow):
 		self.toolbar = Toolbar(self._db, self._player)
 		self.set_titlebar(self.toolbar.header_bar)
 		self.toolbar.header_bar.show()
+		self.toolbar.get_infobox().connect("button-press-event", self._show_current_album)
 
 		self._list_genres = SelectionList("Genre", 150)
 		self._list_artists = SelectionList("Artist", 200)
@@ -122,9 +123,9 @@ class Window(Gtk.ApplicationWindow):
 		self._list_artists.populate(self._db.get_artists_by_genre(id))
 		self._artist_signal_id = self._list_artists.connect('item-selected', self._update_view_artist)
 		self._list_artists.widget.show()
+		self._artist_signal_id = 0
 		self._update_view_albums(self, id)
 		self._genre_id = id
-
 
 	def _update_view_artist(self, obj, id):
 		self._box.remove(self._view)
@@ -148,4 +149,8 @@ class Window(Gtk.ApplicationWindow):
 	def _on_window_state_event(self, widget, event):
 		self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
-
+	def _show_current_album(self, obj, data):
+		if self._artist_signal_id:
+			self._view.update_context()
+		else:
+			self._view.update_content()
