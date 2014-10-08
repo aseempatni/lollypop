@@ -1,9 +1,9 @@
 [Desktop Entry]
-_Name=Music
+_Name=Lollypop
 _GenericName=Music Player
 _Comment=Play and organize your music collection
-Icon=gnome-music
-Exec=gnome-music
+Icon=lollypop
+Exec=Lollypop
 Terminal=false
 Type=Application
 Categories=GNOME;GTK;AudioVideo;Player;Audio;
