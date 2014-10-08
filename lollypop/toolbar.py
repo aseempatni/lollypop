@@ -20,12 +20,11 @@ class Toolbar(GObject.GObject):
 		self._pause_image = self._ui.get_object('pause_image')
 		self._progress = self._ui.get_object('progress_scale')
 		self._progress.set_sensitive(False)
-		self.trackPlaybackTimeLabel = self._ui.get_object('playback')
-		self.trackTotalTimeLabel = self._ui.get_object('duration')
+		self._time_label = self._ui.get_object('playback')
+		self._total_time_label = self._ui.get_object('duration')
 		self._title_label = self._ui.get_object('title')
 		self._artist_label = self._ui.get_object('artist')
 		self._cover = self._ui.get_object('cover')
-		self.duration = self._ui.get_object('duration')
 		self.repeat_btnImage = self._ui.get_object('playlistRepeat')
 
 		self._player = player
@@ -51,6 +50,7 @@ class Toolbar(GObject.GObject):
 	
 	def _progress_callback(self, position):
 		self._progress.set_value(position)
+		self._time_label.set_text(self._seconds_to_string(position/60))
 	
 	def _playback_status_changed(self, obj):
 		playing = self._player.is_playing()
@@ -78,7 +78,12 @@ class Toolbar(GObject.GObject):
 		self._title_label.set_text(title)
 		self._artist_label.set_text(artist)
 		self._progress.set_value(0.0)
-		self._progress.set_range(0.0, self._db.get_track_length(track_id) * 60)
+		duration = self._db.get_track_length(track_id)
+		self._progress.set_range(0.0, duration * 60)
+		self._total_time_label.set_text(self._seconds_to_string(duration))
+		self._total_time_label.show()
+		self._time_label.set_text("0:00")
+		self._time_label.show()
 		
 	def _on_prev_btn_clicked(self, obj):
 		self._player.prev()
@@ -92,6 +97,12 @@ class Toolbar(GObject.GObject):
 			self._change_play_btn_status(self._pause_image, _("PausePlay"))
 
 		
+	def _seconds_to_string(self, duration):
+		seconds = duration
+		minutes = seconds // 60
+		seconds %= 60
+
+		return '%i:%02i' % (minutes, seconds)
 
 	def _on_next_btn_clicked(self, obj):
 		self._player.next()
