@@ -13,7 +13,6 @@ class Database:
 
 	create_albums = '''CREATE TABLE albums (id INTEGER PRIMARY KEY AUTOINCREMENT,
 						name TEXT NOT NULL,
-						art TEXT,
 						artist_id INT NOT NULL,
 						genre_id INT NOT NULL)'''					
 	create_artists = '''CREATE TABLE artists (id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -66,7 +66,7 @@ class ArtistView(View):
 
 	def _new_playlist(self, obj, id):
 		self._player.load(id)
-		GLib.idle_add(self._player.set_tracks, self._artist_id, self._genre_id)
+		self._player.set_albums(self._artist_id, self._genre_id, id)
 
 	def populate(self):
 		for id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):
@@ -121,7 +121,7 @@ class AlbumView(View):
 
 	def _new_playlist(self, obj, id):
 		self._player.load(id)
-		GLib.idle_add(self._player.set_tracks, None, self._genre_id)
+		self._player.set_albums(None, self._genre_id, id)
 
 	def populate(self):
 		GLib.idle_add(self._add_albums)

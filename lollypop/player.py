@@ -13,9 +13,10 @@ class Player(GObject.GObject):
 		GObject.GObject.__init__(self)
 		Gst.init(None)
 
-		self._current_track_pos = 0
+		self._current_track_number = 0
+		self._current_track_album_id = 0
 		self._current_track_id = 0
-		self._tracks = []
+		self._albums = []
 		self._progress_callback = None
 		self._timeout = None
 
@@ -39,10 +40,11 @@ class Player(GObject.GObject):
 		return True
 
 	def _load_track(self, track_id):
+		self.emit("current-changed", track_id)
 		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
 		self._duration = self._db.get_track_length(track_id)
 		self._current_track_id = track_id
-		self.emit("current-changed", track_id)
+
 
 	def is_playing(self):
 		ok, state, pending = self._player.get_state(0)
@@ -94,12 +96,24 @@ class Player(GObject.GObject):
 		self._load_track(self._tracks[self._current_track_pos])
 		self.play()
 		
-	def next(self):	
-		self._current_track_pos += 1
-		if self._current_track_pos > len(self._tracks):
-			self._current_track_pos = 0
+	def next(self):
+		tracks = self._db.get_tracks_by_album_id(self._current_track_album_id)
+		print(self._albums)
+		if self._current_track_number + 1 >= len(tracks): #next album
+			pos = self._albums.index(self._current_track_album_id)
+			if pos +1 >= len(self._albums): #we are on last album, go to first
+				pos = 0
+			else:
+				pos += 1
+			self._current_track_album_id = self._albums[pos]
+			self._current_track_number = 0
+			track_id = self._db.get_tracks_by_album_id(self._albums[pos])[0]
+		else:
+			self._current_track_number += 1
+			track_id = tracks[self._current_track_number]
+				
 		self.stop()
-		self._load_track(self._tracks[self._current_track_pos])
+		self._load_track(track_id)
 		self.play()
 
 	def seek(self, position):
@@ -108,24 +122,19 @@ class Player(GObject.GObject):
 	def get_current_track_id(self):
 		return self._current_track_id
 
-	def set_tracks(self, artist_id, genre_id):
-		self._current_track_pos = 0
-		self._tracks = []
-		i = 0
+	def set_albums(self, artist_id, genre_id, track_id):
+		self._albums = []
 		if artist_id:
-			for album_id in self._db.get_albums_by_artist_and_genre(artist_id, genre_id):
-				for track_id in self._db.get_tracks_by_album_id(album_id):
-					if self._current_track_id == track_id:
-						self._current_track_pos = i
-					self._tracks.append(track_id)
-					i+=1
+			self._albums = self._db.get_albums_by_artist_and_genre(artist_id, genre_id)
 		else:
-			for album_id in self._db.get_albums_by_genre(genre_id):
-				for track_id in self._db.get_tracks_by_album_id(album_id):
-					if self._current_track_id == track_id:
-						self._current_track_pos = i
-					self._tracks.append(track_id)
-					i+=1
+			self._albums = self._db.get_albums_by_genre(genre_id)
+
+		album_id = self._db.get_album_by_track(track_id)
+		tracks = self._db.get_tracks_by_album_id(album_id)
+		print("set: %s" % tracks.index(track_id) )
+		self._current_track_number = tracks.index(track_id) 
+		self._current_track_album_id = album_id
+
 	"""
 		Set progress callback, will be called every seconds
 		Callback is a function with one float arg position
