@@ -1,14 +1,14 @@
 from gi.repository import Gtk, GObject, Gdk
 from gettext import gettext as _
 
-from yaelle.database import Database
-from yaelle.widgets import *
+from lollypop.database import Database
+from lollypop.widgets import *
 
 class LoadingView(Gtk.Grid):
 	def __init__(self):
 		Gtk.Grid.__init__(self)
 		self._ui = Gtk.Builder()
-		self._ui.add_from_resource('/org/gnome/Yaelle/Loading.ui')
+		self._ui.add_from_resource('/org/gnome/Lollypop/Loading.ui')
 		self.set_property('halign', Gtk.Align.CENTER)
 		self.set_property('valign', Gtk.Align.CENTER)
 		self.set_vexpand(True)
@@ -39,7 +39,7 @@ class ArtistView(View):
 		View.__init__(self, db, player, genre_id)
 		self.set_property("orientation", Gtk.Orientation.VERTICAL)
 		self._ui = Gtk.Builder()
-		self._ui.add_from_resource('/org/gnome/Yaelle/ArtistView.ui')
+		self._ui.add_from_resource('/org/gnome/Lollypop/ArtistView.ui')
 
 		self._artist_id = artist_id
 
@@ -93,7 +93,6 @@ class AlbumView(View):
 		self._scrolledWindow.show_all()
 		
 		self._scrolledContext = Gtk.ScrolledWindow()
-		self._scrolledContext.set_hexpand(True)
 		self._scrolledContext.set_min_content_height(250)
 		self._scrolledContext.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		

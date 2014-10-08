@@ -1,4 +1,4 @@
-appdir = $(pythondir)/yaelle/
+appdir = $(pythondir)/lollypop/
 
 app_PYTHON = \
 	application.py\

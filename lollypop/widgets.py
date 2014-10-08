@@ -5,15 +5,15 @@ from gi.repository import GdkPixbuf
 from _thread import start_new_thread
 from gettext import gettext as _, ngettext        
 
-from yaelle.albumart import AlbumArt
-from yaelle.player import Player
+from lollypop.albumart import AlbumArt
+from lollypop.player import Player
 
 class AlbumWidget(Gtk.Grid):
 
 	def __init__(self, db, album_id):
 		Gtk.Grid.__init__(self)
 		self._ui = Gtk.Builder()
-		self._ui.add_from_resource('/org/gnome/Yaelle/AlbumWidget.ui')
+		self._ui.add_from_resource('/org/gnome/Lollypop/AlbumWidget.ui')
 		
 		self._album_id = album_id
 		self._db = db
@@ -43,17 +43,18 @@ class AlbumWidgetSongs(Gtk.Grid):
 	def __init__(self, db, player, album_id):
 		Gtk.Grid.__init__(self)
 		self._ui = Gtk.Builder()
-		self._ui.add_from_resource('/org/gnome/Yaelle/AlbumWidgetSongs.ui')
+		self._ui.add_from_resource('/org/gnome/Lollypop/AlbumWidgetSongs.ui')
 		
 		self._songs = []
 		self._db = db
 		self._player = player
 		self._art = AlbumArt(db)
-	
+		self.set_vexpand(False)
+		self.set_hexpand(False)
 		flowbox = self._ui.get_object('flow')
 		nb_tracks = self._db.get_tracks_count_for_album(album_id)
-		flowbox.set_property("min-children-per-line", nb_tracks/3)
-		flowbox.set_property("max-children-per-line", nb_tracks/3)
+		flowbox.set_property("min-children-per-line", nb_tracks/2)
+		flowbox.set_property("max-children-per-line", nb_tracks/2)
 		flowbox.set_selection_mode(Gtk.SelectionMode.NONE)
 		self._player.connect("current-changed", self._update_tracks)
 		
@@ -66,7 +67,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 	def _add_tracks(self, album_id):
 		for (id, name, filepath, length, year) in self._db.get_songs_by_album(album_id):
 			ui = Gtk.Builder()
-			ui.add_from_resource('/org/gnome/Yaelle/TrackWidget.ui')
+			ui.add_from_resource('/org/gnome/Lollypop/TrackWidget.ui')
 			song_widget = ui.get_object('eventbox1')
 			
 			song_widget.playing = ui.get_object('image1')

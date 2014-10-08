@@ -2,13 +2,13 @@ from gi.repository import Gtk, Gdk, GObject, GdkPixbuf
 import cairo
 import os
 from math import pi
-from yaelle.database import Database
+from lollypop.database import Database
 
 class AlbumArt: 
 
 	_mimes = [ "jpeg", "jpg", "png", "gif" ]
 	ART_SIZE = 200
-	CACHE_PATH = os.path.expanduser ("~") +  "/.cache/yaelle"
+	CACHE_PATH = os.path.expanduser ("~") +  "/.cache/lollypop"
 	
 	def __init__(self, db):
 		self._db = db

@@ -1,5 +1,5 @@
 from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio
-from yaelle.database import Database
+from lollypop.database import Database
 
 class Player(GObject.GObject):
 	

@@ -1,8 +1,8 @@
 AC_PREREQ(2.63)
-AC_INIT([yaelle],
+AC_INIT([lollypop],
         [0.1],
-        [https://bugzilla.gnome.org/enter_bug.cgi?product=yaelle],
-        [yaelle],
+        [https://bugzilla.gnome.org/enter_bug.cgi?product=lollypop],
+        [lollypop],
         [https://wiki.gnome.org/Apps/Music])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([Makefile.am])
@@ -14,7 +14,7 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 AM_PATH_PYTHON(2.7)
 AM_PYTHON_CHECK_VERSION(2.7)
 
-GETTEXT_PACKAGE=yaelle
+GETTEXT_PACKAGE=lollypop
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
                    [The prefix for our gettext translation domains.])
@@ -37,7 +37,7 @@ AC_CONFIG_FILES([
   Makefile
   data/Makefile
   data/AboutDialog.ui
-  yaelle/Makefile
+  lollypop/Makefile
   po/Makefile.in
 ])
 AC_OUTPUT

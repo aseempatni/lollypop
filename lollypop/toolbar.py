@@ -6,7 +6,7 @@ class Toolbar(GObject.GObject):
 	def __init__(self, player):
 		GObject.GObject.__init__(self)
 		self._ui = Gtk.Builder()
-		self._ui.add_from_resource('/org/gnome/Yaelle/headerbar.ui')
+		self._ui.add_from_resource('/org/gnome/Lollypop/headerbar.ui')
 		self.header_bar = self._ui.get_object('header-bar')
 
 		self._prevBtn = self._ui.get_object('previous_button')

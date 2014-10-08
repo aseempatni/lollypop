@@ -5,21 +5,21 @@
 
 from gi.repository import Gtk, Gio, GLib, Gdk, Notify
 from gettext import gettext as _
-from yaelle.window import Window
+from lollypop.window import Window
 
 class Application(Gtk.Application):
 	def __init__(self):
 		Gtk.Application.__init__(self,
-					 application_id='org.gnome.Yaelle',
+					 application_id='org.gnome.Lollypop',
 					 flags=Gio.ApplicationFlags.FLAGS_NONE)
-		GLib.set_application_name(_("Yaelle"))
-		GLib.set_prgname('yaelle')
+		GLib.set_application_name(_("Lollypop"))
+		GLib.set_prgname('lollypop')
 		self._window = None
 
 	def build_app_menu(self):
 		builder = Gtk.Builder()
 
-		builder.add_from_resource('/org/gnome/Yaelle/app-menu.ui')
+		builder.add_from_resource('/org/gnome/Lollypop/app-menu.ui')
 
 		menu = builder.get_object('app-menu')
 		self.set_app_menu(menu)
@@ -35,7 +35,7 @@ class Application(Gtk.Application):
 
 	def about(self, action, param):
         	builder = Gtk.Builder()
-        	builder.add_from_resource('/org/gnome/Yaelle/AboutDialog.ui')
+        	builder.add_from_resource('/org/gnome/Lollypop/AboutDialog.ui')
         	about = builder.get_object('about_dialog')
         	about.set_transient_for(self._window)
         	about.connect("response", self.about_response)
@@ -46,7 +46,7 @@ class Application(Gtk.Application):
 
 	def do_startup(self):
 		Gtk.Application.do_startup(self)
-		Notify.init(_("Yaelle"))
+		Notify.init(_("Lollypop"))
 		self.build_app_menu()
 
 	def quit(self, action=None, param=None):

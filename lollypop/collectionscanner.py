@@ -7,7 +7,7 @@ import sqlite3
 from _thread import start_new_thread
 from gi.repository import GLib
 import mutagen
-from yaelle.database import Database
+from lollypop.database import Database
 
 class CollectionScanner:
 

@@ -4,11 +4,11 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-PKG_NAME="yaelle"
+PKG_NAME="lollypop"
 
 test -f $srcdir/configure.ac || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
-    echo " top-level yaelle directory"
+    echo " top-level lollypop directory"
     exit 1
 }
 

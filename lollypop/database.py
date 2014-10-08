@@ -8,8 +8,8 @@ import os
 
 class Database:
 
-	LOCAL_PATH = os.path.expanduser ("~") +  "/.local/share/yaelle"
-	DB_PATH = "%s/yaelle.db" % LOCAL_PATH
+	LOCAL_PATH = os.path.expanduser ("~") +  "/.local/share/lollypop"
+	DB_PATH = "%s/lollypop.db" % LOCAL_PATH
 
 	create_albums = '''CREATE TABLE albums (id INTEGER PRIMARY KEY AUTOINCREMENT,
 						name TEXT NOT NULL,

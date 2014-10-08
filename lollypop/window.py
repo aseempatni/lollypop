@@ -1,24 +1,24 @@
 from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
 from gettext import gettext as _, ngettext
 
-from yaelle.collectionscanner import CollectionScanner
-from yaelle.toolbar import Toolbar
-from yaelle.database import Database
-from yaelle.selectionlist import SelectionList
-from yaelle.player import Player
-from yaelle.view import *
+from lollypop.collectionscanner import CollectionScanner
+from lollypop.toolbar import Toolbar
+from lollypop.database import Database
+from lollypop.selectionlist import SelectionList
+from lollypop.player import Player
+from lollypop.view import *
 
 class Window(Gtk.ApplicationWindow):
 
 	def __init__(self, app):
 		Gtk.ApplicationWindow.__init__(self,
 					       application=app,
-					       title=_("Yaelle"))
+					       title=_("Lollypop"))
 		
-		self.settings = Gio.Settings.new('org.gnome.Yaelle')
+		self.settings = Gio.Settings.new('org.gnome.Lollypop')
 
 		self.set_size_request(200, 100)
-		self.set_icon_name('yaelle')
+		self.set_icon_name('lollypop')
 		self._app = app
 		self._artist_signal_id = 0
 		

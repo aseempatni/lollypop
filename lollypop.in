@@ -8,7 +8,7 @@ import gettext
 
 # Make sure we'll find the pygobject module, even in JHBuild
 sys.path.insert(1, '@pyexecdir@')
-# Make sure we'll find the yaelle modules, even in JHBuild
+# Make sure we'll find the lollypop modules, even in JHBuild
 sys.path.insert(1, '@pythondir@')
 
 from gi.repository import Gio
@@ -16,7 +16,7 @@ from gi.repository import Gio
 localedir = '@localedir@'
 pkgdatadir = '@pkgdatadir@'
 
-from yaelle.application import Application
+from lollypop.application import Application
 
 def install_excepthook():
     """ Make sure we exit when an unhandled exception occurs. """
@@ -33,12 +33,12 @@ def install_excepthook():
 if __name__ == "__main__":
     install_excepthook()
 
-    locale.bindtextdomain('yaelle', localedir)
-    locale.textdomain('yaelle')
-    gettext.bindtextdomain('yaelle', localedir)
-    gettext.textdomain('yaelle')
+    locale.bindtextdomain('lollypop', localedir)
+    locale.textdomain('lollypop')
+    gettext.bindtextdomain('lollypop', localedir)
+    gettext.textdomain('lollypop')
 
-    resource = Gio.resource_load(os.path.join(pkgdatadir, 'yaelle.gresource'))
+    resource = Gio.resource_load(os.path.join(pkgdatadir, 'lollypop.gresource'))
     Gio.Resource._register(resource)
 
     app = Application()

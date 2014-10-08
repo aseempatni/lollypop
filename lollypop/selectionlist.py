@@ -1,6 +1,6 @@
 from gi.repository import Gtk, GObject, Pango
 
-from yaelle.database import Database
+from lollypop.database import Database
 
 
 

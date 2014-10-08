@@ -1,14 +1,14 @@
 ACLOCAL_AMFLAGS = -I m4
 NULL =
 
-bin_SCRIPTS = Yaelle
+bin_SCRIPTS = Lollypop
 
-SUBDIRS = yaelle data 
+SUBDIRS = lollypop data 
 #po
 
 EXTRA_DIST = \
 	AUTHORS.in \
-	yaelle.in
+	lollypop.in
 	$(NULL)
 
 CLEANFILES = \
@@ -46,7 +46,7 @@ gen-AUTHORS:
 	   mv -f $(distdir)/AUTHORS-tmp $(distdir)/AUTHORS ;           \
 	fi
 
-Yaelle: yaelle.in Makefile
+Lollypop: lollypop.in Makefile
 	$(AM_V_GEN)sed						\
 		-e s!\@srcdir\@!$(abs_top_srcdir)!	\
 		-e s!\@prefix\@!$(prefix)!		\
@@ -63,7 +63,7 @@ Yaelle: yaelle.in Makefile
 		< $< > $@
 	chmod a+x $@
 
-all-local: yaelle
+all-local: lollypop
 
 -include $(top_srcdir)/git.mk
 
