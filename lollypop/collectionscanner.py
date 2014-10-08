@@ -17,7 +17,8 @@ class CollectionScanner:
 
 	# Update database if empty
 	def update(self, callback):
-		start_new_thread(self._scan, (callback,))
+		GLib.idle_add(self._scan, callback)
+		#start_new_thread(self._scan, (callback,))
 		#self._scan(callback)
 
 

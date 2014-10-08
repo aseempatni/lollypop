@@ -13,7 +13,7 @@ class Player(GObject.GObject):
 		GObject.GObject.__init__(self)
 		Gst.init(None)
 
-		self.current_track = 0
+		self._current_track = 0
 		self._tracks = []
 		self._progress_callback = None
 		self._timeout = None
@@ -61,6 +61,7 @@ class Player(GObject.GObject):
 	def load_track(self, track_id):
 		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
 		self._duration = self._db.get_track_length(track_id)
+		self._current_track = track_id
 		self.emit("current-changed", track_id)
 
 	def play(self):
@@ -83,7 +84,6 @@ class Player(GObject.GObject):
 			GLib.source_remove(self._timeout)
 			self._timeout = None
 
-	
 	def set_playing(self, playing):
 		if playing:
 			self.play()
@@ -105,6 +105,9 @@ class Player(GObject.GObject):
 		self.stop()
 		self.load_track(self._tracks[self._current_track])
 		self.play()
+
+	def get_current_track(self):
+		return self._current_track
 
 	def set_tracks(self, tracks):
 		self._tracks = tracks

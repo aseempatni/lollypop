@@ -24,6 +24,7 @@ class Window(Gtk.ApplicationWindow):
 		
 		self._db = Database()
 		self._player = Player(self._db)
+		self._scanner = CollectionScanner()
 
 		size_setting = self.settings.get_value('window-size')
 		if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
@@ -76,12 +77,11 @@ class Window(Gtk.ApplicationWindow):
 		self._box.add(self._view)
 		self.add(self._box)
 		self._box.show()
-
-		self._scanner = CollectionScanner()
-		self._scanner.update(self._update_genres)
-		
 		self.show()
+		self.connect("map-event", self._mapped_window)
 		
+	def _mapped_window(self, obj, data):
+		self._scanner.update(self._update_genres)
 		
 	def _update_genres(self, genres):
 		self._list_genres.populate(genres)
