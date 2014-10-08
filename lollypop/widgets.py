@@ -77,7 +77,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 			self._tracks.append((id, track_widget))
 			ui.get_object('num').set_markup('<span color=\'grey\'>%d</span>' % len(self._tracks))
 			track_widget.title = ui.get_object('title')
-			if not id == self._player.get_current_track():
+			if not id == self._player.get_current_track_id():
 				track_widget.playing.set_no_show_all('True')
 				track_widget.title.set_text(name)
 			else:

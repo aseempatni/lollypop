@@ -43,19 +43,19 @@ class Window(Gtk.ApplicationWindow):
 		self.connect("configure-event", self._on_configure_event)
 		
 		self._setup_view()
-      #  self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
-      #                                      Gio.DBusProxyFlags.NONE,
-       #                                     None,
-        #                                    'org.gnome.SettingsDaemon',
-         #                                   '/org/gnome/SettingsDaemon/MediaKeys',
-          #                                  'org.gnome.SettingsDaemon.MediaKeys',
-           #                                 None)
-        #self._grab_media_player_keys()
-        #try:
-        #    self.proxy.connect('g-signal', self._handle_media_keys)
-        #except GLib.GError:
+		self._proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
+											 Gio.DBusProxyFlags.NONE,
+											 None,
+											 'org.gnome.SettingsDaemon',
+											 '/org/gnome/SettingsDaemon/MediaKeys',
+											 'org.gnome.SettingsDaemon.MediaKeys',
+											 None)
+		self._grab_media_player_keys()
+		try:
+			self._proxy.connect('g-signal', self._handle_media_keys)
+		except GLib.GError:
             # We cannot grab media keys if no settings daemon is running
-        #    pass
+			pass
 
 
 	def _setup_view(self):
@@ -83,6 +83,31 @@ class Window(Gtk.ApplicationWindow):
 	def _mapped_window(self, obj, data):
 		self._scanner.update(self._update_genres)
 		
+	def _grab_media_player_keys(self):
+		try:
+			self._proxy.call_sync('GrabMediaPlayerKeys',
+								 GLib.Variant('(su)', ('Lollypop', 0)),
+								 Gio.DBusCallFlags.NONE,
+								 -1,
+								 None)
+		except GLib.GError:
+			# We cannot grab media keys if no settings daemon is running
+			pass
+
+	def _handle_media_keys(self, proxy, sender, signal, parameters):
+		if signal != 'MediaPlayerKeyPressed':
+			print('Received an unexpected signal \'%s\' from media player'.format(signal))
+			return
+		response = parameters.get_child_value(1).get_string()
+		if 'Play' in response:
+			self._player.play_pause()
+		elif 'Stop' in response:
+			self._player.stop()
+		elif 'Next' in response:
+			self._player.next()
+		elif 'Previous' in response:
+			self._player.prev()
+			
 	def _update_genres(self, genres):
 		self._list_genres.populate(genres)
 		self._view.set_label(_("You can now listen to your music"))

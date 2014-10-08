@@ -19,6 +19,7 @@ class Toolbar(GObject.GObject):
 		self._play_image = self._ui.get_object('play_image')
 		self._pause_image = self._ui.get_object('pause_image')
 		self._progress = self._ui.get_object('progress_scale')
+		self._progress.set_sensitive(False)
 		self.trackPlaybackTimeLabel = self._ui.get_object('playback')
 		self.trackTotalTimeLabel = self._ui.get_object('duration')
 		self._title_label = self._ui.get_object('title')
@@ -32,6 +33,7 @@ class Toolbar(GObject.GObject):
 		self._player.connect("current-changed", self._update_toolbar)
 		self._player.set_progress_callback(self._progress_callback)
 
+		self._progress.connect('button-release-event', self._on_progress_scale_button)
         #self._sync_repeat_image()
 
 		self._prev_btn.connect('clicked', self._on_prev_btn_clicked)
@@ -44,18 +46,23 @@ class Toolbar(GObject.GObject):
 		#self.dropdown.initialize_filters(self.searchbar)
 		self.header_bar.set_show_close_button(True)
 		
-	#def _on_progress_scale_button_released(self, scale, data):
-		
+	def _on_progress_scale_button(self, scale, data):
+		self._player.seek(scale.get_value()/60)
 	
-	def _progress_callback(self, position, length):
-		pass
+	def _progress_callback(self, position):
+		self._progress.set_value(position)
 	
 	def _playback_status_changed(self, obj):
-		if self._player.is_playing():
+		playing = self._player.is_playing()
+
+		self._progress.set_sensitive(playing)
+		if playing:
+			self._change_play_btn_status(self._pause_image, _("Pause"))
 			self._prev_btn.set_sensitive(True)
 			self._play_btn.set_sensitive(True)
-			self._change_play_btn_status(self._pause_image, _("Pause"))
 			self._next_btn.set_sensitive(True)
+		else:
+			self._change_play_btn_status(self._play_image, _("Play"))
 
 	def _update_toolbar(self, obj, track_id):
 		album_id = self._db.get_album_by_track(track_id)
@@ -70,6 +77,7 @@ class Toolbar(GObject.GObject):
 		artist = self._db.get_artist_name_by_album_id(album_id)
 		self._title_label.set_text(title)
 		self._artist_label.set_text(artist)
+		self._progress.set_range(0.0, self._db.get_track_length(track_id) * 60)
 		
 	def _on_prev_btn_clicked(self, obj):
 		self._player.prev()
@@ -77,10 +85,10 @@ class Toolbar(GObject.GObject):
 	def _on_play_btn_clicked(self, obj):
 		if self._player.is_playing():
 			self._player.pause()
-			self._change_play_btn_status(self._play_image, _("Pause"))
+			self._change_play_btn_status(self._play_image, _("Play"))
 		else:
 			self._player.play()
-			self._change_play_btn_status(self._pause_image, _("Play"))
+			self._change_play_btn_status(self._pause_image, _("PausePlay"))
 
 		
 

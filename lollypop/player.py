@@ -13,7 +13,8 @@ class Player(GObject.GObject):
 		GObject.GObject.__init__(self)
 		Gst.init(None)
 
-		self._current_track = 0
+		self._current_track_pos = 0
+		self._current_track_id = 0
 		self._tracks = []
 		self._progress_callback = None
 		self._timeout = None
@@ -34,8 +35,14 @@ class Player(GObject.GObject):
 		if self._progress_callback:
 			position = self._player.query_position(Gst.Format.TIME)[1] / 1000000000
 			if position > 0:
-				self._progress_callback(position * 60, self._duration)
+				self._progress_callback(position * 60)
 		return True
+
+	def _load_track(self, track_id):
+		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
+		self._duration = self._db.get_track_length(track_id)
+		self._current_track_id = track_id
+		self.emit("current-changed", track_id)
 
 	def is_playing(self):
 		ok, state, pending = self._player.get_state(0)
@@ -47,22 +54,17 @@ class Player(GObject.GObject):
 			return False
 
 	def load(self, track_id):
-		self._current_track = 0
+		self._current_track_pos = 0
 		# Search track in current playlist
 		for track in self._tracks:
 			if track == track_id:
 					break
-			self._current_track += 1
+			self._current_track_pos += 1
 
 		self.stop()
-		self.load_track(track_id)
+		self._load_track(track_id)
 		self.play()
 
-	def load_track(self, track_id):
-		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
-		self._duration = self._db.get_track_length(track_id)
-		self._current_track = track_id
-		self.emit("current-changed", track_id)
 
 	def play(self):
 		self._player.set_state(Gst.State.PLAYING)
@@ -84,37 +86,41 @@ class Player(GObject.GObject):
 			GLib.source_remove(self._timeout)
 			self._timeout = None
 
-	def set_playing(self, playing):
-		if playing:
-			self.play()
-		else:
+	
+	def play_pause(self):
+		if self.is_playing():
 			self.pause()
+		else:
+			self.play()
 
 	def prev(self):
-		self._current_track -= 1
-		if self._current_track < 0:
-			self._current_track = 0
+		self._current_track_pos -= 1
+		if self._current_track_pos < 0:
+			self._current_track_pos = 0
 		self.stop()
-		self.load_track(self._tracks[self._current_track])
+		self._load_track(self._tracks[self._current_track_pos])
 		self.play()
 		
 	def next(self):	
-		self._current_track += 1
-		if self._current_track > len(self._tracks):
-			self._current_track = 0
+		self._current_track_pos += 1
+		if self._current_track_pos > len(self._tracks):
+			self._current_track_pos = 0
 		self.stop()
-		self.load_track(self._tracks[self._current_track])
+		self._load_track(self._tracks[self._current_track_pos])
 		self.play()
 
-	def get_current_track(self):
-		return self._current_track
+	def seek(self, position):
+		self._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, position * Gst.SECOND)
+
+	def get_current_track_id(self):
+		return self._current_track_id
 
 	def set_tracks(self, tracks):
 		self._tracks = tracks
 	
 	"""
 		Set progress callback, will be called every seconds
-		Callback is a function with two float args (position, length)
+		Callback is a function with one float arg position
 	"""
 	def set_progress_callback(self, callback):
 		self._progress_callback = callback
