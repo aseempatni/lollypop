@@ -47,7 +47,7 @@ class Toolbar(GObject.GObject):
 	#def _on_progress_scale_button_released(self, scale, data):
 		
 	
-	def _progress_callback(self, float):
+	def _progress_callback(self, position, length):
 		pass
 	
 	def _playback_status_changed(self, obj):

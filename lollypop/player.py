@@ -30,10 +30,11 @@ class Player(GObject.GObject):
 	def _on_bus_eos(self, bus, message):
 		self.next()
 
-	def _update_position_callback(self):
-		position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
-		if position > 0:
-			self.progress_callback(position * 60, self._duration)
+	def _update_position(self):
+		if self._progress_callback:
+			position = self._player.query_position(Gst.Format.TIME)[1] / 1000000000
+			if position > 0:
+				self._progress_callback(position * 60, self._duration)
 		return True
 
 	def is_playing(self):
@@ -59,6 +60,7 @@ class Player(GObject.GObject):
 
 	def load_track(self, track_id):
 		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
+		self._duration = self._db.get_track_length(track_id)
 		self.emit("current-changed", track_id)
 
 	def play(self):
@@ -109,7 +111,7 @@ class Player(GObject.GObject):
 	
 	"""
 		Set progress callback, will be called every seconds
-		Callback is a function with two float args
+		Callback is a function with two float args (position, length)
 	"""
 	def set_progress_callback(self, callback):
 		self._progress_callback = callback

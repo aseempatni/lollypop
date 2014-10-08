@@ -239,7 +239,16 @@ class Database:
 			return id[0]
 		else:
 			return ""
-
+			
+	# Return track length
+	def get_track_length(self, id):
+		result = self._sql.execute("SELECT length FROM tracks where id=?", (id,))
+		id = result.fetchone()
+		if id:
+			return id[0]
+		else:
+			return ""
+	
 	# Remove track with filepath
 	def remove_track(self, filepath):
 		self._sql.execute("DELETE FROM tracks where filepath=?",  (filepath,))
