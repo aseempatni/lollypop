@@ -13,8 +13,10 @@ class Player(GObject.GObject):
 		GObject.GObject.__init__(self)
 		Gst.init(None)
 
-		self.current_song = 0
+		self.current_track = 0
 		self._tracks = []
+		self._progress_callback = None
+		self._timeout = None
 
 		self._db = db
 		self._player = Gst.ElementFactory.make('playbin', 'player')
@@ -28,6 +30,12 @@ class Player(GObject.GObject):
 	def _on_bus_eos(self, bus, message):
 		self.next()
 
+	def _update_position_callback(self):
+		position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
+		if position > 0:
+			self.progress_callback(position * 60, self._duration)
+		return True
+
 	def is_playing(self):
 		ok, state, pending = self._player.get_state(0)
 		if ok == Gst.StateChangeReturn.ASYNC:
@@ -37,32 +45,42 @@ class Player(GObject.GObject):
 		else:
 			return False
 
-	def load(self, song_id):
-		self._current_song = 0
-		# Search song in current playlist
+	def load(self, track_id):
+		self._current_track = 0
+		# Search track in current playlist
 		for track in self._tracks:
-			if track == song_id:
+			if track == track_id:
 					break
-			self._current_song += 1
+			self._current_track += 1
 
 		self.stop()
-		self.load_track(song_id)
+		self.load_track(track_id)
 		self.play()
 
-	def load_track(self, song_id):
-		self._player.set_property('uri', "file://"+self._db.get_song_filepath(song_id))
-		self.emit("current-changed", song_id)
+	def load_track(self, track_id):
+		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
+		self.emit("current-changed", track_id)
 
 	def play(self):
 		self._player.set_state(Gst.State.PLAYING)
+		if not self._timeout:
+			self._timeout = GLib.timeout_add(1000, self._update_position)
 		self.emit("playback-status-changed")
 
 	def pause(self):
 		self._player.set_state(Gst.State.PAUSED)
 		self.emit("playback-status-changed")
+		if self._timeout:
+			GLib.source_remove(self._timeout)
+			self._timeout = None
+
 			
 	def stop(self):
 		self._player.set_state(Gst.State.NULL)
+		if self._timeout:
+			GLib.source_remove(self._timeout)
+			self._timeout = None
+
 	
 	def set_playing(self, playing):
 		if playing:
@@ -71,20 +89,27 @@ class Player(GObject.GObject):
 			self.pause()
 
 	def prev(self):
-		self._current_song -= 1
-		if self._current_song < 0:
-			self._current_song = 0
+		self._current_track -= 1
+		if self._current_track < 0:
+			self._current_track = 0
 		self.stop()
-		self.load_track(self._tracks[self._current_song])
+		self.load_track(self._tracks[self._current_track])
 		self.play()
 		
 	def next(self):	
-		self._current_song += 1
-		if self._current_song > len(self._tracks):
-			self._current_song = 0
+		self._current_track += 1
+		if self._current_track > len(self._tracks):
+			self._current_track = 0
 		self.stop()
-		self.load_track(self._tracks[self._current_song])
+		self.load_track(self._tracks[self._current_track])
 		self.play()
 
 	def set_tracks(self, tracks):
 		self._tracks = tracks
+	
+	"""
+		Set progress callback, will be called every seconds
+		Callback is a function with two float args
+	"""
+	def set_progress_callback(self, callback):
+		self._progress_callback = callback

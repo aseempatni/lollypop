@@ -23,7 +23,7 @@ class CollectionScanner:
 
 	def _scan(self, callback):
 		db = Database()
-		songs = db.get_songs_filepath()
+		tracks = db.get_tracks_filepath()
 		for root, dirs, files in os.walk(self._path):
 			for f in files:
 				lowername = f.lower()
@@ -35,18 +35,18 @@ class CollectionScanner:
 				if (supported):
 					filepath = os.path.join(root, f)
 					try:
-						if filepath not in songs:
+						if filepath not in tracks:
 							tag = mutagen.File(filepath, easy = True)
 							self._add2db(db, filepath, tag)
 						else:
-							songs.remove(filepath)
+							tracks.remove(filepath)
 						
 					except Exception as e:
 						print("CollectionScanner::_scan(): %s" %e)
 
 		# Clean deleted files
-		for song in songs:
-			db.remove_song(song)
+		for track in tracks:
+			db.remove_track(track)
 
 		db.commit()
 		callback(db.get_genres())
@@ -112,5 +112,5 @@ class CollectionScanner:
 			db.add_album(album, artist_id, genre_id)
 			album_id = db.get_album(album, artist_id, genre_id)
 
-		# Add song to db
-		db.add_song(title, filepath, length, tracknumber, year, album_id)
+		# Add track to db
+		db.add_track(title, filepath, length, tracknumber, year, album_id)

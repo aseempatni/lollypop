@@ -67,8 +67,8 @@ class ArtistView(View):
 	def _new_playlist(self, obj, id):
 		tracks = []
 		for album_id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):
-			for song_id in self._db.get_songs_by_album_id(album_id):
-				tracks.append(song_id)
+			for track_id in self._db.get_tracks_by_album_id(album_id):
+				tracks.append(track_id)
 		self._player.set_tracks(tracks)
 		self._player.load(id)
 
@@ -124,8 +124,8 @@ class AlbumView(View):
 	def _new_playlist(self, obj, id):
 		tracks = []
 		for album_id in self._db.get_albums_by_genre(self._genre_id):
-			for song_id in self._db.get_songs_by_album_id(album_id):
-				tracks.append(song_id)
+			for track_id in self._db.get_tracks_by_album_id(album_id):
+				tracks.append(track_id)
 		self._player.set_tracks(tracks)
 		self._player.load(id)
 		self._player.play()
