@@ -142,7 +142,6 @@ class Player(GObject.GObject):
 
 		album_id = self._db.get_album_by_track(track_id)
 		tracks = self._db.get_tracks_by_album_id(album_id)
-		print("set: %s" % tracks.index(track_id) )
 		self._current_track_number = tracks.index(track_id) 
 		self._current_track_album_id = album_id
 
