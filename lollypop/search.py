@@ -85,4 +85,5 @@ class SearchWidget(Gtk.Popover):
 			if is_track:
 				self._player.load(value_id)
 			else:
+				self._db.set_more_popular(value_id)
 				self._player.load(self._db.get_track_id_by_album_id(value_id)[0])
