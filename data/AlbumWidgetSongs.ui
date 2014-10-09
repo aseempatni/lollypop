@@ -3,6 +3,7 @@
   <!-- interface-requires gtk+ 3.6 -->
   <object class="GtkGrid" id="AlbumWidgetSongs">
     <property name="visible">True</property>
+        <property name="margin-top">20</property>
     <property name="can_focus">False</property>
     <child>
       <object class="GtkImage" id="cover">
@@ -57,11 +58,10 @@
           </object>
         </child>
         <child>
-          <object class="GtkFlowBox" id="flow">
+          <object class="GtkGrid" id="grid2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="margin_top">10</property>
-            <property name="homogeneous">False</property>
             <property name="orientation">vertical</property>
             <child>
               <placeholder/>

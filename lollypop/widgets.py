@@ -51,11 +51,8 @@ class AlbumWidgetSongs(Gtk.Grid):
 		self._art = AlbumArt(db)
 		self.set_vexpand(False)
 		self.set_hexpand(False)
-		flowbox = self._ui.get_object('flow')
-		nb_tracks = self._db.get_tracks_count_for_album_id(album_id)
-		flowbox.set_property("min-children-per-line", nb_tracks/2)
-		flowbox.set_property("max-children-per-line", nb_tracks/2)
-		flowbox.set_selection_mode(Gtk.SelectionMode.NONE)
+		grid = self._ui.get_object('grid2')
+		self._nb_tracks = self._db.get_tracks_count_for_album_id(album_id)
 		self._player.connect("current-changed", self._update_tracks)
 		
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
@@ -65,6 +62,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 	
 
 	def _add_tracks(self, album_id):
+		i = 0
 		for id, name, filepath, length, year in self._db.get_tracks_by_album_id(album_id):
 			ui = Gtk.Builder()
 			ui.add_from_resource('/org/gnome/Lollypop/TrackWidget.ui')
@@ -84,9 +82,13 @@ class AlbumWidgetSongs(Gtk.Grid):
 				track_widget.title.set_markup('<b>%s</b>' % name)
 
 			ui.get_object('title').set_alignment(0.0, 0.5)
-			self._ui.get_object('flow').insert(track_widget, -1)
+			self._ui.get_object('grid2').attach(track_widget,
+                    					   int(i / (self._nb_tracks / 2)),
+                    					   int(i % (self._nb_tracks / 2)), 1, 1
+                					   )
 			ui.get_object('duration').set_text(self._player.seconds_to_string(length))
 			track_widget.show_all()
+			i += 1
 			
 	def _track_selected(self, widget, data):
 		for track_id, track_widget in self._tracks:
