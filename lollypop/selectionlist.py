@@ -2,8 +2,6 @@ from gi.repository import Gtk, GObject, Pango
 
 from lollypop.database import Database
 
-
-
 class SelectionState:
     NONE = -1
     ALL = 0

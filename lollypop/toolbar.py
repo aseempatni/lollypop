@@ -1,6 +1,7 @@
 from gettext import gettext as _, ngettext 
 from gi.repository import Gtk, GObject, Gdk
 from lollypop.albumart import AlbumArt
+from lollypop.search import SearchWidget
 
 class Toolbar(GObject.GObject):
 
@@ -11,8 +12,9 @@ class Toolbar(GObject.GObject):
 		self.header_bar = self._ui.get_object('header-bar')
 		self.header_bar.set_custom_title(self._ui.get_object('title-box'))
 		self._db = db
+		self._player = player
 		self._art = AlbumArt(db)
-
+		
 		self._prev_btn = self._ui.get_object('previous_button')
 		self._play_btn = self._ui.get_object('play_button')
 		self._next_btn = self._ui.get_object('next_button')
@@ -27,9 +29,8 @@ class Toolbar(GObject.GObject):
 		self._title_label = self._ui.get_object('title')
 		self._artist_label = self._ui.get_object('artist')
 		self._cover = self._ui.get_object('cover')
-		self._infobox = self._ui.get_object('infobox')
-		
-		self._player = player
+		self._infobox = self._ui.get_object('infobox')	
+
 		self._player.connect("playback-status-changed", self._playback_status_changed)
 		self._player.connect("current-changed", self._update_toolbar)
 		self._player.set_progress_callback(self._progress_callback)
@@ -46,10 +47,11 @@ class Toolbar(GObject.GObject):
 		self._play_btn.connect('clicked', self._on_play_btn_clicked)
 		self._next_btn.connect('clicked', self._on_next_btn_clicked)
 
-		#self._search_button = self._ui.get_object('search-button')
-		#self.dropdown = DropDown()
-		#self.searchbar = Searchbar(self._stack_switcher, self._search_button, self.dropdown)
-		#self.dropdown.initialize_filters(self.searchbar)
+		self._search_button = self._ui.get_object('search-button')
+		self._search_button.connect("clicked", self._on_search_btn_clicked)
+		self._search = SearchWidget(self._db, self._player)
+		self._search.set_relative_to(self._search_button)
+
 		self.header_bar.set_show_close_button(True)
 		
 	def _on_progress_scale_button(self, scale, data):
@@ -105,6 +107,9 @@ class Toolbar(GObject.GObject):
 
 	def _on_next_btn_clicked(self, obj):
 			self._player.next()		
+	
+	def _on_search_btn_clicked(self, obj):
+		self._search.show()
 		
 	def _seconds_to_string(self, duration):
 		seconds = duration

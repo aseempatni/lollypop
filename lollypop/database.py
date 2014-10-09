@@ -448,3 +448,16 @@ class Database:
 			return v[0]
 		else:
 			return 0
+			
+	"""
+		Search for artist looking like str
+		arg: string
+		return: [int]
+	"""
+	def search_artist(self, string):
+		artists = []
+		result = self._sql.execute("SELECT id, name FROM artists where name like ?", ('%'+string+'%',))
+		for row in result:
+			artists += (row,)
+		return artists
+			

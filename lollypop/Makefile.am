@@ -10,6 +10,7 @@ app_PYTHON = \
 	selectionlist.py\
 	view.py\
 	mpris.py\
+	search.py\
 	widgets.py\
 	player.py\
 	collectionscanner.py
