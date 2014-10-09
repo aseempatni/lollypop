@@ -25,7 +25,7 @@ class AlbumWidget(Gtk.Grid):
 		if len(label) > 20:
 			label = label[0:20] + "..."
 		self._ui.get_object('title').set_label(label)
-		label = self._db.get_artist_name_by_album(album_id)
+		label = self._db.get_artist_name_by_album_id(album_id)
 		if len(label) > 20:
 			label = label[0:20] + "..."
 		self._ui.get_object('artist').set_label(label)
@@ -52,7 +52,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 		self.set_vexpand(False)
 		self.set_hexpand(False)
 		flowbox = self._ui.get_object('flow')
-		nb_tracks = self._db.get_tracks_count_for_album(album_id)
+		nb_tracks = self._db.get_tracks_count_for_album_id(album_id)
 		flowbox.set_property("min-children-per-line", nb_tracks/2)
 		flowbox.set_property("max-children-per-line", nb_tracks/2)
 		flowbox.set_selection_mode(Gtk.SelectionMode.NONE)
@@ -65,7 +65,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 	
 
 	def _add_tracks(self, album_id):
-		for (id, name, filepath, length, year) in self._db.get_tracks_by_album(album_id):
+		for id, name, filepath, length, year in self._db.get_tracks_by_album_id(album_id):
 			ui = Gtk.Builder()
 			ui.add_from_resource('/org/gnome/Lollypop/TrackWidget.ui')
 			track_widget = ui.get_object('eventbox1')

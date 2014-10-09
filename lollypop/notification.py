@@ -58,9 +58,9 @@ class NotificationManager:
 			self._set_actions(is_playing)
 
 	def _update_track(self, obj, track_id):
-		album_id = self._db.get_album_by_track(track_id)
+		album_id = self._db.get_album_id_by_track_id(track_id)
 		album = self._db.get_album_name(album_id)
-		artist = self._db.get_artist_name_by_album(album_id)
+		artist = self._db.get_artist_name_by_album_id(album_id)
 		title = self._db.get_track_name(track_id)
 		
 		self._notification.set_hint('image-path', GLib.Variant('s', self._art.get_path(album_id)))

@@ -65,7 +65,7 @@ class Toolbar(GObject.GObject):
 			self._change_play_btn_status(self._play_image, _("Play"))
 
 	def _update_toolbar(self, obj, track_id):
-		album_id = self._db.get_album_by_track(track_id)
+		album_id = self._db.get_album_id_by_track_id(track_id)
 		art = self._art.get_small(album_id)
 		if art:
 			self._cover.set_from_pixbuf(art)
@@ -74,7 +74,7 @@ class Toolbar(GObject.GObject):
 			self._cover.hide()
 		
 		title = self._db.get_track_name(track_id)
-		artist = self._db.get_artist_name_by_album(album_id)
+		artist = self._db.get_artist_name_by_album_id(album_id)
 		self._title_label.set_text(title)
 		self._artist_label.set_text(artist)
 		self._progress.set_value(0.0)

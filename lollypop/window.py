@@ -120,10 +120,9 @@ class Window(Gtk.ApplicationWindow):
 	def _update_artists(self, obj, id):
 		if self._artist_signal_id:
 			self._list_artists.disconnect(self._artist_signal_id)
-		self._list_artists.populate(self._db.get_artists_by_genre(id))
+		self._list_artists.populate(self._db.get_artists_by_genre_id(id))
 		self._artist_signal_id = self._list_artists.connect('item-selected', self._update_view_artist)
 		self._list_artists.widget.show()
-		self._artist_signal_id = 0
 		self._update_view_albums(self, id)
 		self._genre_id = id
 
@@ -150,7 +149,5 @@ class Window(Gtk.ApplicationWindow):
 		self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
 	def _show_current_album(self, obj, data):
-		if self._artist_signal_id:
 			self._view.update_context()
-		else:
 			self._view.update_content()

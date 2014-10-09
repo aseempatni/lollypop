@@ -47,7 +47,7 @@ class ArtistView(View):
 
 		self._artist_id = artist_id
 
-		artist_name = self._db.get_artist_by_id(artist_id)
+		artist_name = self._db.get_artist_name_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
 
 		self._albumbox = Gtk.Grid()
@@ -73,7 +73,7 @@ class ArtistView(View):
 		self._player.set_albums(self._artist_id, self._genre_id, id)
 
 	def populate(self):
-		for id in self._db.get_albums_by_artist_and_genre(self._artist_id, self._genre_id):
+		for id in self._db.get_albums_by_artist_and_genre_ids(self._artist_id, self._genre_id):
 			self._add_album(id)
 
 	def update_content(self):
@@ -81,12 +81,12 @@ class ArtistView(View):
 			self._albumbox.remove(child)
 			child.hide()
 			child.destroy()
-		album_id = self._db.get_album_by_track(self._player.get_current_track_id())
+		album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
 		self._add_album(album_id)
-		artist_id = self._db.get_artist_by_album(album_id)
-		artist_name = self._db.get_artist_by_id(artist_id)
+		artist_id = self._db.get_artist_id_by_album_id(album_id)
+		artist_name = self._db.get_artist_name_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
-		for id in self._db.get_albums_by_artist(artist_id, album_id):
+		for id in self._db.get_albums_by_artist_id(artist_id, album_id):
 			self._add_album(id)
 
 	def update_context(self):
@@ -135,7 +135,7 @@ class AlbumView(View):
 		self._scrolledContext.show_all()		
 		
 	def _add_albums(self):
-		for id in self._db.get_albums_by_genre(self._genre_id):
+		for id in self._db.get_albums_by_genre_id(self._genre_id):
 			widget = AlbumWidget(self._db, id)
 			widget.show()
 			self._albumbox.insert(widget, -1)		
@@ -152,7 +152,7 @@ class AlbumView(View):
 			self._scrolledContext.remove(child)
 			child.hide()
 			child.destroy()
-		self._context_album_id = self._db.get_album_by_track(self._player.get_current_track_id())
+		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
 		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
 		context.connect("new-playlist", self._new_playlist)
 		self._scrolledContext.add(context)
