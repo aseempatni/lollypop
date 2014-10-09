@@ -113,9 +113,12 @@ class Window(Gtk.ApplicationWindow):
 			
 	def _update_genres(self, genres):
 		self._list_genres.populate(genres)
-		self._view.set_label(_("You can now listen to your music"))
 		self._list_genres.connect('item-selected', self._update_artists)
 		self._list_genres.widget.show()
+		self._box.remove(self._view)
+		self._view = AlbumView(self._db, self._player, id)
+		self._box.add(self._view)
+		self._view.populate_popular()
 
 	def _update_artists(self, obj, id):
 		if self._artist_signal_id:

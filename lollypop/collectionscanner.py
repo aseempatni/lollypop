@@ -94,19 +94,19 @@ class CollectionScanner:
 
 		# Get artist id, add it if missing
 		artist_id = db.get_artist_id_by_name(artist)
-		if not artist_id:
+		if artist_id == -1:
 			db.add_artist(artist)
 			artist_id = db.get_artist_id_by_name(artist)
 
 		# Get genre id, add genre if missing
 		genre_id = db.get_genre_id_by_name(genre)
-		if not genre_id:
+		if genre_id == -1:
 			db.add_genre(genre)
 			genre_id = db.get_genre_id_by_name(genre)
 
 		# Get album id, add it if missing
 		album_id = db.get_album_id(album, artist_id, genre_id)
-		if not album_id:
+		if album_id == -1:
 			db.add_album(album, artist_id, genre_id)
 			album_id = db.get_album_id(album, artist_id, genre_id)
 

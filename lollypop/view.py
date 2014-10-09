@@ -15,13 +15,9 @@ class LoadingView(Gtk.Grid):
 		self.set_hexpand(True)
 		self._label = self._ui.get_object('label')
 		self._label.set_label(_("Loading please wait..."))
-		self.add(self._ui.get_object('image'))
+		self.add(self._ui.get_object('spinner'))
 		self.add(self._label)
 		self.show_all()
-		
-
-	def set_label(self, str):
-		self._label.set_label(str)
 		
 	def _update_content(self):
 		pass
@@ -70,6 +66,9 @@ class ArtistView(View):
 
 	def _new_playlist(self, obj, id):
 		self._player.load(id)
+		album_id = self._db.get_album_id_by_track_id(id)
+		self._db.set_more_popular(album_id)
+		self._db.commit()
 		self._player.set_albums(self._artist_id, self._genre_id, id)
 
 	def populate(self):
@@ -142,6 +141,9 @@ class AlbumView(View):
 
 	def _new_playlist(self, obj, id):
 		self._player.load(id)
+		album_id = self._db.get_album_id_by_track_id(id)
+		self._db.set_more_popular(album_id)
+		self._db.commit()
 		self._player.set_albums(None, self._genre_id, id)
 
 	def update_content(self):
@@ -160,3 +162,10 @@ class AlbumView(View):
 	
 	def populate(self):
 		GLib.idle_add(self._add_albums)
+							
+	def populate_popular(self):
+		for id in self._db.get_albums_popular():
+			print(id)
+			widget = AlbumWidget(self._db, id)
+			widget.show()
+			self._albumbox.insert(widget, -1)	

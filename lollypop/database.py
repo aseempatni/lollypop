@@ -14,7 +14,8 @@ class Database:
 	create_albums = '''CREATE TABLE albums (id INTEGER PRIMARY KEY AUTOINCREMENT,
 						name TEXT NOT NULL,
 						artist_id INT NOT NULL,
-						genre_id INT NOT NULL)'''					
+						genre_id INT NOT NULL,
+						popularity INT NOT NULL)'''					
 	create_artists = '''CREATE TABLE artists (id INTEGER PRIMARY KEY AUTOINCREMENT,
 						  name TEXT NOT NULL)'''
 	create_genres = '''CREATE TABLE genres (id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,7 +83,7 @@ class Database:
 		arg: string, int, int
 	"""
 	def add_album(self, name, artist_id, genre_id):
-		self._sql.execute("INSERT INTO albums (name, artist_id, genre_id) VALUES (?, ?, ?)",  (name, artist_id, genre_id))
+		self._sql.execute("INSERT INTO albums (name, artist_id, genre_id, popularity) VALUES (?, ?, ?, ?)",  (name, artist_id, genre_id, 0))
 
 	"""
 		Add a new artist to database
@@ -105,6 +106,20 @@ class Database:
 	def add_track(self, name, filepath, length, tracknumber, year, album_id):
 		self._sql.execute("INSERT INTO tracks (name, filepath, length, tracknumber, year, album_id) VALUES (?, ?, ?, ?, ?, ?)", (name, filepath, length, tracknumber, year, album_id))
 
+	"""
+		Increment popularity field for album id
+		arg: int
+	"""
+	def set_more_popular(self, album_id):
+		result = self._sql.execute("SELECT popularity from albums where id=?", (album_id,))
+		pop = result.fetchone()
+		if pop:
+			current = pop[0]
+		else:
+			current = 0
+		current += 1
+		self._sql.execute("UPDATE albums set popularity=? where id=?", (current, album_id))
+		
 	"""
 		Get genre id by name
 		arg: string
@@ -206,7 +221,7 @@ class Database:
 		if id:
 			return id[0]
 		else:
-			return 0
+			return -1
 
 	"""
 		Get album id for track id
@@ -236,7 +251,7 @@ class Database:
 		
 	"""
 		Get album path for id
-		arg: id
+		arg: int
 		ret: string
 	"""
 	def get_album_path(self, album_id):
@@ -246,6 +261,18 @@ class Database:
 			return os.path.dirname(path[0])
 		else:
 			return ""
+	
+	"""
+		Get albums ids with popularity
+		arg: int
+		ret: int
+	"""
+	def get_albums_popular(self):
+		albums = []
+		result = self._sql.execute("SELECT id FROM albums where popularity!=0 ORDER BY popularity LIMIT 40")
+		for row in result:
+			albums += row
+		return albums
 	
 	"""
 		Get all albums for artist id and genre id
