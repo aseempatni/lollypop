@@ -119,6 +119,7 @@ class Database:
 			current = 0
 		current += 1
 		self._sql.execute("UPDATE albums set popularity=? where id=?", (current, album_id))
+		self._sql.commit()
 		
 	"""
 		Get genre id by name
