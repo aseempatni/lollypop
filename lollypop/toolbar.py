@@ -35,8 +35,8 @@ class Toolbar(GObject.GObject):
 		self._player.connect("current-changed", self._update_toolbar)
 		self._player.set_progress_callback(self._progress_callback)
 		
-		self._shuffle = self._ui.get_object('shuffle-button')
-		self._shuffle.connect("toggled", self._shuffle_update)
+		self._shuffle_btn = self._ui.get_object('shuffle-button')
+		self._shuffle_btn.connect("toggled", self._shuffle_update)
 
 		self._party = self._ui.get_object('party-button')
 		self._party.connect("toggled", self._party_update)
@@ -106,7 +106,7 @@ class Toolbar(GObject.GObject):
 			self._change_play_btn_status(self._pause_image, _("PausePlay"))
 
 	def _on_next_btn_clicked(self, obj):
-			self._player.next()		
+		self._player.next()		
 	
 	def _on_search_btn_clicked(self, obj):
 		self._search.show()
@@ -123,11 +123,12 @@ class Toolbar(GObject.GObject):
 		self._play_btn.set_tooltip_text(status)
 
 	def _shuffle_update(self, obj):
-		self._player.set_shuffle(self._shuffle.get_active())
+		self._player.set_shuffle(self._shuffle_btn.get_active())
 
 	def _party_update(self, obj):
 		settings = Gtk.Settings.get_default()
 		active = self._party.get_active()
+		self._shuffle_btn.set_sensitive(not active)
 		settings.set_property("gtk-application-prefer-dark-theme", active)
 		self._player.set_party(active)
 
