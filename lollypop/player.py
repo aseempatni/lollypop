@@ -138,7 +138,7 @@ class Player(GObject.GObject):
 			except Exception as e:
 				print(e)
 				track_id = None
-		else:
+		elif self._current_track_number:
 			tracks = self._db.get_tracks_ids_by_album_id(self._current_track_album_id)
 			if self._current_track_number <=0 : #Prev album
 				pos = self._albums.index(self._current_track_album_id)
@@ -161,7 +161,7 @@ class Player(GObject.GObject):
 		# Get a random album/track
 		if self._shuffle or self._party:
 			self.shuffle_next()
-		else:
+		elif self._current_track_number:
 			track_id = None
 			tracks = self._db.get_tracks_ids_by_album_id(self._current_track_album_id)
 			if self._current_track_number + 1 >= len(tracks): #next album
