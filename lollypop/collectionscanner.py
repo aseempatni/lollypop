@@ -5,7 +5,7 @@
 import os, time
 import sqlite3
 from _thread import start_new_thread
-from gi.repository import GLib
+from gi.repository import GLib, Gdk
 import mutagen
 from lollypop.database import Database
 
@@ -47,7 +47,9 @@ class CollectionScanner:
 			db.remove_track(track)
 
 		db.commit()
+		Gdk.threads_enter()
 		callback(db.get_genres())
+		Gdk.threads_leave()
 		db.close()
 
 	def _add2db(self, db, filepath, tag):

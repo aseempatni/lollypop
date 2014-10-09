@@ -18,19 +18,24 @@ class Toolbar(GObject.GObject):
 		self._next_btn = self._ui.get_object('next_button')
 		self._play_image = self._ui.get_object('play_image')
 		self._pause_image = self._ui.get_object('pause_image')
+
 		self._progress = self._ui.get_object('progress_scale')
 		self._progress.set_sensitive(False)
 		self._time_label = self._ui.get_object('playback')
 		self._total_time_label = self._ui.get_object('duration')
+		
 		self._title_label = self._ui.get_object('title')
 		self._artist_label = self._ui.get_object('artist')
 		self._cover = self._ui.get_object('cover')
-		self.repeat_btnImage = self._ui.get_object('playlistRepeat')
 		self._infobox = self._ui.get_object('infobox')
+		
 		self._player = player
 		self._player.connect("playback-status-changed", self._playback_status_changed)
 		self._player.connect("current-changed", self._update_toolbar)
 		self._player.set_progress_callback(self._progress_callback)
+		
+		self._shuffle = self._ui.get_object('shuffleButton')
+		self._shuffle.connect("toggled", self._shuffle_update)
 
 		self._progress.connect('button-release-event', self._on_progress_scale_button)
         #self._sync_repeat_image()
@@ -110,6 +115,23 @@ class Toolbar(GObject.GObject):
 	def _change_play_btn_status(self, image, status):
 		self._play_btn.set_image(image)
 		self._play_btn.set_tooltip_text(status)
+
+	def _sync_repeat_image(self):
+		icon = None
+		if self.repeat == RepeatType.NONE:
+			icon = 'media-playlist-consecutive-symbolic'
+		elif self.repeat == RepeatType.SHUFFLE:
+			icon = 'media-playlist-shuffle-symbolic'
+		elif self.repeat == RepeatType.ALL:
+			icon = 'media-playlist-repeat-symbolic'
+		elif self.repeat == RepeatType.SONG:
+			icon = 'media-playlist-repeat-song-symbolic'
+
+		self.repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
+		self.emit('repeat-mode-changed')
+
+	def _shuffle_update(self, obj):
+		self._player.set_shuffle(self._shuffle.get_active())
 
 	def get_infobox(self):
 		return self._infobox

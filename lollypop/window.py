@@ -16,7 +16,7 @@ class Window(Gtk.ApplicationWindow):
 					       application=app,
 					       title=_("Lollypop"))
 		
-		self.settings = Gio.Settings.new('org.gnome.Lollypop')
+		self._settings = Gio.Settings.new('org.gnome.Lollypop')
 
 		self.set_size_request(200, 100)
 		self.set_icon_name('lollypop')
@@ -28,17 +28,17 @@ class Window(Gtk.ApplicationWindow):
 		NotificationManager(self._player, self._db)
 		self._scanner = CollectionScanner()
 
-		size_setting = self.settings.get_value('window-size')
+		size_setting = self._settings.get_value('window-size')
 		if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
 			self.resize(size_setting[0], size_setting[1])
 
-		position_setting = self.settings.get_value('window-position')
+		position_setting = self._settings.get_value('window-position')
 		if len(position_setting) == 2 \
 			and isinstance(position_setting[0], int) \
 			and isinstance(position_setting[1], int):
 			self.move(position_setting[0], position_setting[1])
 
-		if self.settings.get_value('window-maximized'):
+		if self._settings.get_value('window-maximized'):
 			self.maximize()
 
 		self.connect("window-state-event", self._on_window_state_event)
@@ -143,13 +143,13 @@ class Window(Gtk.ApplicationWindow):
 			
 	def _on_configure_event(self, widget, event):
 		size = widget.get_size()
-		self.settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
+		self._settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
 
 		position = widget.get_position()
-		self.settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
+		self._settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
 
 	def _on_window_state_event(self, widget, event):
-		self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
+		self._settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
 	def _show_current_album(self, obj, data):
 			self._view.update_context()

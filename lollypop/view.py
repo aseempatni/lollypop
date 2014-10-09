@@ -15,7 +15,6 @@ class LoadingView(Gtk.Grid):
 		self.set_hexpand(True)
 		self._label = self._ui.get_object('label')
 		self._label.set_label(_("Loading please wait..."))
-		self.add(self._ui.get_object('spinner'))
 		self.add(self._label)
 		self.show_all()
 		
@@ -34,7 +33,6 @@ class View(Gtk.Grid):
 		self._genre_id = genre_id
 		
 class ArtistView(View):
-
 	def __init__(self, db, player, genre_id, artist_id):
 		View.__init__(self, db, player, genre_id)
 		self.set_property("orientation", Gtk.Orientation.VERTICAL)
@@ -57,13 +55,21 @@ class ArtistView(View):
 		self.add(self._ui.get_object('ArtistView'))
 		self.add(self._scrolledWindow)
 		self.show_all()
-        
+    
+	"""
+    	Add album with album_id to the grid
+    	arg: int
+    """   
 	def _add_album(self, album_id):
 		widget = AlbumWidgetSongs(self._db, self._player, album_id)
 		widget.connect("new-playlist", self._new_playlist)
 		self._albumbox.add(widget)
 		widget.show()		
 
+	"""
+		Play track with track_id and set a new playlist in player
+		arg: GObject, int
+	"""
 	def _new_playlist(self, obj, track_id):
 		self._player.load(track_id)
 		album_id = self._db.get_album_id_by_track_id(track_id)
@@ -71,10 +77,17 @@ class ArtistView(View):
 		self._db.commit()
 		self._player.set_albums(self._artist_id, self._genre_id, track_id)
 
+	"""
+		Populate the view
+	"""
 	def populate(self):
 		for id in self._db.get_albums_by_artist_and_genre_ids(self._artist_id, self._genre_id):
 			self._add_album(id)
 
+	"""
+		Update the content view
+		We need to clean it first
+	"""
 	def update_content(self):
 		for child in self._albumbox.get_children():
 			self._albumbox.remove(child)
@@ -88,6 +101,10 @@ class ArtistView(View):
 		for album_id in self._db.get_albums_by_artist_id(artist_id, album_id):
 			self._add_album(album_id)
 
+	"""
+		Update the context view
+		Do nothing here
+	"""
 	def update_context(self):
 		pass
 
@@ -122,6 +139,9 @@ class AlbumView(View):
 		self.show()
     
 
+	"""
+		Show Context view for activated album
+	"""
 	def _on_album_activated(self, obj, data):
 		for child in self._scrolledContext.get_children():
 			self._scrolledContext.remove(child)
@@ -133,12 +153,20 @@ class AlbumView(View):
 		self._scrolledContext.add(context)
 		self._scrolledContext.show_all()		
 		
+	"""
+    	Add albums with current genre to the flowbox
+    	arg: int
+    """   
 	def _add_albums(self):
 		for album_id in self._db.get_albums_by_genre_id(self._genre_id):
 			widget = AlbumWidget(self._db, album_id)
 			widget.show()
 			self._albumbox.insert(widget, -1)		
 
+	"""
+		Play track with track_id and set a new playlist in player
+		arg: GObject, int
+	"""
 	def _new_playlist(self, obj, track_id):
 		self._player.load(track_id)
 		album_id = self._db.get_album_id_by_track_id(track_id)
@@ -146,9 +174,17 @@ class AlbumView(View):
 		self._db.set_more_popular(album_id)
 		self._db.commit()
 
+	"""
+		Update the content view
+		Do nothing
+	"""
 	def update_content(self):
 		pass
 
+	"""
+		Update the context view
+		We need to clean it first
+	"""
 	def update_context(self):
 		for child in self._scrolledContext.get_children():
 			self._scrolledContext.remove(child)
@@ -159,12 +195,20 @@ class AlbumView(View):
 		context.connect("new-playlist", self._new_playlist)
 		self._scrolledContext.add(context)
 		self._scrolledContext.show_all()
-	
+
+	"""
+		Populate albums
+	"""	
 	def populate(self):
 		GLib.idle_add(self._add_albums)
-							
+	
+	"""
+		Populate albums with popular ones
+	"""			
 	def populate_popular(self):
-		for album_id in self._db.get_albums_popular():
-			widget = AlbumWidget(self._db, album_id)
+		# We are in a thread, can't use global db object
+		db = Database()
+		for album_id in db.get_albums_popular():
+			widget = AlbumWidget(db, album_id)
 			widget.show()
 			self._albumbox.insert(widget, -1)	
