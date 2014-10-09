@@ -28,6 +28,7 @@ class Player(GObject.GObject):
 		self._shuffle = False
 		self._shuffle_history = []
 		self._party = False
+		self._playlist = []
 
 		self._db = db
 		self._player = Gst.ElementFactory.make('playbin', 'player')
@@ -247,3 +248,22 @@ class Player(GObject.GObject):
 		seconds %= 60
 
 		return '%i:%02i' % (minutes, seconds)
+
+	"""
+		Add track to playlist
+	"""
+	def add_to_playlist(self, track_id):
+		self._playlist += track_id
+
+	"""
+		Remove track from playlist
+	"""
+
+	def del_from_playlist(self, track_id):
+		self._playlist.remove(track_id)
+
+	"""
+		True if track_id exist in playlist
+	"""
+	def is_in_playlist(self, track_id):
+		return track_id in self._playlist

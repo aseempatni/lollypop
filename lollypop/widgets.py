@@ -85,7 +85,6 @@ class AlbumWidgetSongs(Gtk.Grid):
 
 			ui.get_object('title').set_alignment(0.0, 0.5)
 			self._ui.get_object('flow').insert(track_widget, -1)
-			track_widget.checkButton = ui.get_object('select')
 			ui.get_object('duration').set_text(self._player.seconds_to_string(length))
 			track_widget.show_all()
 			
