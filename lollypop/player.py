@@ -237,3 +237,13 @@ class Player(GObject.GObject):
 	"""
 	def set_progress_callback(self, callback):
 		self._progress_callback = callback
+
+	"""
+		Convert seconds to a pretty string
+	"""
+	def seconds_to_string(self, duration):
+		seconds = duration
+		minutes = seconds // 60
+		seconds %= 60
+
+		return '%i:%02i' % (minutes, seconds)

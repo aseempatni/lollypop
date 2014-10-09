@@ -59,7 +59,7 @@ class Toolbar(GObject.GObject):
 	
 	def _progress_callback(self, position):
 		self._progress.set_value(position)
-		self._time_label.set_text(self._seconds_to_string(position/60))
+		self._time_label.set_text(self._player.seconds_to_string(position/60))
 	
 	def _playback_status_changed(self, obj):
 		playing = self._player.is_playing()
@@ -89,7 +89,7 @@ class Toolbar(GObject.GObject):
 		self._progress.set_value(0.0)
 		duration = self._db.get_track_length(track_id)
 		self._progress.set_range(0.0, duration * 60)
-		self._total_time_label.set_text(self._seconds_to_string(duration))
+		self._total_time_label.set_text(self._player.seconds_to_string(duration))
 		self._total_time_label.show()
 		self._time_label.set_text("0:00")
 		self._time_label.show()
@@ -110,13 +110,6 @@ class Toolbar(GObject.GObject):
 	
 	def _on_search_btn_clicked(self, obj):
 		self._search.show()
-		
-	def _seconds_to_string(self, duration):
-		seconds = duration
-		minutes = seconds // 60
-		seconds %= 60
-
-		return '%i:%02i' % (minutes, seconds)
 		
 	def _change_play_btn_status(self, image, status):
 		self._play_btn.set_image(image)
