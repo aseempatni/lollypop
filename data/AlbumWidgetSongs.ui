@@ -17,8 +17,8 @@
     </child>
     <child>
       <object class="GtkGrid" id="grid1">
-            <property name="hexpand">False</property>
-            <property name="vexpand">True</property>
+        <property name="hexpand">False</property>
+        <property name="vexpand">True</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>

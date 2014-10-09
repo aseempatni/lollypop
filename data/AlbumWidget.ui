@@ -17,32 +17,32 @@
       </object>
     </child>
     <child>
-       <object class="GtkLabel" id="title">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-		<property name="halign">center</property>
-                <property name="ellipsize">middle</property>
-                <style>
-                  <class name="title"/>
-                </style>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-       </object>
+      <object class="GtkLabel" id="title">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">center</property>
+        <property name="ellipsize">middle</property>
+        <style>
+          <class name="title"/>
+        </style>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
     </child>
     <child>
-       <object class="GtkLabel" id="artist">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-		<property name="halign">center</property>
-                <property name="ellipsize">middle</property>
-                <style>
-                  <class name="title"/>
-                </style>
-                <attributes>
-                  <attribute name="foreground" value="#bababdbdb6b6"/>
-                </attributes>
-       </object>
+      <object class="GtkLabel" id="artist">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">center</property>
+        <property name="ellipsize">middle</property>
+        <style>
+          <class name="title"/>
+        </style>
+        <attributes>
+          <attribute name="foreground" value="#bababdbdb6b6"/>
+        </attributes>
+      </object>
     </child>
   </object>
 </interface>
