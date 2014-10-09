@@ -18,6 +18,15 @@ class Application(Gtk.Application):
 					 flags=Gio.ApplicationFlags.FLAGS_NONE)
 		GLib.set_application_name(_("Lollypop"))
 		GLib.set_prgname('lollypop')
+
+		cssProviderFile = Gio.File.new_for_uri('resource:///org/gnome/Lollypop/application.css')
+		cssProvider = Gtk.CssProvider()
+		cssProvider.load_from_file(cssProviderFile)
+		screen = Gdk.Screen.get_default()
+		styleContext = Gtk.StyleContext()
+		styleContext.add_provider_for_screen(screen, cssProvider,
+						     Gtk.STYLE_PROVIDER_PRIORITY_USER)
+
 		self._db = Database()
 		self._player = Player(self._db)
 		self._window = None
