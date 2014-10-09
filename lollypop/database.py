@@ -361,6 +361,18 @@ class Database:
 			return -1
 
 	"""
+		Get track id for album id
+		arg: int
+		ret: [(int, string, string, int, string)]
+	"""
+	def get_track_id_by_album_id(self, album_id):
+		tracks = []
+		result = self._sql.execute("SELECT id FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
+		for row in result:
+			tracks += row
+		return tracks
+
+	"""
 		Get tracks (id, name, filepath, length, year) for album id
 		arg: int
 		ret: [(int, string, string, int, string)]
@@ -450,14 +462,37 @@ class Database:
 			return 0
 			
 	"""
-		Search for artist looking like str
+		Search for albums looking like str
 		arg: string
 		return: [int]
 	"""
-	def search_artist(self, string):
+	def search_albums(self, string):
+		albums = []
+		result = self._sql.execute("SELECT id, name FROM albums where name like ? LIMIT 100", ('%'+string+'%',))
+		for row in result:
+			albums += (row,)
+		return albums
+
+	"""
+		Search for artists looking like str
+		arg: string
+		return: [int]
+	"""
+	def search_artists(self, string):
 		artists = []
-		result = self._sql.execute("SELECT id, name FROM artists where name like ?", ('%'+string+'%',))
+		result = self._sql.execute("SELECT id, name FROM artists where name like ? LIMIT 100", ('%'+string+'%',))
 		for row in result:
 			artists += (row,)
 		return artists
-			
+
+	"""
+		Search for tracks looking like str
+		arg: string
+		return: [int]
+	"""
+	def search_tracks(self, string):
+		tracks = []
+		result = self._sql.execute("SELECT id, name FROM tracks where name like ? LIMIT 100", ('%'+string+'%',))
+		for row in result:
+			tracks += (row,)
+		return tracks

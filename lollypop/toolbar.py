@@ -35,10 +35,10 @@ class Toolbar(GObject.GObject):
 		self._player.connect("current-changed", self._update_toolbar)
 		self._player.set_progress_callback(self._progress_callback)
 		
-		self._shuffle = self._ui.get_object('shuffleButton')
+		self._shuffle = self._ui.get_object('shuffle-button')
 		self._shuffle.connect("toggled", self._shuffle_update)
 
-		self._party = self._ui.get_object('partyButton')
+		self._party = self._ui.get_object('party-button')
 		self._party.connect("toggled", self._party_update)
 
 		self._progress.connect('button-release-event', self._on_progress_scale_button)
