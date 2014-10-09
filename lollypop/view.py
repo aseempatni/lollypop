@@ -30,8 +30,8 @@ class View(Gtk.Grid):
 		self.set_border_width(0)
 		self._db = db
 		self._player = player
-		self._genre_id = genre_id
-		
+		self._genre_id = genre_id			
+
 class ArtistView(View):
 	def __init__(self, db, player, genre_id, artist_id):
 		View.__init__(self, db, player, genre_id)
@@ -40,6 +40,8 @@ class ArtistView(View):
 		self._ui.add_from_resource('/org/gnome/Lollypop/ArtistView.ui')
 
 		self._artist_id = artist_id
+
+		self._player.connect("current-changed", self._update_view)
 
 		artist_name = self._db.get_artist_name_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
@@ -55,11 +57,17 @@ class ArtistView(View):
 		self.add(self._ui.get_object('ArtistView'))
 		self.add(self._scrolledWindow)
 		self.show_all()
-    
+
+	"""
+		Update content if in party mode
+	"""
+	def _update_view(self, widget, track_id):
+		if self._player.is_party():
+			self.update_content()	    
 	"""
     	Add album with album_id to the grid
     	arg: int
-    """   
+    	"""   
 	def _add_album(self, album_id):
 		widget = AlbumWidgetSongs(self._db, self._player, album_id)
 		widget.connect("new-playlist", self._new_playlist)
@@ -115,6 +123,8 @@ class AlbumView(View):
 
 		self._context_album_id = None
 
+		self._player.connect("current-changed", self._update_view)
+
 		self._albumbox = Gtk.FlowBox()
 		self._albumbox.set_homogeneous(True)
 		self._albumbox.set_selection_mode(Gtk.SelectionMode.NONE)
@@ -125,7 +135,7 @@ class AlbumView(View):
 		self._scrolledWindow.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		self._scrolledWindow.add(self._albumbox)
 		self._scrolledWindow.show_all()
-		
+
 		self._scrolledContext = Gtk.ScrolledWindow()
 		self._scrolledContext.set_min_content_height(250)
 		self._scrolledContext.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
@@ -138,6 +148,12 @@ class AlbumView(View):
 		self.add(self._scrolledContext)
 		self.show()
     
+	"""
+		Update context if in party mode
+	"""
+	def _update_view(self, widget, track_id):
+		if self._player.is_party():
+			self.update_context()
 
 	"""
 		Show Context view for activated album
@@ -154,9 +170,9 @@ class AlbumView(View):
 		self._scrolledContext.show_all()		
 		
 	"""
-    	Add albums with current genre to the flowbox
-    	arg: int
-    """   
+    		Add albums with current genre to the flowbox
+    		arg: int
+    	"""   
 	def _add_albums(self):
 		for album_id in self._db.get_albums_by_genre_id(self._genre_id):
 			widget = AlbumWidget(self._db, album_id)
@@ -178,7 +194,7 @@ class AlbumView(View):
 		Update the content view
 		Do nothing
 	"""
-	def update_content(self):
+	def update_content(self	):
 		pass
 
 	"""

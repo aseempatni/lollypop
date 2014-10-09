@@ -210,6 +210,9 @@ class Player(GObject.GObject):
 			self.load(track_id)
 			self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
 
+	def is_party(self):
+		return self._party
+
 	def set_albums(self, artist_id, genre_id, track_id):
 		if self._party:
 			return
