@@ -90,16 +90,16 @@ class AlbumWidgetSongs(Gtk.Grid):
 			track_widget.show_all()
 			
 	def _track_selected(self, widget, data):
-		for id, track_widget in self._tracks:
+		for track_id, track_widget in self._tracks:
 			if track_widget == widget:
-				self.emit("new-playlist", id)
+				self.emit("new-playlist", track_id)
 			
 	def _update_tracks(self, widget, track_id):
-		for id, track_widget in self._tracks:
-			if id == track_id:
-				track_widget.title.set_markup('<b>%s</b>' % self._db.get_track_name(id))
+		for track_widget_id, track_widget in self._tracks:
+			if track_widget_id == track_id:
+				track_widget.title.set_markup('<b>%s</b>' % self._db.get_track_name(track_widget_id))
 				track_widget.playing.show()
 			else:
 				if track_widget.playing.is_visible():
 					track_widget.playing.hide()
-					track_widget.title.set_text(self._db.get_track_name(id))
+					track_widget.title.set_text(self._db.get_track_name(track_widget_id))

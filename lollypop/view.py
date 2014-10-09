@@ -64,12 +64,12 @@ class ArtistView(View):
 		self._albumbox.add(widget)
 		widget.show()		
 
-	def _new_playlist(self, obj, id):
-		self._player.load(id)
-		album_id = self._db.get_album_id_by_track_id(id)
+	def _new_playlist(self, obj, track_id):
+		self._player.load(track_id)
+		album_id = self._db.get_album_id_by_track_id(track_id)
 		self._db.set_more_popular(album_id)
 		self._db.commit()
-		self._player.set_albums(self._artist_id, self._genre_id, id)
+		self._player.set_albums(self._artist_id, self._genre_id, track_id)
 
 	def populate(self):
 		for id in self._db.get_albums_by_artist_and_genre_ids(self._artist_id, self._genre_id):
@@ -85,8 +85,8 @@ class ArtistView(View):
 		artist_id = self._db.get_artist_id_by_album_id(album_id)
 		artist_name = self._db.get_artist_name_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
-		for id in self._db.get_albums_by_artist_id(artist_id, album_id):
-			self._add_album(id)
+		for album_id in self._db.get_albums_by_artist_id(artist_id, album_id):
+			self._add_album(album_id)
 
 	def update_context(self):
 		pass
@@ -134,15 +134,15 @@ class AlbumView(View):
 		self._scrolledContext.show_all()		
 		
 	def _add_albums(self):
-		for id in self._db.get_albums_by_genre_id(self._genre_id):
-			widget = AlbumWidget(self._db, id)
+		for album_id in self._db.get_albums_by_genre_id(self._genre_id):
+			widget = AlbumWidget(self._db, album_id)
 			widget.show()
 			self._albumbox.insert(widget, -1)		
 
-	def _new_playlist(self, obj, id):
-		self._player.load(id)
-		album_id = self._db.get_album_id_by_track_id(id)
-		self._player.set_albums(None, self._genre_id, id)
+	def _new_playlist(self, obj, track_id):
+		self._player.load(track_id)
+		album_id = self._db.get_album_id_by_track_id(track_id)
+		self._player.set_albums(None, self._genre_id, track_id)
 		self._db.set_more_popular(album_id)
 		self._db.commit()
 
@@ -164,7 +164,7 @@ class AlbumView(View):
 		GLib.idle_add(self._add_albums)
 							
 	def populate_popular(self):
-		for id in self._db.get_albums_popular():
-			widget = AlbumWidget(self._db, id)
+		for album_id in self._db.get_albums_popular():
+			widget = AlbumWidget(self._db, album_id)
 			widget.show()
 			self._albumbox.insert(widget, -1)	
