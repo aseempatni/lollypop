@@ -275,6 +275,17 @@ class Database:
 		return albums
 	
 	"""
+		Get all albums ids
+		ret: int
+	"""
+	def get_all_albums_id(self):
+		albums = []
+		result = self._sql.execute("SELECT id FROM albums")
+		for row in result:
+			albums += row
+		return albums
+	
+	"""
 		Get all albums for artist id and genre id
 		arg: int, int
 		ret: [int]

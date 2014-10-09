@@ -205,34 +205,47 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox" id="menuBox">
-        <property name="height_request">34</property>
+      <object class="GtkToggleButton" id="shuffleButton">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="halign">end</property>
-        <property name="valign">center</property>
-        <child>
-          <object class="GtkToggleButton" id="shuffleButton">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="tooltip_text" translatable="yes">Shuffle</property>
-            <style>
-		      <class name="image-button"/>
-		    </style>
-		    <child>
-		      <object class="GtkImage" id="shuffle-button-image">
-		        <property name="visible">True</property>
-		        <property name="can_focus">False</property>
-		        <property name="icon-name">media-playlist-shuffle-symbolic</property>
-		        <property name="icon-size">1</property>
-		      </object>
-		    </child>
-          </object>
-        </child>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="tooltip_text" translatable="yes">Shuffle</property>
+        <style>
+	      <class name="image-button"/>
+	    </style>
+	    <child>
+	      <object class="GtkImage" id="shuffle-button-image">
+	        <property name="visible">True</property>
+	        <property name="can_focus">False</property>
+	        <property name="icon-name">media-playlist-shuffle-symbolic</property>
+	        <property name="icon-size">1</property>
+	      </object>
+	    </child>
       </object>
       <packing>
-        <property name="pack_type">end</property>
+        	<property name="pack_type">end</property>
+      </packing>
+    </child>
+        <child>
+      <object class="GtkToggleButton" id="partyButton">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="tooltip_text" translatable="yes">Party mode</property>
+        <style>
+	      <class name="image-button"/>
+	    </style>
+	    <child>
+	      <object class="GtkImage" id="party-button-image">
+	        <property name="visible">True</property>
+	        <property name="can_focus">False</property>
+	        <property name="icon-name">emblem-music-symbolic</property>
+	        <property name="icon-size">1</property>
+	      </object>
+	    </child>
+      </object>
+      <packing>
+        	<property name="pack_type">end</property>
       </packing>
     </child>
   </object>

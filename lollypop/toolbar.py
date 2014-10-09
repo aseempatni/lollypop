@@ -37,8 +37,10 @@ class Toolbar(GObject.GObject):
 		self._shuffle = self._ui.get_object('shuffleButton')
 		self._shuffle.connect("toggled", self._shuffle_update)
 
+		self._party = self._ui.get_object('partyButton')
+		self._party.connect("toggled", self._party_update)
+
 		self._progress.connect('button-release-event', self._on_progress_scale_button)
-        #self._sync_repeat_image()
 
 		self._prev_btn.connect('clicked', self._on_prev_btn_clicked)
 		self._play_btn.connect('clicked', self._on_play_btn_clicked)
@@ -91,7 +93,8 @@ class Toolbar(GObject.GObject):
 		self._time_label.show()
 		
 	def _on_prev_btn_clicked(self, obj):
-		self._player.prev()
+		if not self._party.get_active():
+			self._player.prev()
 
 	def _on_play_btn_clicked(self, obj):
 		if self._player.is_playing():
@@ -101,6 +104,11 @@ class Toolbar(GObject.GObject):
 			self._player.play()
 			self._change_play_btn_status(self._pause_image, _("PausePlay"))
 
+	def _on_next_btn_clicked(self, obj):
+		if self._party.get_active():
+			self._player.shuffle_next()
+		else:
+			self._player.next()		
 		
 	def _seconds_to_string(self, duration):
 		seconds = duration
@@ -108,30 +116,19 @@ class Toolbar(GObject.GObject):
 		seconds %= 60
 
 		return '%i:%02i' % (minutes, seconds)
-
-	def _on_next_btn_clicked(self, obj):
-		self._player.next()
 		
 	def _change_play_btn_status(self, image, status):
 		self._play_btn.set_image(image)
 		self._play_btn.set_tooltip_text(status)
 
-	def _sync_repeat_image(self):
-		icon = None
-		if self.repeat == RepeatType.NONE:
-			icon = 'media-playlist-consecutive-symbolic'
-		elif self.repeat == RepeatType.SHUFFLE:
-			icon = 'media-playlist-shuffle-symbolic'
-		elif self.repeat == RepeatType.ALL:
-			icon = 'media-playlist-repeat-symbolic'
-		elif self.repeat == RepeatType.SONG:
-			icon = 'media-playlist-repeat-song-symbolic'
-
-		self.repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
-		self.emit('repeat-mode-changed')
-
 	def _shuffle_update(self, obj):
 		self._player.set_shuffle(self._shuffle.get_active())
+
+	def _party_update(self, obj):
+		settings = Gtk.Settings.get_default()
+		active = self._party.get_active()
+		settings.set_property("gtk-application-prefer-dark-theme", active)
+		self._player.set_party(active)
 
 	def get_infobox(self):
 		return self._infobox
