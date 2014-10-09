@@ -99,7 +99,7 @@ class Player(GObject.GObject):
 			self._current_track_album_id = self._albums[pos]
 			tracks = self._db.get_tracks_by_album_id(self._current_track_album_id)
 			self._current_track_number = len(tracks) - 1
-			track_id = self._db.get_tracks_by_album_id(self._albums[pos])[self._current_track_number]
+			track_id = self._db.get_tracks_ids_by_album_id(self._albums[pos])[self._current_track_number]
 		else:
 			self._current_track_number -= 1
 			track_id = tracks[self._current_track_number]
@@ -118,7 +118,7 @@ class Player(GObject.GObject):
 				pos += 1
 			self._current_track_album_id = self._albums[pos]
 			self._current_track_number = 0
-			track_id = self._db.get_tracks_by_album_id(self._albums[pos])[0]
+			track_id = self._db.get_tracks_ids_by_album_id(self._albums[pos])[0]
 		else:
 			self._current_track_number += 1
 			track_id = tracks[self._current_track_number]
@@ -135,11 +135,15 @@ class Player(GObject.GObject):
 
 	def set_albums(self, artist_id, genre_id, track_id):
 		self._albums = []
+		# We are in artist view, add all albums from artist for genre
 		if artist_id:
 			self._albums = self._db.get_albums_by_artist_and_genre_ids(artist_id, genre_id)
-		else:
+		# We are in album view, add all albums from genre
+		elif genre_id:
 			self._albums = self._db.get_albums_by_genre_id(genre_id)
-
+		# We are in popular view, add populars albums
+		else:
+			self._albums = self._db.get_albums_popular()
 		album_id = self._db.get_album_id_by_track_id(track_id)
 		tracks = self._db.get_tracks_ids_by_album_id(album_id)
 		self._current_track_number = tracks.index(track_id) 

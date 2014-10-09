@@ -116,7 +116,7 @@ class Window(Gtk.ApplicationWindow):
 		self._list_genres.connect('item-selected', self._update_artists)
 		self._list_genres.widget.show()
 		self._box.remove(self._view)
-		self._view = AlbumView(self._db, self._player, id)
+		self._view = AlbumView(self._db, self._player, None)
 		self._box.add(self._view)
 		self._view.populate_popular()
 

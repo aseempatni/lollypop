@@ -142,9 +142,9 @@ class AlbumView(View):
 	def _new_playlist(self, obj, id):
 		self._player.load(id)
 		album_id = self._db.get_album_id_by_track_id(id)
+		self._player.set_albums(None, self._genre_id, id)
 		self._db.set_more_popular(album_id)
 		self._db.commit()
-		self._player.set_albums(None, self._genre_id, id)
 
 	def update_content(self):
 		pass
@@ -165,7 +165,6 @@ class AlbumView(View):
 							
 	def populate_popular(self):
 		for id in self._db.get_albums_popular():
-			print(id)
 			widget = AlbumWidget(self._db, id)
 			widget.show()
 			self._albumbox.insert(widget, -1)	
