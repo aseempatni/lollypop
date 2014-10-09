@@ -127,11 +127,24 @@ class Database:
 	"""
 	def get_genre_id_by_name(self, name):
 		result = self._sql.execute("SELECT id from genres where name=?", (name,))
-		id = result.fetchone()
-		if id:
-			return id[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return -1
+			
+	"""
+		Get genre name
+		arg: string
+		ret: int
+	"""
+	def get_genre_name(self, genre_id):
+		result = self._sql.execute("SELECT name from genres where id=?", (genre_id,))
+		v = result.fetchone()
+		if v:
+			return v[0]
+		else:
+			return _("Unknown")
 
 	"""
 		Get all availables genres
@@ -152,9 +165,9 @@ class Database:
 	"""
 	def get_artist_id_by_name(self, name):
 		result = self._sql.execute("SELECT id from artists where name=?", (name,))
-		id = result.fetchone()
-		if id:
-			return id[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return -1
 
@@ -178,9 +191,9 @@ class Database:
 	"""
 	def get_artist_id_by_album_id(self, album_id):
 		result = self._sql.execute("SELECT artist_id from albums where id=?", (album_id,))
-		id = result.fetchone()
+		v = result.fetchone()
 		if id:
-			return id[0]
+			return v[0]
 		else:
 			return -1
 
@@ -191,9 +204,9 @@ class Database:
 	"""
 	def get_artist_name_by_album_id(self, album_id):
 		result = self._sql.execute("SELECT artists.name from artists,albums where albums.id=? AND albums.artist_id == artists.id", (album_id,))
-		name = result.fetchone()
-		if name:
-			return name[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return _("Unknown")
 
@@ -217,9 +230,9 @@ class Database:
 	"""
 	def get_album_id(self, name, artist_id, genre_id):
 		result = self._sql.execute("SELECT id FROM albums where name=? AND artist_id=? AND genre_id=?", (name, artist_id, genre_id))
-		id = result.fetchone()
-		if id:
-			return id[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return -1
 
@@ -230,11 +243,24 @@ class Database:
 	"""
 	def get_album_id_by_track_id(self, track_id):
 		result = self._sql.execute("SELECT albums.id FROM albums,tracks where tracks.album_id=albums.id AND tracks.id=?", (track_id,))
-		id = result.fetchone()
-		if id:
-			return id[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
-			return 0
+			return -1
+
+	"""
+		Get album genre id
+		arg: int
+		ret: int
+	"""
+	def get_album_genre(self, album_id):
+		result = self._sql.execute("SELECT genre_id FROM albums WHERE id=?", (album_id,))
+		v = result.fetchone()
+		if v:
+			return v[0]
+		else:
+			return -1
 
 	"""
 		Get album name for id
@@ -243,9 +269,9 @@ class Database:
 	"""
 	def get_album_name(self, album_id):
 		result = self._sql.execute("SELECT name FROM albums where id=?", (album_id,))
-		name = result.fetchone()
-		if name:
-			return name[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return _("Unknown")
 		
@@ -256,9 +282,9 @@ class Database:
 	"""
 	def get_album_path(self, album_id):
 		result = self._sql.execute("SELECT filepath FROM tracks where album_id=? LIMIT 1", (album_id,))
-		path = result.fetchone()
-		if path:
-			return os.path.dirname(path[0])
+		v = result.fetchone()
+		if v:
+			return os.path.dirname(v[0])
 		else:
 			return ""
 	
@@ -328,9 +354,9 @@ class Database:
 	"""
 	def get_tracks_count_for_album_id(self, album_id):
 		result = self._sql.execute("SELECT COUNT(*) FROM tracks where album_id=?", (album_id,))
-		id = result.fetchone()
-		if id:
-			return id[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return -1
 
@@ -345,6 +371,20 @@ class Database:
 		for row in result:
 			tracks += (row,)
 		return tracks
+
+	"""
+		Get all track informations for track id
+		arg: int
+		ret: [(string, string, int, int, int)]
+	"""
+	def get_track_infos(self, track_id):
+		tracks = []
+		result = self._sql.execute("SELECT name, filepath, length, tracknumber, album_id FROM tracks WHERE id=?" , (track_id,))
+		v = result.fetchone()
+		if v:
+			return v
+		else:
+			return ()
 
 	"""
 		Get tracks id for album id
@@ -365,9 +405,9 @@ class Database:
 	"""
 	def get_track_filepath(self, id):
 		result = self._sql.execute("SELECT filepath FROM tracks where id=?", (id,))
-		path = result.fetchone()
-		if path:
-			return path[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return ""
 
@@ -390,9 +430,9 @@ class Database:
 	"""
 	def get_track_name(self, id):
 		result = self._sql.execute("SELECT name FROM tracks where id=?", (id,))
-		name = result.fetchone()
-		if name:
-			return name[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return ""
 			
@@ -403,8 +443,8 @@ class Database:
 	"""
 	def get_track_length(self, id):
 		result = self._sql.execute("SELECT length FROM tracks where id=?", (id,))
-		length = result.fetchone()
-		if length:
-			return length[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return 0

@@ -7,15 +7,17 @@ from lollypop.database import Database
 from lollypop.selectionlist import SelectionList
 from lollypop.player import Player
 from lollypop.view import *
-from lollypop.notification import NotificationManager
 
 class Window(Gtk.ApplicationWindow):
 
-	def __init__(self, app):
+	def __init__(self, app, db, player):
 		Gtk.ApplicationWindow.__init__(self,
 					       application=app,
 					       title=_("Lollypop"))
 		
+		self._db = db
+		self._player = player
+
 		self._settings = Gio.Settings.new('org.gnome.Lollypop')
 
 		self.set_size_request(200, 100)
@@ -23,9 +25,6 @@ class Window(Gtk.ApplicationWindow):
 		self._app = app
 		self._artist_signal_id = 0
 		
-		self._db = Database()
-		self._player = Player(self._db)
-		NotificationManager(self._player, self._db)
 		self._scanner = CollectionScanner()
 
 		size_setting = self._settings.get_value('window-size')

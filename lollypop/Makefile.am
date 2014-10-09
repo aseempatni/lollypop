@@ -9,6 +9,7 @@ app_PYTHON = \
 	albumart.py\
 	selectionlist.py\
 	view.py\
+	mpris.py\
 	widgets.py\
 	player.py\
 	collectionscanner.py

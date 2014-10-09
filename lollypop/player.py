@@ -2,6 +2,11 @@ from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio
 from lollypop.database import Database
 import random
 
+class PlaybackStatus:
+    PLAYING = 0
+    PAUSED = 1
+    STOPPED = 2
+
 class Player(GObject.GObject):
 	
 	__gsignals__ = {
@@ -47,11 +52,11 @@ class Player(GObject.GObject):
 		return True
 
 	def _load_track(self, track_id):
+		self._current_track_id = track_id
 		self.emit("current-changed", track_id)
 		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
 		self._duration = self._db.get_track_length(track_id)
-		self._current_track_id = track_id
-		if self._shuffle:
+		if self._shuffle or self._party:
 			self._shuffle_history.append(track_id)
 
 	"""
@@ -73,6 +78,21 @@ class Player(GObject.GObject):
 			return state == Gst.State.PLAYING
 		else:
 			return False
+
+	def get_playback_status(self):
+		ok, state, pending = self._player.get_state(0)
+		if ok == Gst.StateChangeReturn.ASYNC:
+			state = pending
+		elif (ok != Gst.StateChangeReturn.SUCCESS):
+			return PlaybackStatus.STOPPED
+
+		if state == Gst.State.PLAYING:
+			return PlaybackStatus.PLAYING
+		elif state == Gst.State.PAUSED:
+			return PlaybackStatus.PAUSED
+		else:
+			return PlaybackStatus.STOPPED
+
 
 	def load(self, track_id):
 		self.stop()
@@ -108,13 +128,14 @@ class Player(GObject.GObject):
 			self.play()
 
 	def prev(self):
-		if self._shuffle:
+		if self._shuffle or self._party:
 			try:
 				track_id = self._shuffle_history[-2]
 				# We remove to last items because playing will readd track_id to list
 				self._shuffle_history.pop()
 				self._shuffle_history.pop()
 			except Exception as e:
+				print(e)
 				track_id = None
 		else:
 			tracks = self._db.get_tracks_ids_by_album_id(self._current_track_album_id)
@@ -136,11 +157,11 @@ class Player(GObject.GObject):
 			self.load(track_id)
 		
 	def next(self):
-		track_id = None
 		# Get a random album/track
-		if self._shuffle:
-			self._shuffle_next()
+		if self._shuffle or self._party:
+			self.shuffle_next()
 		else:
+			track_id = None
 			tracks = self._db.get_tracks_ids_by_album_id(self._current_track_album_id)
 			if self._current_track_number + 1 >= len(tracks): #next album
 				pos = self._albums.index(self._current_track_album_id)
@@ -164,9 +185,11 @@ class Player(GObject.GObject):
 		# Need to clear history
 		if not track_id:
 			self.shuffle_history = []
-			self.party_next()
+			self.shuffle_next()
 			return
+		self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
 		self.load(track_id)
+
 
 	def seek(self, position):
 		self._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, position * Gst.SECOND)
@@ -185,6 +208,7 @@ class Player(GObject.GObject):
 			self._albums = self._db.get_all_albums_id()
 			track_id = self._get_random()
 			self.load(track_id)
+			self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
 
 	def set_albums(self, artist_id, genre_id, track_id):
 		if self._party:

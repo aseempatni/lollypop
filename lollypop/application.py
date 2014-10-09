@@ -6,6 +6,10 @@
 from gi.repository import Gtk, Gio, GLib, Gdk, Notify
 from gettext import gettext as _
 from lollypop.window import Window
+from lollypop.database import Database
+from lollypop.player import Player
+from lollypop.mpris import MediaPlayer2Service
+from lollypop.notification import NotificationManager
 
 class Application(Gtk.Application):
 	def __init__(self):
@@ -14,6 +18,8 @@ class Application(Gtk.Application):
 					 flags=Gio.ApplicationFlags.FLAGS_NONE)
 		GLib.set_application_name(_("Lollypop"))
 		GLib.set_prgname('lollypop')
+		self._db = Database()
+		self._player = Player(self._db)
 		self._window = None
 
 	def build_app_menu(self):
@@ -54,9 +60,9 @@ class Application(Gtk.Application):
 
 	def do_activate(self):
 		if not self._window:
-			self._window = Window(self)
-			#self.service = MediaPlayer2Service(self)
-			#self._notifications = NotificationManager(self._window.player)
+			self._window = Window(self, self._db, self._player)
+			self._service = MediaPlayer2Service(self._db, self._player)
+			self._notifications = NotificationManager(self._player, self._db)
 
 		self._window.present()
 

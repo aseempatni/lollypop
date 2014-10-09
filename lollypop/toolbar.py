@@ -93,8 +93,7 @@ class Toolbar(GObject.GObject):
 		self._time_label.show()
 		
 	def _on_prev_btn_clicked(self, obj):
-		if not self._party.get_active():
-			self._player.prev()
+		self._player.prev()
 
 	def _on_play_btn_clicked(self, obj):
 		if self._player.is_playing():
@@ -105,9 +104,6 @@ class Toolbar(GObject.GObject):
 			self._change_play_btn_status(self._pause_image, _("PausePlay"))
 
 	def _on_next_btn_clicked(self, obj):
-		if self._party.get_active():
-			self._player.shuffle_next()
-		else:
 			self._player.next()		
 		
 	def _seconds_to_string(self, duration):
