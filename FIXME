@@ -1,0 +1,1 @@
+Change Database::get_album_name to Database::get_album_name_by_id
