@@ -98,7 +98,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 			ui = Gtk.Builder()
 			ui.add_from_resource('/org/gnome/Lollypop/TrackWidget.ui')
 			track_widget = ui.get_object('eventbox1')
-			
+			self._tracks.append(track_widget)
 			track_widget.playing = ui.get_object('image1')
 			track_widget.playing.set_alignment(1, 0.6)
 			
@@ -121,7 +121,6 @@ class AlbumWidgetSongs(Gtk.Grid):
 			ui.get_object('duration').set_text(self._player.seconds_to_string(length))
 			track_widget.play_pos = ui.get_object('play-pos')
 			self._update_pos_label(track_widget)
-			self._tracks.append(track_widget)
 			track_widget.show_all()
 			i += 1
 	
