@@ -25,10 +25,21 @@ class CollectionScanner:
 	def __init__(self):
 		self._path = GLib.get_user_special_dir(GLib.USER_DIRECTORY_MUSIC)
 
-	# Update database if empty
+	"""
+		Update database if empty
+		Call callback with new genres items []
+	"""
 	def update(self, callback):
 		GLib.idle_add(self._scan, callback)
 
+#######################
+# PRIVATE             #
+#######################
+
+	"""
+		Scan music collection for music files
+		Call callback with new genres items []
+	"""
 	def _scan(self, callback):
 		db = Database()
 		tracks = db.get_tracks_filepath()
@@ -57,11 +68,12 @@ class CollectionScanner:
 			db.remove_track(track)
 
 		db.commit()
-		Gdk.threads_enter()
 		callback(db.get_genres())
-		Gdk.threads_leave()
 		db.close()
 
+	"""
+		Add new file to db with tag
+	"""
 	def _add2db(self, db, filepath, tag):
 		keys = tag.keys()
 		if "title" in keys:

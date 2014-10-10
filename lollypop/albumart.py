@@ -21,10 +21,13 @@ from lollypop.database import Database
 class AlbumArt: 
 
 	_mimes = [ "jpeg", "jpg", "png", "gif" ]
-	ART_SIZE = 200
-	ART_SMALL_SIZE = 32
+	_ART_SIZE = 200
+	_ART_SMALL_SIZE = 32
 	CACHE_PATH = os.path.expanduser ("~") +  "/.cache/lollypop"
 	
+	"""
+		Create cache path
+	"""	
 	def __init__(self, db):
 		self._db = db
 
@@ -33,7 +36,17 @@ class AlbumArt:
 				os.mkdir(self.CACHE_PATH)
 			except:
 				print("Can't create %s" % self.CACHE_PATH)
+
+	"""
+		get cover cache path for album_id
+	"""
+	def get_path(self, album_id):
+		album_path = self._db.get_album_path(album_id)
+		return "%s/%s.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
 	
+	"""
+		Return pixbuf for album_id
+	"""
 	def get(self, album_id):
 		album_path = self._db.get_album_path(album_id)
 		cache_path = "%s/%s.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
@@ -43,49 +56,55 @@ class AlbumArt:
 				path = self._get_art(album_path)
 				if path:
 					pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (path,
-																	  self.ART_SIZE, self.ART_SIZE, False)
+																	  self._ART_SIZE, self._ART_SIZE, False)
 					pixbuf.savev(cache_path, "jpeg", ["quality"], ["90"])
 				else:
 					pixbuf = self._get_default_art()
 			else:
 				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (cache_path,
-																 self.ART_SIZE, self.ART_SIZE)
+																 self._ART_SIZE, self._ART_SIZE)
 			return pixbuf
 			
 		except Exception as e:
 			print(e)
 			return self._get_default_art()			
 
-
-	def get_path(self, album_id):
-		album_path = self._db.get_album_path(album_id)
-		return "%s/%s.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
-
+	"""
+		Return small pixbuf for album_id
+	"""
 	def get_small(self, album_id):
 		album_path = self._db.get_album_path(album_id)
 		cache_path = "%s/%s_small.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
 		cached = True
 		try:
 			if not os.path.exists(cache_path):
-				path = self._get_art(album_path)
+				path = self._get_art_path(album_path)
 				if path:
-					pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (self._get_art(album_path),
-																	  self.ART_SMALL_SIZE, self.ART_SMALL_SIZE, False)
+					pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (self._get_art(album_path), 												  self._ART_SMALL_SIZE,
+											  self._ART_SMALL_SIZE, False)
 					pixbuf.savev(cache_path, "jpeg", ["quality"], ["90"])
 				else:
 					pixbuf = None
 			else:
-				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (cache_path,
-																 self.ART_SMALL_SIZE, self.ART_SMALL_SIZE)
+				pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size (cache_path, self._ART_SMALL_SIZE,
+											     self._ART_SMALL_SIZE)
 			return pixbuf
 			
 		except Exception as e:
 			print(e)
 			return None
-	
+
+#######################
+# PRIVATE             #
+#######################
+
+	"""
+		Return pixbuf for default album
+	"""
 	def _get_default_art(self):
 		# get a small pixbuf with the given path
-		icon = Gtk.IconTheme.get_default().load_icon('folder-music-symbolic', max(self.ART_SIZE, self.ART_SIZE) / 4, 0)
+		icon = Gtk.IconTheme.get_default().load_icon('folder-music-symbolic', 
+							     max(self._ART_SIZE, self._ART_SIZE) / 4, 0)
 
 		# create an empty pixbuf with the requested size
 		result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
@@ -105,7 +124,10 @@ class AlbumArt:
 					   GdkPixbuf.InterpType.NEAREST, 0xff)
 		return self._make_icon_frame(result)
 
-	def _get_art(self, dir):
+	"""
+		Return path for a cover art in dir
+	"""
+	def _get_art_path(self, dir):
 		try:
 			for file in os.listdir (dir):
 				lowername = file.lower()
@@ -121,6 +143,9 @@ class AlbumArt:
 		except:
 		    pass
 
+	"""
+		Make an icon frame on pixbuf
+	"""
 	def _make_icon_frame(self, pixbuf):
 		border = 1.5
 		degrees = pi / 180

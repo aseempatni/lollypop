@@ -16,16 +16,15 @@ from gi.repository import Gtk, GObject, Pango
 
 from lollypop.database import Database
 
-class SelectionState:
-    NONE = -1
-    ALL = 0
-
 class SelectionList(GObject.GObject):
 
 	__gsignals__ = {
 		'item-selected': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
 	}
 
+	"""
+		Init Selection list ui
+	"""
 	def __init__(self, title, width):
 		GObject.GObject.__init__(self)
 		
@@ -45,18 +44,23 @@ class SelectionList(GObject.GObject):
 		self.widget.set_vexpand(True)
 		self.widget.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		self.widget.add(self._view)
-		
-		self._genre_id = SelectionState.NONE
-		self._artist_id = SelectionState.NONE
-		
-		
+	
+	"""
+		Populate view with values
+	"""	
 	def populate(self, values):
 		self._model.clear()
 		for (id, string) in values:
 			self._model.append([string, id])
 				
 		
-	
+#######################
+# PRIVATE             #
+#######################
+
+	"""
+		Forward "cursor-changed" as "item-selected" with item id as arg
+	"""	
 	def _new_item_selected(self, view):
 		(path, column) = view.get_cursor()
 		if path:

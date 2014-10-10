@@ -23,6 +23,12 @@ from lollypop.player import Player
 
 class AlbumWidget(Gtk.Grid):
 
+	"""
+		Init album widget ui with an vertical grid:
+			- Album cover
+			- Album name
+			- Artist name
+	"""
 	def __init__(self, db, album_id):
 		Gtk.Grid.__init__(self)
 		self._ui = Gtk.Builder()
@@ -43,7 +49,10 @@ class AlbumWidget(Gtk.Grid):
 			label = label[0:20] + "..."
 		self._ui.get_object('artist').set_label(label)
 		self.add(self._ui.get_object('AlbumWidget'))
-		
+	
+	"""
+		Return album id for widget
+	"""	
 	def get_id(self):
 		return self._album_id
 
@@ -53,6 +62,12 @@ class AlbumWidgetSongs(Gtk.Grid):
         'new-playlist': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
     }
 
+	"""
+		Init album widget songs ui with a complex grid:
+			- Album cover
+			- Album name
+			- Albums tracks aligned on two columns
+	"""
 	def __init__(self, db, player, album_id):
 		Gtk.Grid.__init__(self)
 		self._ui = Gtk.Builder()
@@ -74,6 +89,9 @@ class AlbumWidgetSongs(Gtk.Grid):
 		GLib.idle_add(self._add_tracks, album_id)
 	
 
+	"""
+		Add tracks for album_id to Album widget
+	"""
 	def _add_tracks(self, album_id):
 		i = 0
 		for id, name, filepath, length, year in self._db.get_tracks_by_album_id(album_id):
@@ -102,12 +120,18 @@ class AlbumWidgetSongs(Gtk.Grid):
 			ui.get_object('duration').set_text(self._player.seconds_to_string(length))
 			track_widget.show_all()
 			i += 1
-			
+	
+	"""
+		On track selected, emit "new-playlist" with track_id as arg
+	"""		
 	def _track_selected(self, widget, data):
 		for track_id, track_widget in self._tracks:
 			if track_widget == widget:
 				self.emit("new-playlist", track_id)
 			
+	"""
+		Update tracks settings current tracks as bold and adding play symbol
+	"""
 	def _update_tracks(self, widget, track_id):
 		for track_widget_id, track_widget in self._tracks:
 			if track_widget_id == track_id:

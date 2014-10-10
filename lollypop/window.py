@@ -24,6 +24,9 @@ from lollypop.view import *
 
 class Window(Gtk.ApplicationWindow):
 
+	"""
+		Init window objects
+	"""
 	def __init__(self, app, db, player):
 		Gtk.ApplicationWindow.__init__(self,
 					       application=app,
@@ -31,16 +34,72 @@ class Window(Gtk.ApplicationWindow):
 		
 		self._db = db
 		self._player = player
-
+		self._scanner = CollectionScanner()
 		self._settings = Gio.Settings.new('org.gnome.Lollypop')
 
+		self._artist_signal_id = 0
+
+		self._setup_window()				
+		self._setup_view()
+		self._setup_media_keys()
+
+		self.connect("map-event", self._on_mapped_window)
+
+	"""
+		Setup media player keys
+	"""
+	def _setup_media_keys(self):
+		self._proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
+											 Gio.DBusProxyFlags.NONE,
+											 None,
+											 'org.gnome.SettingsDaemon',
+											 '/org/gnome/SettingsDaemon/MediaKeys',
+											 'org.gnome.SettingsDaemon.MediaKeys',
+											 None)
+		self._grab_media_player_keys()
+		try:
+			self._proxy.connect('g-signal', self._handle_media_keys)
+		except GLib.GError:
+            # We cannot grab media keys if no settings daemon is running
+			pass
+
+	"""
+		Do key grabbing
+	"""
+	def _grab_media_player_keys(self):
+		try:
+			self._proxy.call_sync('GrabMediaPlayerKeys',
+								 GLib.Variant('(su)', ('Lollypop', 0)),
+								 Gio.DBusCallFlags.NONE,
+								 -1,
+								 None)
+		except GLib.GError:
+			# We cannot grab media keys if no settings daemon is running
+			pass
+
+	"""
+		Do player actions in response to media key pressed
+	"""
+	def _handle_media_keys(self, proxy, sender, signal, parameters):
+		if signal != 'MediaPlayerKeyPressed':
+			print('Received an unexpected signal \'%s\' from media player'.format(signal))
+			return
+		response = parameters.get_child_value(1).get_string()
+		if 'Play' in response:
+			self._player.play_pause()
+		elif 'Stop' in response:
+			self._player.stop()
+		elif 'Next' in response:
+			self._player.next()
+		elif 'Previous' in response:
+			self._player.prev()
+	
+	"""
+		Setup window icon, position and size, callback for updating this values
+	"""
+	def _setup_window(self):
 		self.set_size_request(200, 100)
 		self.set_icon_name('lollypop')
-		self._app = app
-		self._artist_signal_id = 0
-		
-		self._scanner = CollectionScanner()
-
 		size_setting = self._settings.get_value('window-size')
 		if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
 			self.resize(size_setting[0], size_setting[1])
@@ -56,23 +115,13 @@ class Window(Gtk.ApplicationWindow):
 
 		self.connect("window-state-event", self._on_window_state_event)
 		self.connect("configure-event", self._on_configure_event)
-		
-		self._setup_view()
-		self._proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
-											 Gio.DBusProxyFlags.NONE,
-											 None,
-											 'org.gnome.SettingsDaemon',
-											 '/org/gnome/SettingsDaemon/MediaKeys',
-											 'org.gnome.SettingsDaemon.MediaKeys',
-											 None)
-		self._grab_media_player_keys()
-		try:
-			self._proxy.connect('g-signal', self._handle_media_keys)
-		except GLib.GError:
-            # We cannot grab media keys if no settings daemon is running
-			pass
 
-
+	"""
+		Setup window main view:
+			- genre list
+			- artist list
+			- main view as artist view or album view
+	"""
 	def _setup_view(self):
 		self._box = Gtk.Grid()
 		self.toolbar = Toolbar(self._db, self._player)
@@ -94,36 +143,17 @@ class Window(Gtk.ApplicationWindow):
 		self.add(self._box)
 		self._box.show()
 		self.show()
-		self.connect("map-event", self._mapped_window)
-		
-	def _mapped_window(self, obj, data):
+	
+	"""
+		Run collection update on mapped window
+		Pass _update_genre() as collection scanned callback
+	"""	
+	def _on_mapped_window(self, obj, data):
 		self._scanner.update(self._update_genres)
 		
-	def _grab_media_player_keys(self):
-		try:
-			self._proxy.call_sync('GrabMediaPlayerKeys',
-								 GLib.Variant('(su)', ('Lollypop', 0)),
-								 Gio.DBusCallFlags.NONE,
-								 -1,
-								 None)
-		except GLib.GError:
-			# We cannot grab media keys if no settings daemon is running
-			pass
-
-	def _handle_media_keys(self, proxy, sender, signal, parameters):
-		if signal != 'MediaPlayerKeyPressed':
-			print('Received an unexpected signal \'%s\' from media player'.format(signal))
-			return
-		response = parameters.get_child_value(1).get_string()
-		if 'Play' in response:
-			self._player.play_pause()
-		elif 'Stop' in response:
-			self._player.stop()
-		elif 'Next' in response:
-			self._player.next()
-		elif 'Previous' in response:
-			self._player.prev()
-			
+	"""
+		Update genres list with genres
+	"""
 	def _update_genres(self, genres):
 		self._list_genres.populate(genres)
 		self._list_genres.connect('item-selected', self._update_artists)
@@ -133,27 +163,39 @@ class Window(Gtk.ApplicationWindow):
 		self._box.add(self._view)
 		self._view.populate_popular()
 
-	def _update_artists(self, obj, id):
+	"""
+		Update artist list for genre_id
+	"""
+	def _update_artists(self, obj, genre_id):
 		if self._artist_signal_id:
 			self._list_artists.disconnect(self._artist_signal_id)
-		self._list_artists.populate(self._db.get_artists_by_genre_id(id))
+		self._list_artists.populate(self._db.get_artists_by_genre_id(genre_id))
 		self._artist_signal_id = self._list_artists.connect('item-selected', self._update_view_artist)
 		self._list_artists.widget.show()
-		self._update_view_albums(self, id)
-		self._genre_id = id
+		self._update_view_albums(self, genre_id)
+		self._genre_id = genre_id
 
-	def _update_view_artist(self, obj, id):
+	"""
+		Update artist view for artist_id
+	"""
+	def _update_view_artist(self, obj, artist_id):
 		self._box.remove(self._view)
-		self._view = ArtistView(self._db, self._player, self._genre_id, id)
+		self._view = ArtistView(self._db, self._player, self._genre_id, artist_id)
 		self._box.add(self._view)
 		self._view.populate()
-			
-	def _update_view_albums(self, obj, id):
+	
+	"""
+		Update albums view for genre_id
+	"""
+	def _update_view_albums(self, obj, genre_id):
 		self._box.remove(self._view)
-		self._view = AlbumView(self._db, self._player, id)
+		self._view = AlbumView(self._db, self._player, genre_id)
 		self._box.add(self._view)
 		self._view.populate()
-			
+	
+	"""
+		Save new window size/position
+	"""		
 	def _on_configure_event(self, widget, event):
 		size = widget.get_size()
 		self._settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
@@ -161,9 +203,15 @@ class Window(Gtk.ApplicationWindow):
 		position = widget.get_position()
 		self._settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
 
+	"""
+		Save maximised state
+	"""
 	def _on_window_state_event(self, widget, event):
 		self._settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
+	"""
+		Show current album context/content
+	"""
 	def _show_current_album(self, obj, data):
 			self._view.update_context()
 			self._view.update_content()

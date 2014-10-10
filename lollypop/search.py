@@ -16,6 +16,10 @@ from gi.repository import Gtk, GLib, GdkPixbuf, Pango
 from lollypop.albumart import AlbumArt
 
 class SearchWidget(Gtk.Popover):
+
+	"""
+		Init Popover ui with a text entry and a scrolled treeview
+	"""
 	def __init__(self, db, player):
 		Gtk.Popover.__init__(self)
 		
@@ -60,8 +64,14 @@ class SearchWidget(Gtk.Popover):
 		grid.add(self._scroll)
 		grid.show()
 		self.add(grid)
+
+#######################
+# PRIVATE             #
+#######################
 		
-		
+	"""
+		Timeout filtering, call _really_do_filterting() after a small timeout
+	"""	
 	def _do_filtering(self, data):
 		if self._timeout:
 			GLib.source_remove(self._timeout)
@@ -69,7 +79,10 @@ class SearchWidget(Gtk.Popover):
 			self._timeout = GLib.timeout_add(500, self._really_do_filtering)
 		else:
 			self._model.clear()
-		
+
+	"""
+		Populate treeview searching items in db based on text entry current text
+	"""
 	def _really_do_filtering(self):
 		self._timeout = None
 		searched = self._text_entry.get_text()
@@ -91,6 +104,10 @@ class SearchWidget(Gtk.Popover):
 			art = self._art.get_small(album_id)
 			self._model.append([art, track_name, track_id, True])
 
+	"""
+		Play searched item when selected
+		If item is an album, play first track
+	"""
 	def _new_item_selected(self, view, path, column):
 		iter = self._model.get_iter(path)
 		if iter:

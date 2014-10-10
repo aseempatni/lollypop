@@ -19,6 +19,9 @@ from lollypop.search import SearchWidget
 
 class Toolbar(GObject.GObject):
 
+	"""
+		Init toolbar/headerbar ui
+	"""
 	def __init__(self, db, player):
 		GObject.GObject.__init__(self)
 		self._ui = Gtk.Builder()
@@ -67,14 +70,34 @@ class Toolbar(GObject.GObject):
 		self._search.set_relative_to(self._search_button)
 
 		self.header_bar.set_show_close_button(True)
-		
+
+	"""
+		Return information eventbox
+	"""
+	def get_infobox(self):
+		return self._infobox
+
+#######################
+# PRIVATE             #
+#######################
+	
+	"""
+		Callback for progress bar button
+		Seek player to scale value
+	"""	
 	def _on_progress_scale_button(self, scale, data):
 		self._player.seek(scale.get_value()/60)
 	
+	"""
+		Update progress bar position and set time label
+	"""
 	def _progress_callback(self, position):
 		self._progress.set_value(position)
 		self._time_label.set_text(self._player.seconds_to_string(position/60))
 	
+	"""
+		Update buttons and progress bar
+	"""
 	def _playback_status_changed(self, obj):
 		playing = self._player.is_playing()
 
@@ -87,6 +110,13 @@ class Toolbar(GObject.GObject):
 		else:
 			self._change_play_btn_status(self._play_image, _("Play"))
 
+	"""
+		Update toolbar items with track_id informations:
+			- Cover
+			- artist/title
+			- reset progress bar
+			- update time/total labels
+	"""
 	def _update_toolbar(self, obj, track_id):
 		album_id = self._db.get_album_id_by_track_id(track_id)
 		art = self._art.get_small(album_id)
@@ -107,10 +137,16 @@ class Toolbar(GObject.GObject):
 		self._total_time_label.show()
 		self._time_label.set_text("0:00")
 		self._time_label.show()
-		
+
+	"""
+		Previous track on prev button clicked
+	"""		
 	def _on_prev_btn_clicked(self, obj):
 		self._player.prev()
 
+	"""
+		Play/Pause on play button clicked
+	"""		
 	def _on_play_btn_clicked(self, obj):
 		if self._player.is_playing():
 			self._player.pause()
@@ -119,27 +155,37 @@ class Toolbar(GObject.GObject):
 			self._player.play()
 			self._change_play_btn_status(self._pause_image, _("PausePlay"))
 
+	"""
+		Next track on next button clicked
+	"""		
 	def _on_next_btn_clicked(self, obj):
 		self._player.next()		
 	
+	"""
+		Show search widget on search button clicked
+	"""
 	def _on_search_btn_clicked(self, obj):
 		self._search.show()
 		
+	"""
+		Update play button with image and status as tooltip
+	"""
 	def _change_play_btn_status(self, image, status):
 		self._play_btn.set_image(image)
 		self._play_btn.set_tooltip_text(status)
 
+	"""
+		Set shuffle mode on if shuffle button active
+	"""
 	def _shuffle_update(self, obj):
 		self._player.set_shuffle(self._shuffle_btn.get_active())
 
+	"""
+		Set party mode on if party button active
+	"""
 	def _party_update(self, obj):
 		settings = Gtk.Settings.get_default()
 		active = self._party.get_active()
 		self._shuffle_btn.set_sensitive(not active)
 		settings.set_property("gtk-application-prefer-dark-theme", active)
 		self._player.set_party(active)
-
-	def get_infobox(self):
-		return self._infobox
-
-

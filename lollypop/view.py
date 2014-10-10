@@ -47,6 +47,10 @@ class View(Gtk.Grid):
 		self._genre_id = genre_id			
 
 class ArtistView(View):
+
+	"""
+		Init ArtistView ui with a scrolled grid of AlbumWidgetSongs
+	"""
 	def __init__(self, db, player, genre_id, artist_id):
 		View.__init__(self, db, player, genre_id)
 		self.set_property("orientation", Gtk.Orientation.VERTICAL)
@@ -131,6 +135,10 @@ class ArtistView(View):
 
 
 class AlbumView(View):
+
+	"""
+		Init album view ui with a scrolled flow box and a scrolled context view
+	"""
 	def __init__(self, db, player, genre_id):
 		View.__init__(self, db, player, genre_id)
 

@@ -37,66 +37,6 @@ class MediaPlayer2Service(dbus.service.Object):
 		self._player.connect('current-changed', self._on_current_changed)
 		self._player.connect('playback-status-changed', self._on_playback_status_changed)
 
-	def _get_playback_status(self):
-		state = self._player.get_playback_status()
-		if state == PlaybackStatus.PLAYING:
-			return 'Playing'
-		elif state == PlaybackStatus.PAUSED:
-			return 'Paused'
-		else:
-			return 'Stopped'
-
-	def _get_loop_status(self):
-		return 'Playlist'
-
-	def _get_metadata(self):
-		track_id = self._player.get_current_track_id()
-		if track_id == -1:
-			return {}
-
-		t = self._db.get_track_infos(track_id)
-		album_id = t[4]
-		album = self._db.get_album_name(album_id)
-		artist = self._db.get_artist_name_by_album_id(album_id)
-		genre_id = self._db.get_album_genre(album_id)
-		genre = self._db.get_genre_name(genre_id)
-		album_art = AlbumArt(self._db)
-		
-		metadata = {
-			'mpris:trackid': '/org/mpris/MediaPlayer2/Track/%s' % track_id,
-			'xesam:url': t[1]
-		}
-
-		metadata['xesam:trackNumber'] = t[3]
-		metadata['xesam:title'] = t[0]
-		metadata['xesam:album'] = album
-		metadata['xesam:artist'] = [artist]
-		metadata['xesam:albumArtist'] = [artist]
-		metadata['xesam:genre'] = genre
-		metadata['mpris:artUrl'] = "file://"+album_art.get_path(album_id)
-		
-		return metadata
-
-
-
-	def _on_current_changed(self, player, data=None):
-		self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
-							   {
-									'Metadata': dbus.Dictionary(self._get_metadata(),
-																signature='sv'),
-									'CanPlay': True,
-									'CanPause': True,
-								},
-								[])
-
-	def _on_playback_status_changed(self, data=None):
-		self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
-							   {
-									'PlaybackStatus': self._get_playback_status(),
-							   },
-							   [])
-
-
 	@dbus.service.method(dbus_interface=MEDIA_PLAYER2_IFACE)
 	def Raise(self):
 		self.app.do_activate()
@@ -203,3 +143,66 @@ class MediaPlayer2Service(dbus.service.Object):
 	def PropertiesChanged(self, interface_name, changed_properties,
 						  invalidated_properties):
 		pass
+
+#######################
+# PRIVATE             #
+#######################
+
+	def _get_playback_status(self):
+		state = self._player.get_playback_status()
+		if state == PlaybackStatus.PLAYING:
+			return 'Playing'
+		elif state == PlaybackStatus.PAUSED:
+			return 'Paused'
+		else:
+			return 'Stopped'
+
+	def _get_loop_status(self):
+		return 'Playlist'
+
+	def _get_metadata(self):
+		track_id = self._player.get_current_track_id()
+		if track_id == -1:
+			return {}
+
+		t = self._db.get_track_infos(track_id)
+		album_id = t[4]
+		album = self._db.get_album_name(album_id)
+		artist = self._db.get_artist_name_by_album_id(album_id)
+		genre_id = self._db.get_album_genre(album_id)
+		genre = self._db.get_genre_name(genre_id)
+		album_art = AlbumArt(self._db)
+		
+		metadata = {
+			'mpris:trackid': '/org/mpris/MediaPlayer2/Track/%s' % track_id,
+			'xesam:url': t[1]
+		}
+
+		metadata['xesam:trackNumber'] = t[3]
+		metadata['xesam:title'] = t[0]
+		metadata['xesam:album'] = album
+		metadata['xesam:artist'] = [artist]
+		metadata['xesam:albumArtist'] = [artist]
+		metadata['xesam:genre'] = genre
+		metadata['mpris:artUrl'] = "file://"+album_art.get_path(album_id)
+		
+		return metadata
+
+
+
+	def _on_current_changed(self, player, data=None):
+		self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+							   {
+									'Metadata': dbus.Dictionary(self._get_metadata(),
+																signature='sv'),
+									'CanPlay': True,
+									'CanPause': True,
+								},
+								[])
+
+	def _on_playback_status_changed(self, data=None):
+		self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+							   {
+									'PlaybackStatus': self._get_playback_status(),
+							   },
+							   [])

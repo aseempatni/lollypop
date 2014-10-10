@@ -21,6 +21,10 @@ from lollypop.mpris import MediaPlayer2Service
 from lollypop.notification import NotificationManager
 
 class Application(Gtk.Application):
+
+	"""
+		Create application with a custom css provider
+	"""
 	def __init__(self):
 		Gtk.Application.__init__(self,
 					 application_id='org.gnome.Lollypop',
@@ -40,7 +44,56 @@ class Application(Gtk.Application):
 		self._player = Player(self._db)
 		self._window = None
 
-	def build_app_menu(self):
+	"""
+		Setup about dialog
+	"""
+	def about(self, action, param):
+        	builder = Gtk.Builder()
+        	builder.add_from_resource('/org/gnome/Lollypop/AboutDialog.ui')
+        	about = builder.get_object('about_dialog')
+        	about.set_transient_for(self._window)
+        	about.connect("response", self.about_response)
+        	about.show()
+
+	"""
+		Destroy dialog when closed
+	"""
+	def about_response(self, dialog, response):
+		dialog.destroy()
+
+	"""
+		Add startup notification and build gnome-shell menu after Gtk.Application startup
+	"""
+	def do_startup(self):
+		Gtk.Application.do_startup(self)
+		Notify.init(_("Lollypop"))
+		self._build_app_menu()
+
+	"""
+		Destroy main window
+	"""
+	def quit(self, action=None, param=None):
+		self._window.destroy()
+
+	"""
+		Activate window and create it if missing
+	"""
+	def do_activate(self):
+		if not self._window:
+			self._window = Window(self, self._db, self._player)
+			self._service = MediaPlayer2Service(self._db, self._player)
+			self._notifications = NotificationManager(self._player, self._db)
+
+		self._window.present()
+
+#######################
+# PRIVATE             #
+#######################
+
+	"""
+		Build gnome-shell application menu
+	"""
+	def _build_app_menu(self):
 		builder = Gtk.Builder()
 
 		builder.add_from_resource('/org/gnome/Lollypop/app-menu.ui')
@@ -55,32 +108,3 @@ class Application(Gtk.Application):
 		quitAction = Gio.SimpleAction.new('quit', None)
 		quitAction.connect('activate', self.quit)
 		self.add_action(quitAction)
-
-
-	def about(self, action, param):
-        	builder = Gtk.Builder()
-        	builder.add_from_resource('/org/gnome/Lollypop/AboutDialog.ui')
-        	about = builder.get_object('about_dialog')
-        	about.set_transient_for(self._window)
-        	about.connect("response", self.about_response)
-        	about.show()
-
-	def about_response(self, dialog, response):
-		dialog.destroy()
-
-	def do_startup(self):
-		Gtk.Application.do_startup(self)
-		Notify.init(_("Lollypop"))
-		self.build_app_menu()
-
-	def quit(self, action=None, param=None):
-		self._window.destroy()
-
-	def do_activate(self):
-		if not self._window:
-			self._window = Window(self, self._db, self._player)
-			self._service = MediaPlayer2Service(self._db, self._player)
-			self._notifications = NotificationManager(self._player, self._db)
-
-		self._window.present()
-

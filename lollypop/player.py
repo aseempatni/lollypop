@@ -28,7 +28,10 @@ class Player(GObject.GObject):
         'playback-status-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'repeat-mode-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
-    
+
+	"""
+		Create a gstreamer bin and listen to signals on bus
+	"""
 	def __init__(self, db):
 		GObject.GObject.__init__(self)
 		Gst.init(None)
@@ -53,38 +56,10 @@ class Player(GObject.GObject):
 		#self.bus.connect('message::error', self._onBusError)
 		self._bus.connect('message::eos', self._on_bus_eos)
 
-	def _on_bus_eos(self, bus, message):
-		if self._party:
-			self.shuffle_next()
-		else:
-			self.next()
-
-	def _update_position(self):
-		if self._progress_callback:
-			position = self._player.query_position(Gst.Format.TIME)[1] / 1000000000
-			if position > 0:
-				self._progress_callback(position * 60)
-		return True
-
-	def _load_track(self, track_id):
-		self._current_track_id = track_id
-		self.emit("current-changed", track_id)
-		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
-		self._duration = self._db.get_track_length(track_id)
-		if self._shuffle or self._party:
-			self._shuffle_history.append(track_id)
 
 	"""
-		Return a random track and make sure it has never been played
+		Return True if player is playing
 	"""
-	def _get_random(self):
-		for album in sorted(self._albums, key=lambda *args: random.random()):
-			tracks = self._db.get_tracks_ids_by_album_id(album)
-			for track in sorted(tracks, key=lambda *args: random.random()):
-					if not track in self._shuffle_history:
-						return track
-		return None
-
 	def is_playing(self):
 		ok, state, pending = self._player.get_state(0)
 		if ok == Gst.StateChangeReturn.ASYNC:
@@ -94,6 +69,12 @@ class Player(GObject.GObject):
 		else:
 			return False
 
+	"""
+		Return playback status:
+			- PlaybackStatus.STOPPED
+			- PlaybackStatus.PLAYING
+			- PlaybackStatus.PAUSED
+	"""
 	def get_playback_status(self):
 		ok, state, pending = self._player.get_state(0)
 		if ok == Gst.StateChangeReturn.ASYNC:
@@ -109,18 +90,27 @@ class Player(GObject.GObject):
 			return PlaybackStatus.STOPPED
 
 
+	"""
+		Stop current track, load track_id and play it
+	"""
 	def load(self, track_id):
 		self.stop()
 		self._load_track(track_id)
 		self.play()
 
 
+	"""
+		Change player state to PLAYING
+	"""
 	def play(self):
 		self._player.set_state(Gst.State.PLAYING)
 		if not self._timeout:
 			self._timeout = GLib.timeout_add(1000, self._update_position)
 		self.emit("playback-status-changed")
 
+	"""
+		Change player state to PAUSED
+	"""
 	def pause(self):
 		self._player.set_state(Gst.State.PAUSED)
 		self.emit("playback-status-changed")
@@ -128,20 +118,30 @@ class Player(GObject.GObject):
 			GLib.source_remove(self._timeout)
 			self._timeout = None
 
-			
+	"""
+		Change player state to STOPPED
+	"""
 	def stop(self):
 		self._player.set_state(Gst.State.NULL)
 		if self._timeout:
 			GLib.source_remove(self._timeout)
 			self._timeout = None
 
-	
+	"""
+		Set PLAYING if PAUSED
+		Set PAUSED if PLAYING
+	"""
 	def play_pause(self):
 		if self.is_playing():
 			self.pause()
 		else:
 			self.play()
 
+	"""
+		Play previous track
+		If shuffle or party => go backward in shuffle history
+		Else => Get previous track in currents albums
+	"""
 	def prev(self):
 		if self._shuffle or self._party:
 			try:
@@ -170,11 +170,16 @@ class Player(GObject.GObject):
 	
 		if track_id:			
 			self.load(track_id)
-		
+	
+	"""
+		Play next track
+		If shuffle or party => get a random file not already played
+		Else => get next track in currents albums
+	"""
 	def next(self):
 		# Get a random album/track
 		if self._shuffle or self._party:
-			self.shuffle_next()
+			self._shuffle_next()
 		elif self._current_track_number:
 			track_id = None
 			tracks = self._db.get_tracks_ids_by_album_id(self._current_track_album_id)
@@ -193,29 +198,29 @@ class Player(GObject.GObject):
 			self.load(track_id)
 
 	"""
-		Next track in shuffle mode
+		Seek current track to position
 	"""
-	def shuffle_next(self):
-		track_id = self._get_random()
-		# Need to clear history
-		if not track_id:
-			self.shuffle_history = []
-			self.shuffle_next()
-			return
-		self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
-		self.load(track_id)
-
-
 	def seek(self, position):
 		self._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, position * Gst.SECOND)
 
+	"""
+		Return current track id
+	"""
 	def get_current_track_id(self):
 		return self._current_track_id
 
+	"""
+		Set shuffle mode on if shuffle
+		Clear shuffle history
+	"""
 	def set_shuffle(self, shuffle):
 		self._shuffle_history = []
 		self._shuffle = shuffle
 
+	"""
+		Set party mode on
+		Play a new random track
+	"""
 	def set_party(self, party):
 		self._party = party
 		self._shuffle_history = []
@@ -225,9 +230,18 @@ class Player(GObject.GObject):
 			self.load(track_id)
 			self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
 
+	"""
+		Return True if party mode on
+	"""
 	def is_party(self):
 		return self._party
 
+	"""
+		Set album list (for next/prev)
+		If artist_id and genre_id => Albums for artist_id and genre_id
+		Elif genre_id => Albums for genre_id
+		Else => Albums populars
+	"""
 	def set_albums(self, artist_id, genre_id, track_id):
 		if self._party:
 			return
@@ -281,3 +295,60 @@ class Player(GObject.GObject):
 	"""
 	def is_in_playlist(self, track_id):
 		return track_id in self._playlist
+
+#######################
+# PRIVATE             #
+#######################
+
+	"""
+		Next track in shuffle mode
+	"""
+	def _shuffle_next(self):
+		track_id = self._get_random()
+		# Need to clear history
+		if not track_id:
+			self.shuffle_history = []
+			self._shuffle_next()
+			return
+		self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
+		self.load(track_id)
+
+	"""
+		Return a random track and make sure it has never been played
+	"""
+	def _get_random(self):
+		for album in sorted(self._albums, key=lambda *args: random.random()):
+			tracks = self._db.get_tracks_ids_by_album_id(album)
+			for track in sorted(tracks, key=lambda *args: random.random()):
+					if not track in self._shuffle_history:
+						return track
+		return None
+
+	"""
+		On End Of Stream => next()
+	"""
+	def _on_bus_eos(self, bus, message):
+		self.next()
+
+	"""
+		Call progress callback with new position
+	"""
+	def _update_position(self):
+		if self._progress_callback:
+			position = self._player.query_position(Gst.Format.TIME)[1] / 1000000000
+			if position > 0:
+				self._progress_callback(position * 60)
+		return True
+
+	"""
+		Load track_id
+		Emit "current-changed" to notify others components
+		Add track to shuffle history if needed
+	"""
+	def _load_track(self, track_id):
+		self._current_track_id = track_id
+		self.emit("current-changed", track_id)
+		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
+		self._duration = self._db.get_track_length(track_id)
+		if self._shuffle or self._party:
+			self._shuffle_history.append(track_id)
