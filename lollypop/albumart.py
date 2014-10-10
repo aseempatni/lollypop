@@ -53,7 +53,7 @@ class AlbumArt:
 		cached = True
 		try:
 			if not os.path.exists(cache_path):
-				path = self._get_art(album_path)
+				path = self._get_art_path(album_path)
 				if path:
 					pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (path,
 																	  self._ART_SIZE, self._ART_SIZE, False)
@@ -80,7 +80,7 @@ class AlbumArt:
 			if not os.path.exists(cache_path):
 				path = self._get_art_path(album_path)
 				if path:
-					pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (self._get_art(album_path), 												  self._ART_SMALL_SIZE,
+					pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale (self._get_art_path(album_path), 												  self._ART_SMALL_SIZE,
 											  self._ART_SMALL_SIZE, False)
 					pixbuf.savev(cache_path, "jpeg", ["quality"], ["90"])
 				else:
