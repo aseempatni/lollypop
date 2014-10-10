@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkEventBox" id="eventbox1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -23,7 +24,7 @@
                   <object class="GtkImage" id="image1">
                     <property name="can_focus">False</property>
                     <property name="icon_name">media-playback-start-symbolic</property>
-                    <property name="icon-size">1</property>
+                    <property name="icon_size">1</property>
                   </object>
                 </child>
               </object>
@@ -84,15 +85,33 @@
                 <property name="valign">start</property>
                 <property name="xalign">1</property>
                 <property name="yalign">0</property>
-			<attributes>
-                  		<attribute name="foreground" value="#bababdbdb6b6"/>
-	                </attributes>
+                <attributes>
+                  <attribute name="foreground" value="#bababdbdb6b6"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="pack_type">end</property>
                 <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="play-pos">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">start</property>
+                <property name="margin_start">10</property>
+                <property name="xalign">1</property>
+                <property name="yalign">0</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                  <attribute name="foreground" value="#00000000ffff"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>

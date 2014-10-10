@@ -94,7 +94,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 	"""
 	def _add_tracks(self, album_id):
 		i = 0
-		for id, name, filepath, length, year in self._db.get_tracks_by_album_id(album_id):
+		for track_id, name, filepath, length, year in self._db.get_tracks_by_album_id(album_id):
 			ui = Gtk.Builder()
 			ui.add_from_resource('/org/gnome/Lollypop/TrackWidget.ui')
 			track_widget = ui.get_object('eventbox1')
@@ -103,10 +103,11 @@ class AlbumWidgetSongs(Gtk.Grid):
 			track_widget.playing.set_alignment(1, 0.6)
 			
 			track_widget.connect("button-release-event", self._track_selected)
-			self._tracks.append((id, track_widget))
+
 			ui.get_object('num').set_markup('<span color=\'grey\'>%d</span>' % len(self._tracks))
 			track_widget.title = ui.get_object('title')
-			if not id == self._player.get_current_track_id():
+			track_widget.id = track_id
+			if not track_id == self._player.get_current_track_id():
 				track_widget.playing.set_no_show_all('True')
 				track_widget.title.set_text(name)
 			else:
@@ -118,26 +119,59 @@ class AlbumWidgetSongs(Gtk.Grid):
                     					   int(i % (self._nb_tracks / 2)), 1, 1
                 					   )
 			ui.get_object('duration').set_text(self._player.seconds_to_string(length))
+			track_widget.play_pos = ui.get_object('play-pos')
+			self._update_pos_label(track_widget)
+			self._tracks.append(track_widget)
 			track_widget.show_all()
 			i += 1
 	
 	"""
 		On track selected, emit "new-playlist" with track_id as arg
 	"""		
-	def _track_selected(self, widget, data):
-		for track_id, track_widget in self._tracks:
-			if track_widget == widget:
-				self.emit("new-playlist", track_id)
-			
+	def _track_selected(self, widget, event):
+		# Left click => Play
+		if event.button == 1:
+			for track_widget in self._tracks:
+				if track_widget == widget:
+					self.emit("new-playlist", widget.id)
+		# Add/Remove to/from playlist		
+		else:
+			if self._player.is_in_playlist(widget.id):
+				self._player.del_from_playlist(widget.id)
+			else:
+				self._player.add_to_playlist(widget.id)
+			self._update_pos_labels()
+
+	"""
+		Update all position labels
+	"""
+	def _update_pos_labels(self):
+		for track_widget in self._tracks:
+			self._update_pos_label(track_widget)
+
+	"""
+		Update postion label for track widget
+	"""
+	def _update_pos_label(self, track_widget):
+		if self._player.is_in_playlist(track_widget.id):
+			pos = self._player.get_track_position(track_widget.id) + 1
+			track_widget.play_pos.set_text(str(pos))
+		else:
+			track_widget.play_pos.set_text("")
+
 	"""
 		Update tracks settings current tracks as bold and adding play symbol
 	"""
 	def _update_tracks(self, widget, track_id):
-		for track_widget_id, track_widget in self._tracks:
-			if track_widget_id == track_id:
-				track_widget.title.set_markup('<b>%s</b>' % self._db.get_track_name(track_widget_id))
+		for track_widget in self._tracks:
+			# Update position label
+			self._update_pos_label(track_widget)
+
+			# Update playing label
+			if track_widget.id == track_id:
+				track_widget.title.set_markup('<b>%s</b>' % self._db.get_track_name(track_widget.id))
 				track_widget.playing.show()
 			else:
 				if track_widget.playing.is_visible():
 					track_widget.playing.hide()
-					track_widget.title.set_text(self._db.get_track_name(track_widget_id))
+					track_widget.title.set_text(self._db.get_track_name(track_widget.id))

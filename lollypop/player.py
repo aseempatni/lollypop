@@ -281,7 +281,7 @@ class Player(GObject.GObject):
 		Add track to playlist
 	"""
 	def add_to_playlist(self, track_id):
-		self._playlist += track_id
+		self._playlist.append(track_id)
 
 	"""
 		Remove track from playlist
@@ -291,10 +291,22 @@ class Player(GObject.GObject):
 		self._playlist.remove(track_id)
 
 	"""
-		True if track_id exist in playlist
+		Return playlist
+	"""
+	def get_playlist(self):
+		return self._playlist
+
+	"""
+		ReturnTrue if track_id exist in playlist
 	"""
 	def is_in_playlist(self, track_id):
 		return track_id in self._playlist
+
+	"""
+		Return track position in playlist
+	"""
+	def get_track_position(self, track_id):
+		return self._playlist.index(track_id)
 
 #######################
 # PRIVATE             #

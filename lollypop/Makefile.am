@@ -8,6 +8,7 @@ app_PYTHON = \
 	database.py \
 	albumart.py\
 	selectionlist.py\
+	playlist.py\
 	view.py\
 	mpris.py\
 	search.py\

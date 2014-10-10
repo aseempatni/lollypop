@@ -16,6 +16,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import Gtk, GObject, Gdk
 from lollypop.albumart import AlbumArt
 from lollypop.search import SearchWidget
+from lollypop.playlist import PlayListWidget
 
 class Toolbar(GObject.GObject):
 
@@ -64,10 +65,15 @@ class Toolbar(GObject.GObject):
 		self._play_btn.connect('clicked', self._on_play_btn_clicked)
 		self._next_btn.connect('clicked', self._on_next_btn_clicked)
 
-		self._search_button = self._ui.get_object('search-button')
-		self._search_button.connect("clicked", self._on_search_btn_clicked)
+		search_button = self._ui.get_object('search-button')
+		search_button.connect("clicked", self._on_search_btn_clicked)
 		self._search = SearchWidget(self._db, self._player)
-		self._search.set_relative_to(self._search_button)
+		self._search.set_relative_to(search_button)
+
+		playlist_button = self._ui.get_object('playlist-button')
+		playlist_button.connect("clicked", self._on_playlist_btn_clicked)
+		self._playlist = PlayListWidget(self._db, self._player)
+		self._playlist.set_relative_to(playlist_button)
 
 		self.header_bar.set_show_close_button(True)
 
@@ -167,6 +173,12 @@ class Toolbar(GObject.GObject):
 	def _on_search_btn_clicked(self, obj):
 		self._search.show()
 		
+	"""
+		Show playlist widget on playlist button clicked
+	"""
+	def _on_playlist_btn_clicked(self, obj):
+		self._playlist.show()
+
 	"""
 		Update play button with image and status as tooltip
 	"""
