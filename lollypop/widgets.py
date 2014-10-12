@@ -82,7 +82,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 		grid = self._ui.get_object('grid2')
 		self._nb_tracks = self._db.get_tracks_count_for_album_id(album_id)
 		self._player.connect("current-changed", self._update_tracks)
-		
+		self._player.connect("playlist-changed", self._update_pos_labels)
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
 		self._ui.get_object('title').set_label(self._db.get_album_name(album_id))
 		self.add(self._ui.get_object('AlbumWidgetSongs'))
@@ -144,7 +144,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 	"""
 		Update all position labels
 	"""
-	def _update_pos_labels(self):
+	def _update_pos_labels(self, obj = None):
 		for track_widget in self._tracks:
 			self._update_pos_label(track_widget)
 

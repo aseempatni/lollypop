@@ -26,7 +26,7 @@ class Player(GObject.GObject):
 	__gsignals__ = {
         'current-changed': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
         'playback-status-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'repeat-mode-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'playlist-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
 
 	"""
@@ -36,9 +36,9 @@ class Player(GObject.GObject):
 		GObject.GObject.__init__(self)
 		Gst.init(None)
 
-		self._current_track_number = 0
-		self._current_track_album_id = 0
-		self._current_track_id = 0
+		self._current_track_number = -1
+		self._current_track_album_id = -1
+		self._current_track_id = -1
 		self._albums = []
 		self._progress_callback = None
 		self._timeout = None
@@ -143,6 +143,7 @@ class Player(GObject.GObject):
 		Else => Get previous track in currents albums
 	"""
 	def prev(self):
+		track_id = None
 		if self._shuffle or self._party:
 			try:
 				track_id = self._shuffle_history[-2]
@@ -152,7 +153,7 @@ class Player(GObject.GObject):
 			except Exception as e:
 				print(e)
 				track_id = None
-		elif self._current_track_number:
+		elif self._current_track_number != -1:
 			tracks = self._db.get_tracks_ids_by_album_id(self._current_track_album_id)
 			if self._current_track_number <=0 : #Prev album
 				pos = self._albums.index(self._current_track_album_id)
@@ -180,7 +181,7 @@ class Player(GObject.GObject):
 		# Get a random album/track
 		if self._shuffle or self._party:
 			self._shuffle_next()
-		elif self._current_track_number:
+		elif self._current_track_number != -1:
 			track_id = None
 			tracks = self._db.get_tracks_ids_by_album_id(self._current_track_album_id)
 			if self._current_track_number + 1 >= len(tracks): #next album
@@ -290,6 +291,12 @@ class Player(GObject.GObject):
 	def del_from_playlist(self, track_id):
 		self._playlist.remove(track_id)
 
+	"""
+		Set playlist to new_playlist
+	"""
+	def set_playlist(self, new_playlist):
+		self._playlist = new_playlist
+		self.emit("playlist-changed")
 	"""
 		Return playlist
 	"""
