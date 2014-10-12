@@ -106,7 +106,11 @@ class ArtistView(View):
 		Populate the view
 	"""
 	def populate(self):
-		for id in self._db.get_albums_by_artist_and_genre_ids(self._artist_id, self._genre_id):
+		if self._genre_id == -1:
+			albums = self._db.get_albums_by_artist_id(self._artist_id)
+		else:
+			albums = self._db.get_albums_by_artist_and_genre_ids(self._artist_id, self._genre_id)
+		for id in albums:
 			self._add_album(id)
 
 	"""
