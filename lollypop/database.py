@@ -246,6 +246,17 @@ class Database:
 			artists += (row,)
 		return artists
 
+	"""
+		Get all available artists(id, name)
+		arg: int
+		ret: [(int, string)]
+	"""
+	def get_all_artists(self):
+		artists = []
+		result = self._sql.execute("SELECT id, name FROM artists ORDER BY name")
+		for row in result:
+			artists += (row,)
+		return artists
 
 	"""
 		Get album id with name, artist id and genre id
@@ -328,9 +339,20 @@ class Database:
 		Get all albums ids
 		ret: int
 	"""
-	def get_all_albums_id(self):
+	def get_all_albums_ids(self):
 		albums = []
 		result = self._sql.execute("SELECT id FROM albums")
+		for row in result:
+			albums += row
+		return albums
+
+	"""
+		Get all albums id
+		ret: [int]
+	"""
+	def get_all_albums(self):
+		albums = []
+		result = self._sql.execute("SELECT id FROM albums ORDER BY artist_id")
 		for row in result:
 			albums += row
 		return albums

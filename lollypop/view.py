@@ -117,7 +117,7 @@ class ArtistView(View):
 		for child in self._albumbox.get_children():
 			self._albumbox.remove(child)
 			child.hide()
-			#child.destroy()
+			child.destroy()
 		album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
 		self._add_album(album_id)
 		artist_id = self._db.get_artist_id_by_album_id(album_id)
@@ -183,7 +183,7 @@ class AlbumView(View):
 		for child in self._scrolledContext.get_children():
 			self._scrolledContext.remove(child)
 			child.hide()
-			#child.destroy()
+			child.destroy()
 		self._context_album_id = data.get_child().get_id()
 		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
 		context.connect("new-playlist", self._new_playlist)
@@ -195,7 +195,11 @@ class AlbumView(View):
     		arg: int
     	"""   
 	def _add_albums(self):
-		for album_id in self._db.get_albums_by_genre_id(self._genre_id):
+		if self._genre_id == -1:
+			albums = self._db.get_all_albums()
+		else:
+			albums = self._db.get_albums_by_genre_id(self._genre_id)
+		for album_id in albums:
 			widget = AlbumWidget(self._db, album_id)
 			widget.show()
 			self._albumbox.insert(widget, -1)		

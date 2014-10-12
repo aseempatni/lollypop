@@ -229,7 +229,7 @@ class Player(GObject.GObject):
 		self._party = party
 		self._shuffle_history = []
 		if party:
-			self._albums = self._db.get_all_albums_id()
+			self._albums = self._db.get_all_albums_ids()
 			track_id = self._get_random()
 			self.load(track_id)
 			self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
