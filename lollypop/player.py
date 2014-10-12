@@ -178,8 +178,11 @@ class Player(GObject.GObject):
 		Else => get next track in currents albums
 	"""
 	def next(self):
+		# Look first at user playlist
+		if len(self._playlist) > 0:
+			self.load(self._playlist.pop(0))
 		# Get a random album/track
-		if self._shuffle or self._party:
+		elif self._shuffle or self._party:
 			self._shuffle_next()
 		elif self._current_track_number != -1:
 			track_id = None

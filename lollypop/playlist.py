@@ -62,7 +62,6 @@ class PlayListWidget(Gtk.Popover):
 	def show(self):
 		self._model.clear()
 		for track_id in self._player.get_playlist():
-			print (track_id)
 			track_name = self._db.get_track_name(track_id)
 			album_id = self._db.get_album_id_by_track_id(track_id)
 			artist_id = self._db.get_artist_id_by_album_id(album_id)
