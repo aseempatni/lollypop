@@ -132,7 +132,20 @@ class Database:
 		self._sql.commit()
 		
 	"""
-		Get genre id by name
+		Get genre id by album_id
+		arg: int
+		ret: int
+	"""
+	def get_genre_id_by_album_id(self, album_id):
+		result = self._sql.execute("SELECT genre_id from albums where id=?", (album_id,))
+		v = result.fetchone()
+		if v:
+			return v[0]
+		else:
+			return -1
+			
+	"""
+		Get genre id by album_id
 		arg: string
 		ret: int
 	"""
@@ -143,7 +156,7 @@ class Database:
 			return v[0]
 		else:
 			return -1
-			
+
 	"""
 		Get genre name
 		arg: string
@@ -374,9 +387,9 @@ class Database:
 	"""
 		Get track id for album id
 		arg: int
-		ret: [(int, string, string, int, string)]
+		ret: [int]
 	"""
-	def get_track_id_by_album_id(self, album_id):
+	def get_track_ids_by_album_id(self, album_id):
 		tracks = []
 		result = self._sql.execute("SELECT id FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
 		for row in result:

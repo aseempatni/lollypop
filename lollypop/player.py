@@ -122,9 +122,6 @@ class Player(GObject.GObject):
 		Change player state to STOPPED
 	"""
 	def stop(self):
-		self._current_track_number = -1
-		self._current_track_album_id = -1
-		self._current_track_id = -1
 		self._player.set_state(Gst.State.NULL)
 		if self._timeout:
 			GLib.source_remove(self._timeout)
