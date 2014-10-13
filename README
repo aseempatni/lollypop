@@ -1,0 +1,13 @@
+Lollypop 0.5
+========================
+
+Lollypop is the new GNOME music playing application.
+
+
+=== Building from git ===
+
+$ git clone https://github.com/gnumdk/lollypop.git
+$ cd lollypop
+$ ./autogen.sh
+$ make
+# make install
