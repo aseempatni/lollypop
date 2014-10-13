@@ -228,7 +228,7 @@ class Database:
 	def get_artist_id_by_album_id(self, album_id):
 		result = self._sql.execute("SELECT artist_id from albums where id=?", (album_id,))
 		v = result.fetchone()
-		if id:
+		if v:
 			return v[0]
 		else:
 			return -1

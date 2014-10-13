@@ -221,7 +221,7 @@ class Player(GObject.GObject):
 	def set_shuffle(self, shuffle):
 		self._shuffle_history = []
 		self._shuffle = shuffle
-		if not shuffle:
+		if not shuffle and self._current_track_id != -1:
 			album_id = self._db.get_album_id_by_track_id(self._current_track_id)
 			artist_id = self._db.get_artist_id_by_album_id(album_id)
 			genre_id = self._db.get_genre_id_by_album_id(album_id)
@@ -369,8 +369,8 @@ class Player(GObject.GObject):
 		for album in sorted(self._albums, key=lambda *args: random.random()):
 			tracks = self._db.get_tracks_ids_by_album_id(album)
 			for track in sorted(tracks, key=lambda *args: random.random()):
-					if not track in self._shuffle_history:
-						return track
+				if not track in self._shuffle_history:
+					return track
 			# No new tracks for this album, remove it
 			self._albums.remove(album)
 		return None
