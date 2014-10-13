@@ -44,6 +44,7 @@ class PlayListWidget(Gtk.Popover):
 		self._view.append_column(Gtk.TreeViewColumn("Text", renderer1, text=1))
 		self._view.set_headers_visible(False)		
 		self._view.connect('row-activated', self._new_item_selected)
+		self._view.connect('key-release-event', self._on_keyboard_event)
 		self.set_property('height-request', 700)
 		self.set_property('width-request', 500)
 		self._scroll = Gtk.ScrolledWindow()
@@ -81,6 +82,15 @@ class PlayListWidget(Gtk.Popover):
 # PRIVATE             #
 #######################
 
+	"""
+		Delete item if Delete was pressed
+	"""
+	def _on_keyboard_event(self, obj, event):
+		if len(self._player.get_playlist()) > 0:
+			if event.keyval == 65535:
+				path, column = self._view.get_cursor()
+				iter = self._model.get_iter(path)
+				self._model.remove(iter)
 	"""
 		Clear reorderer signal
 	"""
