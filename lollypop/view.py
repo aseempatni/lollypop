@@ -188,11 +188,15 @@ class AlbumView(View):
 			self._scrolledContext.remove(child)
 			child.hide()
 			child.destroy()
-		self._context_album_id = data.get_child().get_id()
-		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
-		context.connect("new-playlist", self._new_playlist)
-		self._scrolledContext.add(context)
-		self._scrolledContext.show_all()		
+		if self._context_album_id == data.get_child().get_id():
+			self._context_album_id = None
+			self._scrolledContext.hide()
+		else:
+			self._context_album_id = data.get_child().get_id()
+			context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
+			context.connect("new-playlist", self._new_playlist)
+			self._scrolledContext.add(context)
+			self._scrolledContext.show_all()		
 		
 	"""
     		Add albums with current genre to the flowbox
