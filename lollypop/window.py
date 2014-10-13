@@ -233,7 +233,7 @@ class Window(Gtk.ApplicationWindow):
 		self._list_genres.populate(genres)
 		self._list_genres.connect('item-selected', self._update_artists)
 		self._list_genres.widget.show()
-		self._update_view_populars_albums()
+		self._list_genres.select_first()
 
 	"""
 		Update artist list for genre_id

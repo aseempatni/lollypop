@@ -53,7 +53,15 @@ class SelectionList(GObject.GObject):
 		for (id, string) in values:
 			self._model.append([string, id])
 				
-		
+	
+	"""
+		Make treeview select first default item
+	"""
+	def select_first(self):
+		iterator = self._model.get_iter("0")
+		path = self._model.get_path(iterator)
+		self._view.set_cursor(path, None, False)
+
 #######################
 # PRIVATE             #
 #######################
