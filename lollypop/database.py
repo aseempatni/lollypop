@@ -174,7 +174,7 @@ class Database:
 		Get all availables genres
 		ret: [(int, string)]
 	"""
-	def get_genres(self):
+	def get_all_genres(self):
 		genres = []
 		result = self._sql.execute("SELECT id, name FROM genres ORDER BY name")
 		for row in result:
@@ -337,13 +337,27 @@ class Database:
 	
 	"""
 		Get all albums ids
-		ret: int
+		ret: [int]
 	"""
 	def get_all_albums_ids(self):
 		albums = []
 		result = self._sql.execute("SELECT id FROM albums")
 		for row in result:
 			albums += row
+		return albums
+
+	"""
+		Get album ids for party mode based on party ids
+		arg: [int]
+		ret: [int]
+	"""
+	def get_party_albums_ids(self, party_ids):
+		albums = []
+		# get popular first
+		if -1 in party_ids:
+			albums = self.get_albums_popular()
+		for genre_id in party_ids:
+			albums += self.get_albums_by_genre_id(genre_id)
 		return albums
 
 	"""

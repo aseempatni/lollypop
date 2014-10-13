@@ -43,7 +43,80 @@ class Window(Gtk.ApplicationWindow):
 		self._setup_view()
 		self._setup_media_keys()
 
+		party_settings = self._settings.get_value('party-ids')
+		ids = []
+		for setting in party_settings:
+			if isinstance(setting, int):
+				ids.append(setting)	
+		self._player.set_party_ids(ids)
+		
 		self.connect("map-event", self._on_mapped_window)
+
+
+
+	def edit_party(self):
+		builder = Gtk.Builder()
+		builder.add_from_resource('/org/gnome/Lollypop/PartyDialog.ui')
+		self._party_dialog = builder.get_object('party_dialog')
+		self._party_dialog.set_transient_for(self)
+		self._party_dialog.set_title(_("Select what will be available in party mode"))
+		party_button = builder.get_object('button1')
+		party_button.connect("clicked", self._edit_party_close)
+		scrolled = builder.get_object('scrolledwindow1')
+		genres = self._db.get_all_genres()
+		genres.insert(0, (-1, "Populars"))
+		self._party_grid = Gtk.Grid()
+		self._party_grid.set_orientation(Gtk.Orientation.VERTICAL)
+		self._party_grid.set_property("column-spacing", 10)
+		ids = self._player.get_party_ids()
+		i = 0
+		x = 0
+		for genre_id, genre in genres:
+			label = Gtk.Label()
+			label.set_text(genre)
+			switch = Gtk.Switch()
+			if genre_id in ids:
+				switch.set_state(True)
+			switch.connect("state-set", self._party_switch_state, genre_id)
+			self._party_grid.attach(label, x, i, 1, 1)
+			self._party_grid.attach(switch, x+1, i, 1, 1)
+			if x == 0:
+				x += 2
+			else:
+				i += 1
+				x = 0
+		scrolled.add(self._party_grid)
+		self._party_dialog.show_all()
+
+############
+# Private  #
+############
+
+	"""
+		Update party ids when use change a switch in dialog
+	"""
+	def _party_switch_state(self, widget, state, genre_id):
+		ids = self._player.get_party_ids()
+		if state:
+			try:
+				ids.append(genre_id)
+			except:
+				pass
+		else:
+			try:
+				ids.remove(genre_id)
+			except:
+				pass
+		self._player.set_party_ids(ids)
+		self._settings.set_value('party-ids',  GLib.Variant('ai', ids))
+		
+
+	"""
+		Close edit party dialog
+	"""
+	def _edit_party_close(self, widget):
+		self._party_dialog.hide()
+		self._party_dialog.destroy()
 
 	"""
 		Setup media player keys

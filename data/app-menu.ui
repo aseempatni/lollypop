@@ -3,9 +3,8 @@
   <menu id="app-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Help</attribute>
-        <attribute name="action">app.help</attribute>
-        <attribute name="accel">F1</attribute>
+        <attribute name="action">app.party</attribute>
+        <attribute name="label" translatable="yes">_Edit party mode</attribute>
       </item>
       <item>
         <attribute name="action">app.about</attribute>

@@ -68,7 +68,7 @@ class CollectionScanner:
 			db.remove_track(track)
 
 		db.commit()
-		callback(db.get_genres())
+		callback(db.get_all_genres())
 		db.close()
 
 	"""

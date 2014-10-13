@@ -45,6 +45,7 @@ class Player(GObject.GObject):
 		self._shuffle = False
 		self._shuffle_history = []
 		self._party = False
+		self._party_ids = []
 		self._playlist = []
 
 		self._db = db
@@ -234,7 +235,10 @@ class Player(GObject.GObject):
 		self._party = party
 		self._shuffle_history = []
 		if party:
-			self._albums = self._db.get_all_albums_ids()
+			if len(self._party_ids) > 0:
+				self._albums = self._db.get_party_albums_ids(self._party_ids)
+			else:
+				self._albums = self._db.get_all_albums_ids()
 			track_id = self._get_random()
 			self.load(track_id)
 			self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
@@ -243,6 +247,19 @@ class Player(GObject.GObject):
 			artist_id = self._db.get_artist_id_by_album_id(album_id)
 			genre_id = self._db.get_genre_id_by_album_id(album_id)
 			self.set_albums(artist_id, genre_id, self._current_track_id)
+
+	"""
+		Set party ids to ids
+		Party ids are genres_id (and specials ids) used to populate party mode
+	"""
+	def set_party_ids(self, ids):
+		self._party_ids = ids
+
+	"""
+		Return party ids
+	"""
+	def get_party_ids(self):
+		return self._party_ids
 
 	"""
 		Return True if party mode on

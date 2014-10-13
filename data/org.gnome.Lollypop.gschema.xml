@@ -22,16 +22,10 @@
             <summary>Window maximized</summary>
             <description>Window maximized state.</description>
         </key>
-        <key enum="org.gnome.Lollypop.RepeatType" name="repeat">
-            <default>'none'</default>
-            <summary>Playback repeat mode</summary>
-            <!-- Translators: Don't translate allowed values, just the description in the brackets -->
-            <description>Value identifies whether to repeat or randomize playback through the collection. Allowed values are: "none" (repeat and shuffle are off), "song" (repeat current song), "all" (repeat playlist, no shuffle), "shuffle" (shuffle playlist, presumes repeat all).</description>
-        </key>
-        <key type="b" name="search">
-            <default>false</default>
-            <summary>Search mode</summary>
-            <description>If true, the search bar is shown.</description>
+  	<key type="ai" name="party-ids">
+            <default>[]</default>
+            <summary>Enabled genres in party mode</summary>
+            <description>Ids for genres.</description>
         </key>
     </schema>
 </schemalist>

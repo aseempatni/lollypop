@@ -45,6 +45,13 @@ class Application(Gtk.Application):
 		self._window = None
 
 	"""
+		Party dialog
+	"""
+	def party(self, action, param):
+		if self._window:
+			self._window.edit_party()
+
+	"""
 		Setup about dialog
 	"""
 	def about(self, action, param):
@@ -100,6 +107,10 @@ class Application(Gtk.Application):
 
 		menu = builder.get_object('app-menu')
 		self.set_app_menu(menu)
+
+		partyAction = Gio.SimpleAction.new('party', None)
+		partyAction.connect('activate', self.party)
+		self.add_action(partyAction)
 
 		aboutAction = Gio.SimpleAction.new('about', None)
 		aboutAction.connect('activate', self.about)
