@@ -59,7 +59,7 @@ class ArtistView(View):
 
 		self._artist_id = artist_id
 
-		self._player.connect("current-changed", self._update_view)
+		self._player.connect("album-changed", self._update_view)
 
 		artist_name = self._db.get_artist_name_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
@@ -153,7 +153,7 @@ class AlbumView(View):
 
 		self._context_album_id = None
 
-		self._player.connect("current-changed", self._update_view)
+		self._player.connect("album-changed", self._update_view)
 
 		self._albumbox = Gtk.FlowBox()
 		self._albumbox.set_homogeneous(True)
@@ -200,7 +200,7 @@ class AlbumView(View):
 		for child in self._scrolledContext.get_children():
 			self._scrolledContext.remove(child)
 			child.hide()
-			#child.destroy()
+			child.destroy()
 		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
 		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
 		context.connect("new-playlist", self._new_playlist)
