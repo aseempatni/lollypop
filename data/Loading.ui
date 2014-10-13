@@ -6,7 +6,7 @@
     <property name="can_focus">False</property>
     <property name="xalign">0.4699999988079071</property>
     <property name="yalign">0.46000000834465027</property>
-    <property name="label" translatable="yes">No Music Found</property>
+    <property name="label" translatable="yes"></property>
     <property name="justify">center</property>
     <property name="ellipsize">middle</property>
   </object>

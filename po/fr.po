@@ -5,10 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-19 21:46+0000\n"
+"Project-Id-Version: lollypop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-13 10:24+0200\n"
 "PO-Revision-Date: 2014-09-20 00:32+0200\n"
 "Last-Translator: Erwan GEORGET <egeorget@openmailbox.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -19,215 +18,107 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../data/org.gnome.Music.gschema.xml.h:1
+#: ../data/org.gnome.Lollypop.gschema.xml.h:1
 msgid "Window size"
 msgstr "Taille de la fenêtre"
 
-#: ../data/org.gnome.Music.gschema.xml.h:2
+#: ../data/org.gnome.Lollypop.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "La taille de la fenêtre (en largeur et hauteur)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:3
+#: ../data/org.gnome.Lollypop.gschema.xml.h:3
 msgid "Window position"
 msgstr "Position de la fenêtre"
 
-#: ../data/org.gnome.Music.gschema.xml.h:4
+#: ../data/org.gnome.Lollypop.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "La position de la fenêtre (en x et y)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:5
+#: ../data/org.gnome.Lollypop.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Fenêtre maximisée"
 
-#: ../data/org.gnome.Music.gschema.xml.h:6
+#: ../data/org.gnome.Lollypop.gschema.xml.h:6
 msgid "Window maximized state."
 msgstr "État maximisé de la fenêtre."
 
-#: ../data/org.gnome.Music.gschema.xml.h:7
-msgid "Playback repeat mode"
-msgstr "Mode de lecture répétion"
+#: ../data/org.gnome.Lollypop.gschema.xml.h:7
+msgid "Enabled genres in party mode"
+msgstr "Genres actif en mode soirée"
 
-#. Translators: Don't translate allowed values, just the description in the brackets
-#: ../data/org.gnome.Music.gschema.xml.h:9
-msgid ""
-"Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
-"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
-"\" (shuffle playlist, presumes repeat all)."
-msgstr ""
-"Valeur indiquant s'il faut répéter ou rendre aléatoire la lecture des "
-"musiques de la discothèque. Les valeurs possibles sont : « none » (aucune, "
-"la répétition et le mélange sont désactivés), « song » (répète le morceau "
-"actuel), « all » (rejoue toute la liste de lecture, sans mélange), "
-"« shuffle » (mélange la liste de lecture, en supposant de tout rejouer)."
+#: ../data/org.gnome.Lollypop.gschema.xml.h:8
+msgid "Ids for genres."
+msgstr "Les ids des genres"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "Search mode"
-msgstr "Mode de recherche"
+#: ../data/lollypop.desktop.in.h:1 ../data/lollypop.appdata.xml.in.h:1
+#: ../lollypop/application.py:32 ../lollypop/application.py:76
+#: ../lollypop/window.py:33
+msgid "Lollypop"
+msgstr "Lollypop"
 
-#: ../data/org.gnome.Music.gschema.xml.h:11
-msgid "If true, the search bar is shown."
-msgstr "Si true (vrai), la barre de recherche s'affiche. "
-
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
-#: ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "Musique"
-
-#: ../data/gnome-music.desktop.in.h:2
+#: ../data/lollypop.desktop.in.h:2
 msgid "Music Player"
 msgstr "Lecteur de musique"
 
-#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+#: ../data/lollypop.desktop.in.h:3 ../data/lollypop.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Jouer et organiser votre discothèque"
 
-#: ../data/gnome-music.appdata.xml.in.h:1
-msgid "GNOME Music"
-msgstr "GNOME Musique"
+#: ../data/lollypop.appdata.xml.in.h:3
+msgid "Music player for the GNOME desktop"
+msgstr "Lecteur de musique pour le bureau GNOME"
 
-#: ../data/gnome-music.appdata.xml.in.h:3
-msgid "Music is the new GNOME music playing application."
-msgstr "Musique est la nouvelle application de lecture de musique de GNOME"
+#: ../lollypop/toolbar.py:112
+msgid "Pause"
+msgstr "Pause"
 
-#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
-msgid "Untitled"
-msgstr "Sans titre"
+#: ../lollypop/toolbar.py:117 ../lollypop/toolbar.py:159
+#: ../data/headerbar.ui.h:2
+msgid "Play"
+msgstr "Lecture"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
-#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
-msgid "Unknown Album"
-msgstr "Album inconnu"
+#: ../lollypop/window.py:62
+msgid "Select what will be available in party mode"
+msgstr "Selectionnez ce qui sera disponible en mode soirée"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
-#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
-#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
-msgid "Unknown Artist"
-msgstr "Artiste inconnu"
+#: ../lollypop/window.py:231
+msgid "All genres"
+msgstr "Tous les genres"
 
-#: ../gnomemusic/notification.py:89
-msgid "Not playing"
-msgstr "Pas de lecture en cours"
+#: ../lollypop/window.py:232
+msgid "Populars albums"
+msgstr "Albums populaires"
+
+#: ../lollypop/notification.py:35 ../data/headerbar.ui.h:1
+msgid "Previous"
+msgstr "Précédent"
+
+#: ../lollypop/notification.py:37 ../data/headerbar.ui.h:3
+msgid "Next"
+msgstr "Suivant"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
+#: ../lollypop/notification.py:57
 #, python-format
 msgid "by %s, from %s"
 msgstr "par %s, sur %s"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
-msgid "Previous"
-msgstr "Précédent"
+#: ../lollypop/database.py:171 ../lollypop/database.py:209
+#: ../lollypop/database.py:235 ../lollypop/database.py:311
+msgid "Unknown"
+msgstr "Inconnu"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
-msgid "Pause"
-msgstr "Pause"
+#: ../lollypop/playlist.py:77
+msgid "Right click on a song to add it to playlist"
+msgstr "Clique droit sur une chanson pour la rajouter\n dans la liste de lecture"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
-#: ../data/PlayerToolbar.ui.h:6
-msgid "Play"
-msgstr "Lecture"
+#: ../lollypop/view.py:31
+msgid "Loading please wait..."
+msgstr "Chargement, veuillez patienter"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
-msgid "Next"
-msgstr "Suivant"
-
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
-msgid "All"
-msgstr "Tout"
-
-#: ../gnomemusic/searchbar.py:31
-msgid "Artist"
-msgstr "Artistes"
-
-#: ../gnomemusic/searchbar.py:32
-msgid "Album"
-msgstr "Albums"
-
-#: ../gnomemusic/searchbar.py:33
-msgid "Track Title"
-msgstr "Titre du morceau"
-
-#: ../gnomemusic/searchbar.py:74
-msgid "Local"
-msgstr "Locale"
-
-#: ../gnomemusic/searchbar.py:176
-msgid "Sources"
-msgstr "Sources"
-
-#: ../gnomemusic/searchbar.py:183
-msgid "Match"
-msgstr "Correspondance"
-
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "%d élément est sélectionné"
-msgstr[1] "%d éléments sont sélectionnés"
-
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
-#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
-msgid "Click on items to select them"
-msgstr "Cliquez sur les éléments pour les sélectionner"
-
-#: ../gnomemusic/view.py:337
-#, python-format
-msgid ""
-"No Music found!\n"
-" Put some files into the folder %s"
-msgstr ""
-"Aucune musique trouvée !\n"
-" Mettez quelques fichiers dans le dossier %s"
-
-#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
-msgid "Albums"
-msgstr "Albums"
-
-#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
-msgid "Songs"
-msgstr "Morceaux"
-
-#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
-msgid "Artists"
-msgstr "Artistes"
-
-#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
-#: ../gnomemusic/widgets.py:448
-msgid "All Artists"
-msgstr "Tous les artistes"
-
-#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
-msgid "Playlists"
-msgstr "Listes de lecture"
-
-#: ../gnomemusic/view.py:1077
-#, python-format
-msgid "%d Song"
-msgid_plural "%d Songs"
-msgstr[0] "%d morceau"
-msgstr[1] "%d morceaux"
-
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
-#, python-format
-msgid "%d min"
-msgstr "%d min"
-
-#: ../gnomemusic/widgets.py:674
-msgid "New Playlist"
-msgstr "Nouvelle liste de lecture"
-
-#: ../gnomemusic/window.py:226
-msgid "Empty"
-msgstr "Vide"
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musique"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -286,94 +177,39 @@ msgstr ""
 "votre version du code, mais vous n'y êtes pas obligés. Si vous ne le "
 "souhaitez pas, veuillez supprimer cette mention d'exception de votre version."
 
-#: ../data/AlbumWidget.ui.h:1
-msgid "Released"
-msgstr "Publié"
-
-#: ../data/AlbumWidget.ui.h:2
-msgid "Running Length"
-msgstr "Durée"
-
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Nouvelle liste de lecture"
+msgid "_Edit party mode"
+msgstr "_Editer le mode soirée"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Help"
-msgstr "Aid_e"
-
-#: ../data/app-menu.ui.h:3
 msgid "_About"
 msgstr "À _propos"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Quitter"
 
-#: ../data/PlayerToolbar.ui.h:1
-msgid "Shuffle"
-msgstr "Mélanger"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "Repeat All"
-msgstr "Tout répéter"
-
-#: ../data/PlayerToolbar.ui.h:3
-msgid "Repeat Song"
-msgstr "Répéter le morceau"
-
-#: ../data/PlayerToolbar.ui.h:4
-msgid "Shuffle/Repeat Off"
-msgstr "Désactiver mélanger/répéter"
-
-#: ../data/NoMusic.ui.h:1
+#: ../data/Loading.ui.h:1
 msgid "No Music Found"
 msgstr "Aucune musique trouvée"
 
-#: ../data/headerbar.ui.h:1
-msgid "Select All"
-msgstr "Tout sélectionner"
-
-#: ../data/headerbar.ui.h:2
-msgid "Select None"
-msgstr "Ne rien sélectionner"
-
 #: ../data/headerbar.ui.h:4
+msgid "Shuffle"
+msgstr "Aléatoire"
+
+#: ../data/headerbar.ui.h:5
+msgid "Party mode"
+msgstr "Mode soirée"
+
+#: ../data/headerbar.ui.h:6
 msgid "Search"
 msgstr "Recherche"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
-msgid "Select"
-msgstr "Sélectionner"
-
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
-msgid "Cancel"
-msgstr "Annuler"
-
 #: ../data/headerbar.ui.h:7
-msgid "Back"
-msgstr "Retour"
+msgid "Playlist"
+msgstr "Liste de lecture"
 
-#: ../data/SelectionToolbar.ui.h:1
-msgid "Add to Playlist"
-msgstr "Ajouter à la liste de lecture"
+#: ../data/PartyDialog.ui.h:1
+msgid "Close"
+msgstr "Fermer"
 
-#: ../data/SelectionToolbar.ui.h:2
-msgid "Remove from Playlist"
-msgstr "Supprimer de la liste de lecture"
-
-#: ../data/PlaylistControls.ui.h:1
-msgid "_Play"
-msgstr "_Lire"
-
-#: ../data/PlaylistControls.ui.h:2
-msgid "_Delete"
-msgstr "_Supprimer"
-
-#: ../data/PlaylistControls.ui.h:3
-msgid "Playlist Name"
-msgstr "Nom de la liste de lecture"
-
-#: ../data/PlaylistDialog.ui.h:1
-msgid "Select Playlist"
-msgstr "Sélectionner la liste de lecture"

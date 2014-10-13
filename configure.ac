@@ -1,9 +1,9 @@
 AC_PREREQ(2.63)
 AC_INIT([lollypop],
         [0.1],
-        [https://bugzilla.gnome.org/enter_bug.cgi?product=lollypop],
+        [https://github.com/gnumdk/lollypop],
         [lollypop],
-        [https://wiki.gnome.org/Apps/Music])
+        [https://github.com/gnumdk/lollypop])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS(config.h)

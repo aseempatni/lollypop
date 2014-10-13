@@ -159,7 +159,7 @@ class Toolbar(GObject.GObject):
 			self._change_play_btn_status(self._play_image, _("Play"))
 		else:
 			self._player.play()
-			self._change_play_btn_status(self._pause_image, _("PausePlay"))
+			self._change_play_btn_status(self._pause_image, _("Pause"))
 
 	"""
 		Next track on next button clicked
