@@ -142,7 +142,6 @@ class ArtistView(View):
 			album_id = self._db.get_album_id_by_track_id(track_id)
 			self._player.set_albums(self._artist_id, self._genre_id, track_id)
 			self._db.set_more_popular(album_id)
-			self._db.commit()
 
 class AlbumView(View):
 
@@ -270,5 +269,4 @@ class AlbumView(View):
 			album_id = self._db.get_album_id_by_track_id(track_id)
 			self._player.set_albums(None, self._genre_id, track_id)
 			self._db.set_more_popular(album_id)
-			self._db.commit()
 		

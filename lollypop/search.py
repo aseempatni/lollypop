@@ -123,7 +123,8 @@ class SearchWidget(Gtk.Popover):
 				track_id = self._db.get_track_ids_by_album_id(value_id)[0]
 				artist_id = self._db.get_artist_id_by_album_id(value_id)
 				self._player.load(track_id)
-				self._db.set_more_popular(value_id)
-				self._player.set_albums(artist_id, genre_id, track_id)
+				if not self._player.is_party():
+					self._db.set_more_popular(value_id)
+					self._player.set_albums(artist_id, genre_id, track_id)
 
 
