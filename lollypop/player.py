@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # Copyright (c) 2014 Cedric Bellegarde <gnumdk@gmail.com>
+# Copyright (C) 2010 Jonathan Matthew (replay gain code)
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -22,6 +23,8 @@ class PlaybackStatus:
     STOPPED = 2
 
 class Player(GObject.GObject):
+	
+	EPSILON = 0.001
 	
 	__gsignals__ = {
         'current-changed': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
@@ -51,6 +54,8 @@ class Player(GObject.GObject):
 
 		self._db = db
 		self._player = Gst.ElementFactory.make('playbin', 'player')
+		self._rg_setup()
+		
 		
 		self._bus = self._player.get_bus()
 		self._bus.add_signal_watch()
@@ -220,6 +225,10 @@ class Player(GObject.GObject):
 		Clear shuffle history
 	"""
 	def set_shuffle(self, shuffle):
+		if shuffle:
+			self._rgvolume.props.album_mode = 0
+		else:
+			self._rgvolume.props.album_mode = 1
 		self._shuffle_tracks_history = []
 		self._shuffle = shuffle
 		if not shuffle and self._current_track_id != -1:
@@ -233,6 +242,10 @@ class Player(GObject.GObject):
 		Play a new random track
 	"""
 	def set_party(self, party):
+		if party:
+			self._rgvolume.props.album_mode = 0
+		else:
+			self._rgvolume.props.album_mode = 1
 		self._party = party
 		self._shuffle_tracks_history = []
 		if party:
@@ -349,6 +362,36 @@ class Player(GObject.GObject):
 #######################
 # PRIVATE             #
 #######################
+
+	"""
+		Setup replaygain
+	"""
+	def _rg_setup(self):
+		self._rgfilter = Gst.ElementFactory.make("bin", "bin")
+
+		self._rg_audioconvert1 = Gst.ElementFactory.make("audioconvert", "audioconvert")
+		self._rg_audioconvert2 = Gst.ElementFactory.make("audioconvert", "audioconvert2")
+		
+		self._rgvolume = Gst.ElementFactory.make("rgvolume", "rgvolume")
+		self._rglimiter = Gst.ElementFactory.make("rglimiter", "rglimiter")
+		self._rg_audiosink = Gst.ElementFactory.make("autoaudiosink", "autoaudiosink")
+
+		self._rgvolume.props.pre_amp = 0.0
+
+		self._rgfilter.add(self._rgvolume)
+		self._rgfilter.add(self._rg_audioconvert1)
+		self._rgfilter.add(self._rg_audioconvert2)
+		self._rgfilter.add(self._rglimiter)
+		self._rgfilter.add(self._rg_audiosink)
+
+		self._rg_audioconvert1.link(self._rgvolume)
+		self._rgvolume.link(self._rg_audioconvert2)
+		self._rgvolume.link(self._rglimiter)
+		self._rg_audioconvert2.link(self._rg_audiosink)
+		
+		self._rgfilter.add_pad(Gst.GhostPad.new("sink", self._rg_audioconvert1.get_static_pad("sink")))
+		
+		self._player.set_property("audio-sink", self._rgfilter)
 
 	"""
 		Next track in shuffle mode
