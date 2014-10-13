@@ -163,7 +163,7 @@ class Player(GObject.GObject):
 				else:
 					pos -= 1
 				self._current_track_album_id = self._albums[pos]
-				tracks = self._db.get_track_id_by_album_id(self._current_track_album_id)
+				tracks = self._db.get_track_ids_by_album_id(self._current_track_album_id)
 				self._current_track_number = len(tracks) - 1
 				track_id = self._db.get_tracks_ids_by_album_id(self._albums[pos])[self._current_track_number]
 			else:
