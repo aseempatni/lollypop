@@ -140,7 +140,7 @@ class ArtistView(View):
 		self._player.load(track_id)
 		self._db.set_more_popular(album_id)
 		self._db.commit()
-		if not self._player.is_party()
+		if not self._player.is_party():
 			album_id = self._db.get_album_id_by_track_id(track_id)			
 			self._player.set_albums(self._artist_id, self._genre_id, track_id)
 
@@ -268,7 +268,7 @@ class AlbumView(View):
 		self._player.load(track_id)
 		self._db.set_more_popular(album_id)
 		self._db.commit()
-		if not self._player.is_party()
+		if not self._player.is_party():
 			album_id = self._db.get_album_id_by_track_id(track_id)
 			self._player.set_albums(None, self._genre_id, track_id)
 		
