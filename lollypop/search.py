@@ -97,7 +97,8 @@ class SearchWidget(Gtk.Popover):
 			for album_id in albums:
 				album_name = self._db.get_album_name(album_id)
 				art = self._art.get_small(album_id)
-				self._model.append([art, album_name, album_id, False])
+				self._model.append([art, artist_name, album_id, False])
+				break #Only first album
 
 		for track_id, track_name in self._db.search_tracks(searched):
 			album_id = self._db.get_album_id_by_track_id(track_id)

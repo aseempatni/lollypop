@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lollypop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-13 11:30+0200\n"
+"POT-Creation-Date: 2014-10-13 11:51+0200\n"
 "PO-Revision-Date: 2014-09-20 00:32+0200\n"
 "Last-Translator: Cédric Bellegarde <gnumdk@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -51,7 +51,7 @@ msgid "Ids for genres."
 msgstr "Les ids des genres"
 
 #: ../data/lollypop.desktop.in.h:1 ../data/lollypop.appdata.xml.in.h:1
-#: ../lollypop/application.py:32 ../lollypop/application.py:76
+#: ../lollypop/application.py:32 ../lollypop/application.py:83
 #: ../lollypop/window.py:33
 msgid "Lollypop"
 msgstr "Lollypop"
@@ -81,11 +81,11 @@ msgstr "Lecture"
 msgid "Select what will be available in party mode"
 msgstr "Selectionnez ce qui sera disponible en mode soirée"
 
-#: ../lollypop/window.py:231
+#: ../lollypop/window.py:243
 msgid "All genres"
 msgstr "Tous les genres"
 
-#: ../lollypop/window.py:232
+#: ../lollypop/window.py:244
 msgid "Populars albums"
 msgstr "Albums populaires"
 
@@ -103,8 +103,8 @@ msgstr "Suivant"
 msgid "by %s, from %s"
 msgstr "par %s, sur %s"
 
-#: ../lollypop/database.py:171 ../lollypop/database.py:209
-#: ../lollypop/database.py:235 ../lollypop/database.py:311
+#: ../lollypop/database.py:183 ../lollypop/database.py:221
+#: ../lollypop/database.py:247 ../lollypop/database.py:323
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -131,10 +131,14 @@ msgid "_Edit party mode"
 msgstr "_Editer le mode soirée"
 
 #: ../data/app-menu.ui.h:2
+msgid "_Update music"
+msgstr "Mise à jour de la musique"
+
+#: ../data/app-menu.ui.h:3
 msgid "_About"
 msgstr "À _propos"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "_Quitter"
 
