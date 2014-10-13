@@ -288,8 +288,6 @@ class Player(GObject.GObject):
 		Else => Albums populars
 	"""
 	def set_albums(self, artist_id, genre_id, track_id):
-		if self._party:
-			return
 		self._albums = []
 		# We are in artist view, add all albums from artist for genre
 		if artist_id:
