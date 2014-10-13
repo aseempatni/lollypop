@@ -81,26 +81,7 @@ class ArtistView(View):
 	"""
 	def _update_view(self, widget, track_id):
 		if self._player.is_party():
-			self.update_content()	    
-	"""
-    	Add album with album_id to the grid
-    	arg: int
-    	"""   
-	def _add_album(self, album_id):
-		widget = AlbumWidgetSongs(self._db, self._player, album_id)
-		widget.connect("new-playlist", self._new_playlist)
-		self._albumbox.add(widget)
-		widget.show()		
-
-	"""
-		Play track with track_id and set a new playlist in player
-		arg: GObject, int
-	"""
-	def _new_playlist(self, obj, track_id):
-		self._player.load(track_id)
-		album_id = self._db.get_album_id_by_track_id(track_id)
-		self._db.set_more_popular(album_id)
-		self._player.set_albums(self._artist_id, self._genre_id, track_id)
+			self.update_content()	 
 
 	"""
 		Populate the view
@@ -137,6 +118,29 @@ class ArtistView(View):
 	def update_context(self):
 		pass
 
+#######################
+# PRIVATE             #
+#######################
+   
+	"""
+    	Add album with album_id to the grid
+    	arg: int
+    	"""   
+	def _add_album(self, album_id):
+		widget = AlbumWidgetSongs(self._db, self._player, album_id)
+		widget.connect("new-playlist", self._new_playlist)
+		self._albumbox.add(widget)
+		widget.show()		
+
+	"""
+		Play track with track_id and set a new playlist in player
+		arg: GObject, int
+	"""
+	def _new_playlist(self, obj, track_id):
+		self._player.load(track_id)
+		album_id = self._db.get_album_id_by_track_id(track_id)
+		self._db.set_more_popular(album_id)
+		self._player.set_albums(self._artist_id, self._genre_id, track_id)
 
 class AlbumView(View):
 
@@ -181,6 +185,48 @@ class AlbumView(View):
 			self.update_context()
 
 	"""
+		Update the content view
+		Do nothing
+	"""
+	def update_content(self	):
+		pass
+
+	"""
+		Update the context view
+		We need to clean it first
+	"""
+	def update_context(self):
+		for child in self._scrolledContext.get_children():
+			self._scrolledContext.remove(child)
+			child.hide()
+			#child.destroy()
+		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
+		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
+		context.connect("new-playlist", self._new_playlist)
+		self._scrolledContext.add(context)
+		self._scrolledContext.show_all()
+
+	"""
+		Populate albums
+	"""	
+	def populate(self):
+		GLib.idle_add(self._add_albums)
+	
+	"""
+		Populate albums with popular ones
+	"""			
+	def populate_popular(self):
+		# We are in a thread, can't use global db object
+		db = Database()
+		for album_id in db.get_albums_popular():
+			widget = AlbumWidget(db, album_id)
+			widget.show()
+			self._albumbox.insert(widget, -1)	
+#######################
+# PRIVATE             #
+#######################
+
+	"""
 		Show Context view for activated album
 	"""
 	def _on_album_activated(self, obj, data):
@@ -222,42 +268,3 @@ class AlbumView(View):
 		self._player.set_albums(None, self._genre_id, track_id)
 		self._db.set_more_popular(album_id)
 		self._db.commit()
-
-	"""
-		Update the content view
-		Do nothing
-	"""
-	def update_content(self	):
-		pass
-
-	"""
-		Update the context view
-		We need to clean it first
-	"""
-	def update_context(self):
-		for child in self._scrolledContext.get_children():
-			self._scrolledContext.remove(child)
-			child.hide()
-			#child.destroy()
-		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
-		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
-		context.connect("new-playlist", self._new_playlist)
-		self._scrolledContext.add(context)
-		self._scrolledContext.show_all()
-
-	"""
-		Populate albums
-	"""	
-	def populate(self):
-		GLib.idle_add(self._add_albums)
-	
-	"""
-		Populate albums with popular ones
-	"""			
-	def populate_popular(self):
-		# We are in a thread, can't use global db object
-		db = Database()
-		for album_id in db.get_albums_popular():
-			widget = AlbumWidget(db, album_id)
-			widget.show()
-			self._albumbox.insert(widget, -1)	

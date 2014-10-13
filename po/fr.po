@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lollypop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-13 10:24+0200\n"
+"POT-Creation-Date: 2014-10-13 11:30+0200\n"
 "PO-Revision-Date: 2014-09-20 00:32+0200\n"
 "Last-Translator: Cédric Bellegarde <gnumdk@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -68,7 +68,7 @@ msgstr "Jouer et organiser votre discothèque"
 msgid "Music player for the GNOME desktop"
 msgstr "Lecteur de musique pour le bureau GNOME"
 
-#: ../lollypop/toolbar.py:112
+#: ../lollypop/toolbar.py:112 ../lollypop/toolbar.py:162
 msgid "Pause"
 msgstr "Pause"
 
@@ -110,72 +110,21 @@ msgstr "Inconnu"
 
 #: ../lollypop/playlist.py:77
 msgid "Right click on a song to add it to playlist"
-msgstr "Clique droit sur une chanson pour la rajouter\n dans la liste de lecture"
+msgstr ""
+"Clique droit sur une chanson pour la rajouter\n"
+" dans la liste de lecture"
 
 #: ../lollypop/view.py:31
 msgid "Loading please wait..."
 msgstr "Chargement, veuillez patienter"
 
 #: ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "Musique"
-
-#: ../data/AboutDialog.ui.in.h:2
-msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "Copyright © 2013 Développeurs de l'application Musique de GNOME"
-
-#: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
 msgstr "Un lecteur de musique et une application de gestion pour GNOME."
 
-#: ../data/AboutDialog.ui.in.h:4
-msgid "Visit GNOME Music website"
-msgstr "Visiter le site Web de GNOME Musique"
-
-#: ../data/AboutDialog.ui.in.h:5
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"GNOME Musique est un logiciel libre ; vous pouvez le redistribuer et/ou le "
-"modifier au titre des clauses de la Licence Publique Générale GNU, telle que "
-"publiée par la Free Software Foundation ; soit la version 2 de la Licence, "
-"ou (à votre discrétion) une version ultérieure quelconque.\n"
-"Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE "
-"GARANTIE ; sans même une garantie implicite de COMMERCIABILITÉ ou DE "
-"CONFORMITÉ À UNE UTILISATION PARTICULIÈRE. Voir la Licence Publique Générale "
-"GNU pour plus de détails.\n"
-"Vous devriez avoir reçu un exemplaire de la Licence Publique Générale GNU "
-"avec ce programme ; si ce n'est pas le cas, écrivez à la Free Software "
-"Foundation Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, "
-"USA.\n"
-"Les auteurs de l'application Musique de GNOME accordent par la présente "
-"l'autorisation d'utiliser des greffons GStreamer non compatibles avec la "
-"licence GPL et de les distribuer conjointement à GStreamer et à "
-"l'application Musique de GNOME. Cette permission suplante et va au-delà des "
-"autorisations accordées par la licence GPL couvrant l'application Musique de "
-"GNOME. Si vous modifiez ce code, vous pouvez étendre cette autorisation à "
-"votre version du code, mais vous n'y êtes pas obligés. Si vous ne le "
-"souhaitez pas, veuillez supprimer cette mention d'exception de votre version."
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Visit Lollypop website"
+msgstr "Visitez le site web de Lollypop"
 
 #: ../data/app-menu.ui.h:1
 msgid "_Edit party mode"
@@ -188,10 +137,6 @@ msgstr "À _propos"
 #: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Quitter"
-
-#: ../data/Loading.ui.h:1
-msgid "No Music Found"
-msgstr "Aucune musique trouvée"
 
 #: ../data/headerbar.ui.h:4
 msgid "Shuffle"
@@ -212,4 +157,3 @@ msgstr "Liste de lecture"
 #: ../data/PartyDialog.ui.h:1
 msgid "Close"
 msgstr "Fermer"
-
