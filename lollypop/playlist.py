@@ -12,7 +12,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 # Many code inspiration from gnome-music at the GNOME project
 
-from gi.repository import Gtk, GLib, GdkPixbuf, Pango
+from gi.repository import Gtk, Gdk, GLib, GdkPixbuf, Pango
 from gettext import gettext as _, ngettext 
 
 from lollypop.albumart import AlbumArt
@@ -33,7 +33,7 @@ class PlayListWidget(Gtk.Popover):
 
 		self._model = Gtk.ListStore(GdkPixbuf.Pixbuf, str, int)
 		self._view = Gtk.TreeView(self._model)
-		self._view.set_property("activate-on-single-click", True)
+		self._view.set_property("activate-on-single-click", False)
 		self._view.set_property("reorderable", True)
 		renderer1 = Gtk.CellRendererText()
 		renderer1.set_property('ellipsize-set',True)
@@ -43,7 +43,7 @@ class PlayListWidget(Gtk.Popover):
 		self._view.append_column(Gtk.TreeViewColumn("Pixbuf", renderer2, pixbuf=0))
 		self._view.append_column(Gtk.TreeViewColumn("Text", renderer1, text=1))
 		self._view.set_headers_visible(False)		
-
+		self._view.connect('row-activated', self._new_item_selected)
 		self.set_property('height-request', 700)
 		self.set_property('width-request', 500)
 		self._scroll = Gtk.ScrolledWindow()
@@ -99,3 +99,13 @@ class PlayListWidget(Gtk.Popover):
 				new_playlist.append(row[2])
 		self._player.set_playlist(new_playlist)
 
+	"""
+		Play clicked item
+	"""
+	def _new_item_selected(self, view, path, column):
+		iter = self._model.get_iter(path)
+		if iter:
+			value_id = self._model.get_value(iter, 2)
+			self._player.del_from_playlist(value_id)
+			self._player.load(value_id)
+		self.hide()
