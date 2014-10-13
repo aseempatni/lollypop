@@ -43,7 +43,8 @@ class Player(GObject.GObject):
 		self._progress_callback = None
 		self._timeout = None
 		self._shuffle = False
-		self._shuffle_history = []
+		self._shuffle_tracks_history = []
+		self._shuffle_albums_history = []
 		self._party = False
 		self._party_ids = []
 		self._playlist = []
@@ -147,10 +148,10 @@ class Player(GObject.GObject):
 		track_id = None
 		if self._shuffle or self._party:
 			try:
-				track_id = self._shuffle_history[-2]
+				track_id = self._shuffle_tracks_history[-2]
 				# We remove to last items because playing will readd track_id to list
-				self._shuffle_history.pop()
-				self._shuffle_history.pop()
+				self._shuffle_tracks_history.pop()
+				self._shuffle_tracks_history.pop()
 			except Exception as e:
 				print(e)
 				track_id = None
@@ -219,7 +220,7 @@ class Player(GObject.GObject):
 		Clear shuffle history
 	"""
 	def set_shuffle(self, shuffle):
-		self._shuffle_history = []
+		self._shuffle_tracks_history = []
 		self._shuffle = shuffle
 		if not shuffle and self._current_track_id != -1:
 			album_id = self._db.get_album_id_by_track_id(self._current_track_id)
@@ -233,7 +234,7 @@ class Player(GObject.GObject):
 	"""
 	def set_party(self, party):
 		self._party = party
-		self._shuffle_history = []
+		self._shuffle_tracks_history = []
 		if party:
 			if len(self._party_ids) > 0:
 				self._albums = self._db.get_party_albums_ids(self._party_ids)
@@ -356,7 +357,9 @@ class Player(GObject.GObject):
 		track_id = self._get_random()
 		# Need to clear history
 		if not track_id:
-			self.shuffle_history = []
+			self._albums = self._shuffle_albums_history
+			self._shuffle_tracks_history = []
+			self._shuffle_albums_history = []
 			self._shuffle_next()
 			return
 		self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
@@ -369,10 +372,11 @@ class Player(GObject.GObject):
 		for album in sorted(self._albums, key=lambda *args: random.random()):
 			tracks = self._db.get_tracks_ids_by_album_id(album)
 			for track in sorted(tracks, key=lambda *args: random.random()):
-				if not track in self._shuffle_history:
+				if not track in self._shuffle_tracks_history:
 					return track
 			# No new tracks for this album, remove it
 			self._albums.remove(album)
+			self._shuffle_albums_history.append(album)
 		return None
 
 	"""
@@ -402,4 +406,4 @@ class Player(GObject.GObject):
 		self._player.set_property('uri', "file://"+self._db.get_track_filepath(track_id))
 		self._duration = self._db.get_track_length(track_id)
 		if self._shuffle or self._party:
-			self._shuffle_history.append(track_id)
+			self._shuffle_tracks_history.append(track_id)
