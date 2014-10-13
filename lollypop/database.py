@@ -69,6 +69,18 @@ class Database:
 	def commit(self):
 		self._sql.commit()
 		
+
+	"""
+		Return True if no tracks in db
+	"""
+	def is_empty(self):
+		result = self._sql.execute("SELECT COUNT(*) FROM tracks  LIMIT 1")
+		v = result.fetchone()
+		if v:
+			return v[0] == 0
+		else:
+			return True
+
 	"""
 		Reset database, all datas will be lost
 	"""

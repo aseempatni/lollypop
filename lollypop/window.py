@@ -88,6 +88,14 @@ class Window(Gtk.ApplicationWindow):
 		scrolled.add(self._party_grid)
 		self._party_dialog.show_all()
 
+	def update_db(self):
+		self._list_genres.widget.hide()
+		self._list_artists.widget.hide()
+		self._box.remove(self._view)
+		self._view = LoadingView()
+		self._box.add(self._view)
+		self._scanner.update(self._update_genres)
+
 ############
 # Private  #
 ############
@@ -222,7 +230,11 @@ class Window(Gtk.ApplicationWindow):
 		Pass _update_genre() as collection scanned callback
 	"""	
 	def _on_mapped_window(self, obj, data):
-		self._scanner.update(self._update_genres)
+		if self._db.is_empty():
+			self._scanner.update(self._update_genres)
+		else:
+			genres = self._db.get_all_genres()
+			self._update_genres(genres)
 		
 	"""
 		Update genres list with genres

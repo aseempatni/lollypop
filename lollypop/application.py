@@ -45,6 +45,13 @@ class Application(Gtk.Application):
 		self._window = None
 
 	"""
+		Search for new music
+	"""
+	def update_db(self, action, param):
+		if self._window:
+			self._window.update_db()
+
+	"""
 		Party dialog
 	"""
 	def party(self, action, param):
@@ -111,6 +118,10 @@ class Application(Gtk.Application):
 		partyAction = Gio.SimpleAction.new('party', None)
 		partyAction.connect('activate', self.party)
 		self.add_action(partyAction)
+
+		updateAction = Gio.SimpleAction.new('update_db', None)
+		updateAction.connect('activate', self.update_db)
+		self.add_action(updateAction)
 
 		aboutAction = Gio.SimpleAction.new('about', None)
 		aboutAction.connect('activate', self.about)
