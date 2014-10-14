@@ -24,6 +24,19 @@ TODO:
 
 Patchs are welcome ;)
 
+
+=== Depends on ===
+    gtk3
+    intltool (make)
+    itstool (make)
+    python (make)
+    python-cairo
+    python-dbus
+    python-gobject
+    python-mutagen
+
+
+
 === Building from git ===
 
 $ git clone https://github.com/gnumdk/lollypop.git

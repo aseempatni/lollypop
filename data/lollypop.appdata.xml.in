@@ -10,7 +10,7 @@
   </_p>
  </description>
  <screenshots>
-  <screenshot type="default" width="750" height="469">http://www.omgubuntu.co.uk/wp-content/uploads/2013/08/music_album.jpeg</screenshot>
+  <screenshot type="default" width="750" height="469">https://raw.githubusercontent.com/gnumdk/lollypop-data/master/lollypop1.png</screenshot>
  </screenshots>
  <url type="homepage">https://github.com/gnumdk/lollypop</url>
  <updatecontact>gnumdk@gmail.com</updatecontact>
