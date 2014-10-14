@@ -60,9 +60,9 @@ libgd/
 /so_locations
 /stamp-h1
 /tags
-/lollypop/*.pyc
-/lollypop/Makefile
-/lollypop/Makefile.in
+/src/*.pyc
+/src/Makefile
+/src/Makefile.in
 /py-compile
 *.tar.xz
 *.desktop
@@ -73,8 +73,8 @@ data/Makefile.in
 *.patch
 *.pyc
 Makefile
-Lollypop
+lollypop
 *.valid
-/lollypop/Makefile.in
+/src/Makefile.in
 /data/AboutDialog.ui
 /data/lollypop.appdata.xml

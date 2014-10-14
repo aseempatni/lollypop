@@ -1,9 +1,9 @@
 ACLOCAL_AMFLAGS = -I m4
 NULL =
 
-bin_SCRIPTS = Lollypop
+bin_SCRIPTS = lollypop
 
-SUBDIRS = lollypop data po
+SUBDIRS = src data po
 
 EXTRA_DIST = \
 	AUTHORS.in \
@@ -45,7 +45,7 @@ gen-AUTHORS:
 	   mv -f $(distdir)/AUTHORS-tmp $(distdir)/AUTHORS ;           \
 	fi
 
-Lollypop: lollypop.in Makefile
+lollypop: lollypop.in Makefile
 	$(AM_V_GEN)sed						\
 		-e s!\@srcdir\@!$(abs_top_srcdir)!	\
 		-e s!\@prefix\@!$(prefix)!		\

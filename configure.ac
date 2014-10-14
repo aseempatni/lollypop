@@ -37,7 +37,7 @@ AC_CONFIG_FILES([
   Makefile
   data/Makefile
   data/AboutDialog.ui
-  lollypop/Makefile
+  src/Makefile
   po/Makefile.in
 ])
 AC_OUTPUT
