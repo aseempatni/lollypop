@@ -12,7 +12,7 @@ It provides:
 - Main playlist (called queue in other apps)
 - Party mode
 
-Tarball: https://github.com/gnumdk/lollypop-data/raw/master/lollypop-0.5.tar.xz
+Tarball: https://github.com/gnumdk/lollypop-data/raw/master/lollypop-0.5.1.tar.xz
 
 ![Lollypop screenshot](https://github.com/gnumdk/lollypop-data/raw/master/lollypop1.png)
 ![Lollypop screenshot](https://github.com/gnumdk/lollypop-data/raw/master/lollypop2.png)
