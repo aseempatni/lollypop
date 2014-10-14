@@ -61,7 +61,7 @@ class NotificationManager:
 								  # TRANSLATORS: by refers to the artist, from to the album
 								  _("by %s, from %s") % ('<b>' + artist + '</b>',
 														 '<i>' + album + '</i>'),
-								  'gnome-music')
+								  'lollypop')
 		self._notification.show()
 
    
