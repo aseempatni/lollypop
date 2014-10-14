@@ -44,7 +44,7 @@ class View(Gtk.Grid):
 		self.set_border_width(0)
 		self._db = db
 		self._player = player
-		self._genre_id = genre_id			
+		self._genre_id = genre_id
 
 class ArtistView(View):
 
@@ -159,6 +159,7 @@ class AlbumView(View):
 		self._albumbox.set_homogeneous(True)
 		self._albumbox.set_selection_mode(Gtk.SelectionMode.NONE)
 		self._albumbox.connect("child-activated", self._on_album_activated)
+		self._albumbox.set_max_children_per_line(100)
 		self._scrolledWindow = Gtk.ScrolledWindow()
 		self._scrolledWindow.set_vexpand(True)
 		self._scrolledWindow.set_hexpand(True)
