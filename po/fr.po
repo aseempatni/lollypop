@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lollypop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-13 11:51+0200\n"
+"POT-Creation-Date: 2014-10-14 13:13+0200\n"
 "PO-Revision-Date: 2014-09-20 00:32+0200\n"
 "Last-Translator: Cédric Bellegarde <gnumdk@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -51,7 +51,7 @@ msgid "Ids for genres."
 msgstr "Les ids des genres"
 
 #: ../data/lollypop.desktop.in.h:1 ../data/lollypop.appdata.xml.in.h:1
-#: ../lollypop/application.py:32 ../lollypop/application.py:83
+#: ../lollypop/application.py:32 ../lollypop/application.py:90
 #: ../lollypop/window.py:33
 msgid "Lollypop"
 msgstr "Lollypop"
@@ -81,24 +81,24 @@ msgstr "Lecture"
 msgid "Select what will be available in party mode"
 msgstr "Selectionnez ce qui sera disponible en mode soirée"
 
-#: ../lollypop/window.py:243
+#: ../lollypop/window.py:249
 msgid "All genres"
 msgstr "Tous les genres"
 
-#: ../lollypop/window.py:244
+#: ../lollypop/window.py:250
 msgid "Populars albums"
 msgstr "Albums populaires"
 
-#: ../lollypop/notification.py:35 ../data/headerbar.ui.h:1
+#: ../lollypop/notification.py:40 ../data/headerbar.ui.h:1
 msgid "Previous"
 msgstr "Précédent"
 
-#: ../lollypop/notification.py:37 ../data/headerbar.ui.h:3
+#: ../lollypop/notification.py:42 ../data/headerbar.ui.h:3
 msgid "Next"
 msgstr "Suivant"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../lollypop/notification.py:57
+#: ../lollypop/notification.py:62
 #, python-format
 msgid "by %s, from %s"
 msgstr "par %s, sur %s"
@@ -108,7 +108,7 @@ msgstr "par %s, sur %s"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: ../lollypop/playlist.py:77
+#: ../lollypop/playlist.py:78
 msgid "Right click on a song to add it to playlist"
 msgstr ""
 "Clique droit sur une chanson pour la rajouter\n"
@@ -135,10 +135,14 @@ msgid "_Update music"
 msgstr "Mise à jour de la musique"
 
 #: ../data/app-menu.ui.h:3
+msgid "_New music scan"
+msgstr "Nouveau scan de la musique"
+
+#: ../data/app-menu.ui.h:4
 msgid "_About"
 msgstr "À _propos"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:5
 msgid "_Quit"
 msgstr "_Quitter"
 

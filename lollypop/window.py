@@ -88,7 +88,13 @@ class Window(Gtk.ApplicationWindow):
 		scrolled.add(self._party_grid)
 		self._party_dialog.show_all()
 
-	def update_db(self):
+	"""
+		Update music database
+		Empty database if reinit True
+	"""
+	def update_db(self, reinit):
+		if reinit:
+			self._db.reset()
 		self._list_genres.widget.hide()
 		self._list_artists.widget.hide()
 		self._box.remove(self._view)

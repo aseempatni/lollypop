@@ -10,6 +10,10 @@
         <attribute name="action">app.update_db</attribute>
         <attribute name="label" translatable="yes">_Update music</attribute>
       </item>
+      	 <item>
+        <attribute name="action">app.reinit_db</attribute>
+        <attribute name="label" translatable="yes">_New music scan</attribute>
+      </item>
       <item>
         <attribute name="action">app.about</attribute>
         <attribute name="label" translatable="yes">_About</attribute>

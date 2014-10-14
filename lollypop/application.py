@@ -49,7 +49,14 @@ class Application(Gtk.Application):
 	"""
 	def update_db(self, action, param):
 		if self._window:
-			self._window.update_db()
+			self._window.update_db(False)
+
+	"""
+		Empty db and search for new music
+	"""
+	def reinit_db(self, action, param):
+		if self._window:
+			self._window.update_db(True)
 
 	"""
 		Party dialog
@@ -122,6 +129,10 @@ class Application(Gtk.Application):
 		updateAction = Gio.SimpleAction.new('update_db', None)
 		updateAction.connect('activate', self.update_db)
 		self.add_action(updateAction)
+
+		reinitAction = Gio.SimpleAction.new('reinit_db', None)
+		reinitAction.connect('activate', self.reinit_db)
+		self.add_action(reinitAction)
 
 		aboutAction = Gio.SimpleAction.new('about', None)
 		aboutAction.connect('activate', self.about)
