@@ -247,9 +247,9 @@ class AlbumView(View):
 			self._scrolledContext.show_all()		
 		
 	"""
-    		Add albums with current genre to the flowbox
-    		arg: int
-    	"""   
+		Add albums with current genre to the flowbox
+		arg: int
+	"""   
 	def _add_albums(self):
 		if self._genre_id == -1:
 			albums = self._db.get_all_albums()
