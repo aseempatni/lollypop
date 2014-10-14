@@ -12,7 +12,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 # Many code inspiration from gnome-music at the GNOME project
 
-from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
+from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _, ngettext
 
 from lollypop.collectionscanner import CollectionScanner
