@@ -411,7 +411,7 @@ class Database:
 	"""	
 	def get_albums_by_genre_id(self, genre_id):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums WHERE genre_id=? ORDER BY artist_id", (genre_id,))
+		result = self._sql.execute("SELECT albums.id FROM albums, artists WHERE genre_id=? and artists.id=artist_id ORDER BY artists.name COLLATE NOCASE", (genre_id,))
 		for row in result:
 			albums += row
 		return albums
