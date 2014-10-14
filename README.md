@@ -26,14 +26,14 @@ Patchs are welcome ;)
 
 
 === Depends on ===
-    gtk3
-    intltool (make)
-    itstool (make)
-    python (make)
-    python-cairo
-    python-dbus
-    python-gobject
-    python-mutagen
+- gtk3
+- intltool (make)
+- itstool (make)
+- python (make)
+- python-cairo
+- python-dbus
+- python-gobject
+- python-mutagen
 
 
 
