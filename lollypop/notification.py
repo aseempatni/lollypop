@@ -27,15 +27,20 @@ class NotificationManager:
 		self._db = db
 		self._art = AlbumArt(db)
 
+		caps = Notify.get_server_caps()
+		
 		self._notification = Notify.Notification()
 		self._notification.set_category('x-gnome.music')
-		self._notification.set_hint('action-icons', GLib.Variant('b', True))
-		self._notification.set_hint('resident', GLib.Variant('b', True))
+		if "action-icons" in caps:
+			self._notification.set_hint('action-icons', GLib.Variant('b', True))
+		if "persistence" in caps:
+			self._notification.set_hint('resident', GLib.Variant('b', True))
 		self._notification.set_hint('desktop-entry', GLib.Variant('s', 'lollypop'))
-		self._notification.add_action('media-skip-backward', _("Previous"),
-								     self._go_previous, None)
-		self._notification.add_action('media-skip-forward', _("Next"),
-								     self._go_next, None)
+		if "actions" in caps:
+			self._notification.add_action('media-skip-backward', _("Previous"),
+									     self._go_previous, None)
+			self._notification.add_action('media-skip-forward', _("Next"),
+									     self._go_next, None)
 		self._player.connect('current-changed', self._update_track)
 
 #######################
