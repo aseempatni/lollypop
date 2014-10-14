@@ -3,7 +3,7 @@ Lollypop 0.5
 
 Lollypop is a new GNOME music playing application.
 
-Is support mp3/4, ogg and flac.
+It supports mp3/4, ogg and flac.
 
 It provides:
 - Genre/Cover browsing
