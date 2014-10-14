@@ -22,6 +22,7 @@ TODO:
 - Better search/playlist interface
 - Extract covers from files (is mutagen able?)
 - Add an gsetting option to add more music path
+- Make notifications works in Unity/KDE/...
 
 Patchs are welcome ;)
 
