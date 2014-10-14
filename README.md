@@ -1,4 +1,4 @@
-Lollypop 0.5
+Lollypop 0.5.2
 ========================
 
 Lollypop is a new GNOME music playing application.
@@ -12,7 +12,15 @@ It provides:
 - Main playlist (called queue in other apps)
 - Party mode
 
-Tarball: https://github.com/gnumdk/lollypop-data/raw/master/lollypop-0.5.1.tar.xz
+Changes:
+* 0.5.2:
+  - Fix Ubuntu notifications (cover not working for now)
+  - Fix database reinit
+
+* 0.5.1: 
+  - Fix Ubuntu install
+
+Tarball: https://github.com/gnumdk/lollypop-data/raw/master/lollypop-0.5.2.tar.xz
 
 ![Lollypop screenshot](https://github.com/gnumdk/lollypop-data/raw/master/lollypop1.png)
 ![Lollypop screenshot](https://github.com/gnumdk/lollypop-data/raw/master/lollypop2.png)
