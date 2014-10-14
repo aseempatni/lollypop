@@ -122,9 +122,11 @@ class Application(Gtk.Application):
 		menu = builder.get_object('app-menu')
 		self.set_app_menu(menu)
 
-		partyAction = Gio.SimpleAction.new('party', None)
-		partyAction.connect('activate', self.party)
-		self.add_action(partyAction)
+		#TODO: Remove this test later
+		if Gtk.get_minor_version() > 12:
+			partyAction = Gio.SimpleAction.new('party', None)
+			partyAction.connect('activate', self.party)
+			self.add_action(partyAction)
 
 		updateAction = Gio.SimpleAction.new('update_db', None)
 		updateAction.connect('activate', self.update_db)
