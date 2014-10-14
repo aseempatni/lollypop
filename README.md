@@ -20,6 +20,7 @@ Tarball: https://github.com/gnumdk/lollypop-data/raw/master/lollypop-0.5.tar.xz
 TODO:
 - Better search/playlist interface
 - Extract covers from files (is mutagen able?)
+- Add an gsetting option to add more music path
 
 Patchs are welcome ;)
 
