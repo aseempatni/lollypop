@@ -16,6 +16,7 @@ Tarball: https://github.com/gnumdk/lollypop-data/raw/master/lollypop-0.5.tar.xz
 
 ![Lollypop screenshot](https://github.com/gnumdk/lollypop-data/raw/master/lollypop1.png)
 ![Lollypop screenshot](https://github.com/gnumdk/lollypop-data/raw/master/lollypop2.png)
+![Lollypop screenshot](https://github.com/gnumdk/lollypop-data/raw/master/lollypop3.png)
 
 TODO:
 - Better search/playlist interface
