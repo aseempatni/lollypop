@@ -24,7 +24,11 @@ Patchs are welcome ;)
 === Building from git ===
 
 $ git clone https://github.com/gnumdk/lollypop.git
+
 $ cd lollypop
+
 $ ./autogen.sh
+
 $ make
-# make install
+
+\# make install
