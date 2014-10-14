@@ -90,6 +90,9 @@ class CollectionScanner:
 		if "performer" in keys:
 			artist = tag["performer"][0]
 
+		if artist[0:4] == "The " or artist[0:4] == "the ":
+			artist = artist[4:]+"@@@@The"
+
 		if "album" in keys:
 			album = tag["album"][0]
 		else:

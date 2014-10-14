@@ -51,6 +51,8 @@ class SelectionList(GObject.GObject):
 	def populate(self, values):
 		self._model.clear()
 		for (id, string) in values:
+			if string[-7:] == "@@@@The":
+				string = "The "+string[:-7]
 			self._model.append([string, id])
 				
 	
