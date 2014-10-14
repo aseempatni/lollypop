@@ -85,9 +85,6 @@ class Database:
 		Reset database, all datas will be lost
 	"""
 	def reset(self):
-		self._sql.execute("DELETE FROM albums")
-		self._sql.execute("DELETE FROM artists")
-		self._sql.execute("DELETE FROM genres")
 		self._sql.execute("DELETE FROM tracks")
 		self._sql.commit()
 
