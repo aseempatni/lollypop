@@ -185,7 +185,7 @@ class Database:
 	"""
 	def get_all_genres(self):
 		genres = []
-		result = self._sql.execute("SELECT id, name FROM genres ORDER BY name")
+		result = self._sql.execute("SELECT id, name FROM genres ORDER BY name COLLATE NOCASE")
 		for row in result:
 			genres += (row,)
 		return genres
@@ -250,7 +250,7 @@ class Database:
 	"""
 	def get_artists_by_genre_id(self, genre_id):
 		artists = []
-		result = self._sql.execute("SELECT DISTINCT artists.id, artists.name FROM artists,albums WHERE artists.id == albums.artist_id AND albums.genre_id=? ORDER BY artists.name", (genre_id,))
+		result = self._sql.execute("SELECT DISTINCT artists.id, artists.name FROM artists,albums WHERE artists.id == albums.artist_id AND albums.genre_id=? ORDER BY artists.name COLLATE NOCASE", (genre_id,))
 		for row in result:
 			artists += (row,)
 		return artists
@@ -262,7 +262,7 @@ class Database:
 	"""
 	def get_all_artists(self):
 		artists = []
-		result = self._sql.execute("SELECT id, name FROM artists ORDER BY name")
+		result = self._sql.execute("SELECT id, name FROM artists ORDER BY name COLLATE NOCASE")
 		for row in result:
 			artists += (row,)
 		return artists
