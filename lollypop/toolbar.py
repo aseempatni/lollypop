@@ -50,7 +50,7 @@ class Toolbar(GObject.GObject):
 		self._infobox = self._ui.get_object('infobox')	
 
 		self._player.connect("playback-status-changed", self._playback_status_changed)
-		self._player.connect("current-changed", self._update_toolbar)
+		self._player.connect("current-changed", self.update_toolbar)
 		self._player.set_progress_callback(self._progress_callback)
 		
 		self._shuffle_btn = self._ui.get_object('shuffle-button')
@@ -82,6 +82,45 @@ class Toolbar(GObject.GObject):
 	"""
 	def get_infobox(self):
 		return self._infobox
+
+	"""
+		Update toolbar items with track_id informations:
+			- Cover
+			- artist/title
+			- reset progress bar
+			- update time/total labels
+	"""
+	def update_toolbar(self, obj, track_id):
+		if track_id == None:
+			self._cover.hide()
+			self._time_label.hide()
+			self._total_time_label.hide()
+			self._prev_btn.set_sensitive(False)
+			self._progress.set_sensitive(False)
+			self._play_btn.set_sensitive(False)
+			self._next_btn.set_sensitive(False)
+			self._title_label.set_text("")
+			self._artist_label.set_text("")
+		else:
+			album_id = self._db.get_album_id_by_track_id(track_id)
+			art = self._art.get_small(album_id)
+			if art:
+				self._cover.set_from_pixbuf(art)
+				self._cover.show()
+			else:
+				self._cover.hide()
+			
+			title = self._db.get_track_name(track_id)
+			artist = self._db.get_artist_name_by_album_id(album_id)
+			self._title_label.set_text(title)
+			self._artist_label.set_text(artist)
+			self._progress.set_value(0.0)
+			duration = self._db.get_track_length(track_id)
+			self._progress.set_range(0.0, duration * 60)
+			self._total_time_label.set_text(self._player.seconds_to_string(duration))
+			self._total_time_label.show()
+			self._time_label.set_text("0:00")
+			self._time_label.show()
 
 #######################
 # PRIVATE             #
@@ -115,34 +154,6 @@ class Toolbar(GObject.GObject):
 			self._next_btn.set_sensitive(True)
 		else:
 			self._change_play_btn_status(self._play_image, _("Play"))
-
-	"""
-		Update toolbar items with track_id informations:
-			- Cover
-			- artist/title
-			- reset progress bar
-			- update time/total labels
-	"""
-	def _update_toolbar(self, obj, track_id):
-		album_id = self._db.get_album_id_by_track_id(track_id)
-		art = self._art.get_small(album_id)
-		if art:
-			self._cover.set_from_pixbuf(art)
-			self._cover.show()
-		else:
-			self._cover.hide()
-		
-		title = self._db.get_track_name(track_id)
-		artist = self._db.get_artist_name_by_album_id(album_id)
-		self._title_label.set_text(title)
-		self._artist_label.set_text(artist)
-		self._progress.set_value(0.0)
-		duration = self._db.get_track_length(track_id)
-		self._progress.set_range(0.0, duration * 60)
-		self._total_time_label.set_text(self._player.seconds_to_string(duration))
-		self._total_time_label.show()
-		self._time_label.set_text("0:00")
-		self._time_label.show()
 
 	"""
 		Previous track on prev button clicked

@@ -63,8 +63,7 @@ class Player(GObject.GObject):
 		#self._bus.connect('message::state-changed', self._on_bus_state_changed)
 		#self.bus.connect('message::error', self._onBusError)
 		self._bus.connect('message::eos', self._on_bus_eos)
-
-
+		
 	"""
 		Return True if player is playing
 	"""
@@ -306,6 +305,12 @@ class Player(GObject.GObject):
 		tracks = self._db.get_tracks_ids_by_album_id(album_id)
 		self._current_track_number = tracks.index(track_id) 
 		self._current_track_album_id = album_id
+
+	"""
+		Empty albums
+	"""
+	def clear_albums(self):
+		self._albums = []
 
 	"""
 		Set progress callback, will be called every seconds

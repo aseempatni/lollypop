@@ -94,6 +94,9 @@ class Window(Gtk.ApplicationWindow):
 	"""
 	def update_db(self, reinit):
 		if reinit:
+			self._player.stop()
+			self._player.clear_albums()
+			self._toolbar.update_toolbar(None, None)
 			self._db.reset()
 		self._list_genres.widget.hide()
 		self._list_artists.widget.hide()
@@ -211,10 +214,10 @@ class Window(Gtk.ApplicationWindow):
 	"""
 	def _setup_view(self):
 		self._box = Gtk.Grid()
-		self.toolbar = Toolbar(self._db, self._player)
-		self.set_titlebar(self.toolbar.header_bar)
-		self.toolbar.header_bar.show()
-		self.toolbar.get_infobox().connect("button-press-event", self._show_current_album)
+		self._toolbar = Toolbar(self._db, self._player)
+		self.set_titlebar(self._toolbar.header_bar)
+		self._toolbar.header_bar.show()
+		self._toolbar.get_infobox().connect("button-press-event", self._show_current_album)
 
 		self._list_genres = SelectionList("Genre", 150)
 		self._list_artists = SelectionList("Artist", 200)
