@@ -58,3 +58,7 @@ $ ./autogen.sh
 $ make
 
 \# make install
+
+
+UBUNTU USERS:
+You need to install mutagen last version... Python3-mutagen is missing from Ubuntu
