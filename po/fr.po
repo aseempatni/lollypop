@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lollypop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-15 09:36+0200\n"
+"POT-Creation-Date: 2014-10-15 09:15+0200\n"
 "PO-Revision-Date: 2014-09-20 00:32+0200\n"
 "Last-Translator: Cédric Bellegarde <gnumdk@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -101,7 +101,7 @@ msgstr "Suivant"
 msgid "by %s, from %s"
 msgstr "par %s, sur %s"
 
-#: ../src/database.py:190 ../src/database.py:229 ../src/database.py:255
+#: ../src/database.py:191 ../src/database.py:229 ../src/database.py:255
 #: ../src/database.py:331
 msgid "Unknown"
 msgstr "Inconnu"
@@ -112,13 +112,13 @@ msgstr ""
 "Clique droit sur une chanson pour la rajouter\n"
 " dans la liste de lecture"
 
-#: ../src/view.py:32
+#: ../src/view.py:31
 msgid "Loading please wait..."
 msgstr "Chargement, veuillez patienter"
 
 #. Handle language ordering
 #. Translators: Add here words that shoud be ignored for artist sort order
-#: ../src/utils.py:22
+#: ../src/collectionscanner.py:95
 msgid "The the"
 msgstr "The the Les les La Le la le"
 

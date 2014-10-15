@@ -263,14 +263,14 @@ class Window(Gtk.ApplicationWindow):
 		if self._artist_signal_id:
 			self._list_artists.disconnect(self._artist_signal_id)
 		if genre_id == -1:
-			self._list_artists.populate(self._db.get_all_artists(), True)
+			self._list_artists.populate(self._db.get_all_artists())
 			self._update_view_albums(self, -1)
 			self._list_artists.widget.show()
 		elif genre_id == -2:
 			self._update_view_populars_albums()
 			self._list_artists.widget.hide()
 		else:
-			self._list_artists.populate(self._db.get_artists_by_genre_id(genre_id), True)
+			self._list_artists.populate(self._db.get_artists_by_genre_id(genre_id))
 			self._update_view_albums(self, genre_id)
 			self._list_artists.widget.show()
 		self._artist_signal_id = self._list_artists.connect('item-selected', self._update_view_artist)

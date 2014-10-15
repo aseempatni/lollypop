@@ -13,9 +13,7 @@
 # Many code inspiration from gnome-music at the GNOME project
 
 from gi.repository import Gtk, GLib, GdkPixbuf, Pango
-
 from lollypop.albumart import AlbumArt
-from lollypop.utils import translate_artist_name
 
 class SearchWidget(Gtk.Popover):
 
@@ -96,7 +94,6 @@ class SearchWidget(Gtk.Popover):
 
 		for artist_id, artist_name in self._db.search_artists(searched):
 			albums = self._db.get_albums_by_artist_id(artist_id)
-			artist_name = translate_artist_name(artist_name)
 			for album_id in albums:
 				album_name = self._db.get_album_name(album_id)
 				art = self._art.get_small(album_id)

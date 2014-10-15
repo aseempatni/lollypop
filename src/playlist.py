@@ -16,7 +16,6 @@ from gi.repository import Gtk, Gdk, GLib, GdkPixbuf, Pango
 from gettext import gettext as _, ngettext 
 
 from lollypop.albumart import AlbumArt
-from lollypop.utils import translate_artist_name
 
 class PlayListWidget(Gtk.Popover):
 
@@ -72,7 +71,6 @@ class PlayListWidget(Gtk.Popover):
 				album_id = self._db.get_album_id_by_track_id(track_id)
 				artist_id = self._db.get_artist_id_by_album_id(album_id)
 				artist_name = self._db.get_artist_name_by_id(artist_id)
-				artist_name = translate_artist_name(artist_name)
 				art = self._art.get_small(album_id)
 				self._model.append([art, artist_name + " - " + track_name, track_id])
 			self._row_signal = self._model.connect("row-deleted", self._reordered_playlist)
