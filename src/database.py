@@ -25,7 +25,9 @@ class Database:
 						name TEXT NOT NULL,
 						artist_id INT NOT NULL,
 						genre_id INT NOT NULL,
-						popularity INT NOT NULL)'''					
+						year INT NOT NULL,
+						popularity INT NOT NULL)'''
+
 	create_artists = '''CREATE TABLE artists (id INTEGER PRIMARY KEY AUTOINCREMENT,
 						  name TEXT NOT NULL)'''
 	create_genres = '''CREATE TABLE genres (id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,7 +37,6 @@ class Database:
 					      filepath TEXT NOT NULL,
 			              length INT,
 					      tracknumber INT,
-					      year TEXT,
 					      album_id INT NOT NULL)'''
 	create_sort_index = '''CREATE INDEX index_name ON table_name(tracknumber ASC)'''
 							   
@@ -49,6 +50,7 @@ class Database:
 				
 		try:
 			self._sql = sqlite3.connect(self.DB_PATH)
+
 			# Create db schema
 			try:
 				self._sql.execute(self.create_albums)
@@ -58,7 +60,16 @@ class Database:
 				self._sql.execute(self.create_sort_index)
 				self._sql.commit()
 			except:
-					pass
+				#TODO: REMOVE ME => Add year to album table
+				try:
+					self._sql.execute('''SELECT year from albums''')
+				except:
+					self._sql.execute('''DROP TABLE albums''')
+					self._sql.execute('''DROP TABLE tracks''')
+					self._sql.execute(self.create_albums)
+					self._sql.execute(self.create_tracks)
+					self.commit()
+				
 		except Exception as e:
 			print("Can't connect to %s" % self.DB_PATH)
 			pass
@@ -99,10 +110,10 @@ class Database:
 
 	"""
 		Add a new album to database
-		arg: string, int, int
+		arg: string, int, int, int
 	"""
-	def add_album(self, name, artist_id, genre_id):
-		self._sql.execute("INSERT INTO albums (name, artist_id, genre_id, popularity) VALUES (?, ?, ?, ?)",  (name, artist_id, genre_id, 0))
+	def add_album(self, name, artist_id, genre_id, year):
+		self._sql.execute("INSERT INTO albums (name, artist_id, genre_id, year, popularity) VALUES (?, ?, ?, ?, ?)",  (name, artist_id, genre_id, year, 0))
 
 	"""
 		Add a new artist to database
@@ -120,10 +131,10 @@ class Database:
 
 	"""
 		Add a new track to database
-		arg: string, string, int, int, string, int
+		arg: string, string, int, int, int
 	"""
-	def add_track(self, name, filepath, length, tracknumber, year, album_id):
-		self._sql.execute("INSERT INTO tracks (name, filepath, length, tracknumber, year, album_id) VALUES (?, ?, ?, ?, ?, ?)", (name, filepath, length, tracknumber, year, album_id))
+	def add_track(self, name, filepath, length, tracknumber, album_id):
+		self._sql.execute("INSERT INTO tracks (name, filepath, length, tracknumber, album_id) VALUES (?, ?, ?, ?, ?)", (name, filepath, length, tracknumber, album_id))
 
 	"""
 		Increment popularity field for album id
@@ -318,7 +329,23 @@ class Database:
 			return v[0]
 		else:
 			return _("Unknown")
-		
+
+	"""
+		Get album year for id
+		arg: int
+		ret: string
+	"""
+	def get_album_year(self, album_id):
+		result = self._sql.execute("SELECT year FROM albums where id=?", (album_id,))
+		v = result.fetchone()
+		if v:
+			if v[0] == 0:
+				return ""
+			else:
+				return str(v[0])
+		else:
+			return ""
+
 	"""
 		Get album path for id
 		arg: int
@@ -387,7 +414,7 @@ class Database:
 	"""
 	def get_albums_by_artist_and_genre_ids(self, artist_id, genre_id):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=? and genre_id=?", (artist_id, genre_id))
+		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=? and genre_id=? ORDER BY year", (artist_id, genre_id))
 		for row in result:
 			albums += row
 		return albums
@@ -397,9 +424,9 @@ class Database:
 		arg: int, int
 		ret: [int]
 	"""	
-	def get_albums_by_artist_id(self, artist_id, prohibed_id = -1):
+	def get_albums_by_artist_id(self, artist_id):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=? and id!=?", (artist_id, prohibed_id))
+		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=? ORDER BY year", (artist_id,))
 		for row in result:
 			albums += row
 		return albums
@@ -411,7 +438,7 @@ class Database:
 	"""	
 	def get_albums_by_genre_id(self, genre_id):
 		albums = []
-		result = self._sql.execute("SELECT albums.id FROM albums, artists WHERE genre_id=? and artists.id=artist_id ORDER BY artists.name COLLATE NOCASE", (genre_id,))
+		result = self._sql.execute("SELECT albums.id FROM albums, artists WHERE genre_id=? and artists.id=artist_id ORDER BY artists.name COLLATE NOCASE, albums.year", (genre_id,))
 		for row in result:
 			albums += row
 		return albums
@@ -442,13 +469,13 @@ class Database:
 		return tracks
 
 	"""
-		Get tracks (id, name, filepath, length, year) for album id
+		Get tracks (id, name, filepath, length) for album id
 		arg: int
-		ret: [(int, string, string, int, string)]
+		ret: [(int, string, string, int)]
 	"""
 	def get_tracks_by_album_id(self, album_id):
 		tracks = []
-		result = self._sql.execute("SELECT id, name, filepath, length, year FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
+		result = self._sql.execute("SELECT id, name, filepath, length FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
 		for row in result:
 			tracks += (row,)
 		return tracks

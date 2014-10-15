@@ -85,6 +85,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 		self._player.connect("playlist-changed", self._update_pos_labels)
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
 		self._ui.get_object('title').set_label(self._db.get_album_name(album_id))
+		self._ui.get_object('year').set_label(self._db.get_album_year(album_id))
 		self.add(self._ui.get_object('AlbumWidgetSongs'))
 		GLib.idle_add(self._add_tracks, album_id)
 	
@@ -94,7 +95,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 	"""
 	def _add_tracks(self, album_id):
 		i = 0
-		for track_id, name, filepath, length, year in self._db.get_tracks_by_album_id(album_id):
+		for track_id, name, filepath, length in self._db.get_tracks_by_album_id(album_id):
 			ui = Gtk.Builder()
 			ui.add_from_resource('/org/gnome/Lollypop/TrackWidget.ui')
 			track_widget = ui.get_object('eventbox1')

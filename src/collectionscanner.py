@@ -118,7 +118,8 @@ class CollectionScanner:
 		if "date" in keys:
 			year = tag["date"][0]
 		else:
-			year = ""
+			year = 0
+		if not year: year = 0
 
 		# Get artist id, add it if missing
 		artist_id = db.get_artist_id_by_name(artist)
@@ -135,8 +136,8 @@ class CollectionScanner:
 		# Get album id, add it if missing
 		album_id = db.get_album_id(album, artist_id, genre_id)
 		if album_id == -1:
-			db.add_album(album, artist_id, genre_id)
+			db.add_album(album, artist_id, genre_id, int(year))
 			album_id = db.get_album_id(album, artist_id, genre_id)
 
 		# Add track to db
-		db.add_track(title, filepath, length, tracknumber, year, album_id)
+		db.add_track(title, filepath, length, tracknumber, album_id)
