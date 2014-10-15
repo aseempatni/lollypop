@@ -154,6 +154,8 @@ class AlbumView(View):
 
 		self._player.connect("album-changed", self._update_view)
 
+		self._context_album_id = None
+
 		self._albumbox = Gtk.FlowBox()
 		self._albumbox.set_homogeneous(True)
 		self._albumbox.set_selection_mode(Gtk.SelectionMode.NONE)
@@ -198,7 +200,8 @@ class AlbumView(View):
 	"""
 	def update_context(self):
 		self._clean_context()
-		self._populate_context(self._db.get_album_id_by_track_id(self._player.get_current_track_id()))
+		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
+		self._populate_context(self._context_album_id)
 
 	"""
 		Populate albums
@@ -247,11 +250,13 @@ class AlbumView(View):
 		Show Context view for activated album
 	"""
 	def _on_album_activated(self, obj, data):
-		if self._scrolledContext.is_visible():
-			self._clean_context()
+		if self._context_album_id == data.get_child().get_id():
+			self._context_album_id = None
 			self._scrolledContext.hide()
 		else:
-			self._populate_context(data.get_child().get_id())
+			self._clean_context()
+			self._context_album_id = data.get_child().get_id()
+			self._populate_context(self._context_album_id)
 			self._scrolledContext.show_all()		
 		
 	"""
