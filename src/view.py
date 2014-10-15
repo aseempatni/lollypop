@@ -152,8 +152,6 @@ class AlbumView(View):
 	def __init__(self, db, player, genre_id):
 		View.__init__(self, db, player, genre_id)
 
-		self._context_album_id = None
-
 		self._player.connect("album-changed", self._update_view)
 
 		self._albumbox = Gtk.FlowBox()
@@ -233,16 +231,14 @@ class AlbumView(View):
 		Show Context view for activated album
 	"""
 	def _on_album_activated(self, obj, data):
-		for child in self._scrolledContext.get_children():
-			self._scrolledContext.remove(child)
-			child.hide()
-			child.destroy()
-		if self._context_album_id == data.get_child().get_id():
-			self._context_album_id = None
+		if self._scrolledContext.is_visible():
+			for child in self._scrolledContext.get_children():
+				self._scrolledContext.remove(child)
+				child.hide()
+				child.destroy()
 			self._scrolledContext.hide()
 		else:
-			self._context_album_id = data.get_child().get_id()
-			context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
+			context = AlbumWidgetSongs(self._db, self._player, data.get_child().get_id())
 			context.connect("new-playlist", self._new_playlist)
 			self._scrolledContext.add(context)
 			self._scrolledContext.show_all()		

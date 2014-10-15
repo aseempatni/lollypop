@@ -164,6 +164,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 		Update tracks settings current tracks as bold and adding play symbol
 	"""
 	def _update_tracks(self, widget, track_id):
+		print(self)
 		for track_widget in self._tracks:
 			# Update position label
 			self._update_pos_label(track_widget)
