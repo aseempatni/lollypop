@@ -17,6 +17,7 @@ from gettext import gettext as _
 
 from lollypop.database import Database
 from lollypop.widgets import *
+from lollypop.utils import translate_artist_name
 
 class LoadingView(Gtk.Grid):
 	def __init__(self):
@@ -62,6 +63,7 @@ class ArtistView(View):
 		self._player.connect("album-changed", self._update_view)
 
 		artist_name = self._db.get_artist_name_by_id(artist_id)
+		artist_name = translate_artist_name(artist_name)
 		self._ui.get_object('artist').set_label(artist_name)
 
 		self._albumbox = Gtk.Grid()

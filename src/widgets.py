@@ -15,11 +15,11 @@
 from gi.repository import Gtk, Gdk, GLib, GObject, Pango
 from gi.repository import GdkPixbuf
 
-from _thread import start_new_thread
 from gettext import gettext as _, ngettext        
 
 from lollypop.albumart import AlbumArt
 from lollypop.player import Player
+from lollypop.utils import translate_artist_name
 
 class AlbumWidget(Gtk.Grid):
 
@@ -45,6 +45,7 @@ class AlbumWidget(Gtk.Grid):
 			label = label[0:20] + "..."
 		self._ui.get_object('title').set_label(label)
 		label = self._db.get_artist_name_by_album_id(album_id)
+		label = translate_artist_name(label)
 		if len(label) > 20:
 			label = label[0:20] + "..."
 		self._ui.get_object('artist').set_label(label)

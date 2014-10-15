@@ -79,8 +79,7 @@ class Database:
 
 	def commit(self):
 		self._sql.commit()
-		
-
+				
 	"""
 		Return True if no tracks in db
 	"""
@@ -208,6 +207,7 @@ class Database:
 		ret: int
 	"""
 	def get_artist_id_by_name(self, name):
+
 		result = self._sql.execute("SELECT id from artists where name=?", (name,))
 		v = result.fetchone()
 		if v:
@@ -222,9 +222,9 @@ class Database:
 	"""
 	def get_artist_name_by_id(self, id):
 		result = self._sql.execute("SELECT name from artists where id=?", (id,))
-		name = result.fetchone()
-		if name:
-			return name[0]
+		v = result.fetchone()
+		if v:
+			return v[0]
 		else:
 			return _("Unknown")
 	

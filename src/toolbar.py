@@ -14,9 +14,11 @@
 
 from gettext import gettext as _, ngettext 
 from gi.repository import Gtk, GObject, Gdk
+
 from lollypop.albumart import AlbumArt
 from lollypop.search import SearchWidget
 from lollypop.playlist import PlayListWidget
+from lollypop.utils import translate_artist_name
 
 class Toolbar(GObject.GObject):
 
@@ -112,6 +114,7 @@ class Toolbar(GObject.GObject):
 			
 			title = self._db.get_track_name(track_id)
 			artist = self._db.get_artist_name_by_album_id(album_id)
+			artist = translate_artist_name(artist)
 			self._title_label.set_text(title)
 			self._artist_label.set_text(artist)
 			self._progress.set_value(0.0)

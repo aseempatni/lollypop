@@ -15,6 +15,7 @@
 from gi.repository import Gtk, GObject, Pango
 
 from lollypop.database import Database
+from lollypop.utils import translate_artist_name
 
 class SelectionList(GObject.GObject):
 
@@ -47,13 +48,13 @@ class SelectionList(GObject.GObject):
 	
 	"""
 		Populate view with values
+		Translate string if is_artist = True
 	"""	
-	def populate(self, values):
+	def populate(self, values, is_artist = False):
 		self._model.clear()
 		for (id, string) in values:
-			split = string.split("@@@@")
-			if len(split) == 2:
-				string = split[1]+" "+split[0]
+			if is_artist:
+				string = translate_artist_name(string)
 			self._model.append([string, id])
 				
 	
