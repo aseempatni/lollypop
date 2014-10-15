@@ -90,10 +90,6 @@ class AlbumWidgetSongs(Gtk.Grid):
 		self.add(self._ui.get_object('AlbumWidgetSongs'))
 		GLib.idle_add(self._add_tracks, album_id)
 	
-	def destroy(self):
-		self._player.disconnect_by_func(self._update_tracks)
-		self._player.disconnect_by_func(self._update_pos_labels)
-		Gtk.Grid.destroy(self)
 
 	"""
 		Add tracks for album_id to Album widget
@@ -168,7 +164,6 @@ class AlbumWidgetSongs(Gtk.Grid):
 		Update tracks settings current tracks as bold and adding play symbol
 	"""
 	def _update_tracks(self, widget, track_id):
-		print(widget)
 		for track_widget in self._tracks:
 			# Update position label
 			self._update_pos_label(track_widget)
