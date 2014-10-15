@@ -152,8 +152,6 @@ class AlbumView(View):
 	def __init__(self, db, player, genre_id):
 		View.__init__(self, db, player, genre_id)
 
-		self._context_album_id = None
-
 		self._player.connect("album-changed", self._update_view)
 
 		self._albumbox = Gtk.FlowBox()
@@ -174,8 +172,6 @@ class AlbumView(View):
 		
 		separator = Gtk.Separator()
 		separator.show()
-		
-		self._context_signal_id = None
 		
 		self.add(self._scrolledWindow)
 		self.add(separator)
@@ -201,18 +197,8 @@ class AlbumView(View):
 		We need to clean it first
 	"""
 	def update_context(self):
-		for child in self._scrolledContext.get_children():
-			for widget in child.get_children():
-				widget.hide()
-				widget.disconnect(self._context_signal_id)
-				widget.destroy()
-			child.hide()
-			child.destroy()
-		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
-		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
-		self._context_signal_id = context.connect("new-playlist", self._new_playlist)
-		self._scrolledContext.add(context)
-		self._scrolledContext.show_all()
+		self._clean_context()
+		self._update_context(self._db.get_album_id_by_track_id(self._player.get_current_track_id()))
 
 	"""
 		Populate albums
@@ -236,22 +222,35 @@ class AlbumView(View):
 #######################
 
 	"""
+		Clean context view
+	"""
+	def _clean_context(self):
+		for child in self._scrolledContext.get_children():
+				for widget in child.get_children():
+					widget.hide()
+					widget.disconnect_by_func(self._new_playlist)
+					widget.destroy()
+				child.hide()
+				child.destroy()
+
+	"""
+		Update context view
+	"""
+	def _update_context(self, album_id):
+		context = AlbumWidgetSongs(self._db, self._player, album_id)
+		context.connect("new-playlist", self._new_playlist)
+		self._scrolledContext.add(context)
+		self._scrolledContext.show_all()
+
+	"""
 		Show Context view for activated album
 	"""
 	def _on_album_activated(self, obj, data):
-		for child in self._scrolledContext.get_children():
-			self._scrolledContext.remove(child)
-			child.hide()
-			child.destroy()
-		if self._context_album_id == data.get_child().get_id():
-			self._context_album_id = None
+		if self._scrolledContext.is_visible():
+			self._clean_context()
 			self._scrolledContext.hide()
 		else:
-			self._context_album_id = data.get_child().get_id()
-			context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
-			context.connect("new-playlist", self._new_playlist)
-			self._scrolledContext.add(context)
-			self._scrolledContext.show_all()		
+			self._update_context(data.get_child().get_id())
 		
 	"""
 		Add albums with current genre to the flowbox
