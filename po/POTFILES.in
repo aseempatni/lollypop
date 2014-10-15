@@ -5,20 +5,20 @@
 data/org.gnome.Lollypop.gschema.xml
 data/lollypop.desktop.in
 data/lollypop.appdata.xml.in
-lollypop/application.py
-lollypop/toolbar.py
-lollypop/window.py
-lollypop/notification.py
-lollypop/database.py
-lollypop/albumart.py
-lollypop/selectionlist.py
-lollypop/playlist.py
-lollypop/view.py
-lollypop/mpris.py
-lollypop/search.py
-lollypop/widgets.py
-lollypop/player.py
-lollypop/collectionscanner.py
+src/application.py
+src/toolbar.py
+src/window.py
+src/notification.py
+src/database.py
+src/albumart.py
+src/selectionlist.py
+src/playlist.py
+src/view.py
+src/mpris.py
+src/search.py
+src/widgets.py
+src/player.py
+src/collectionscanner.py
 [type: gettext/glade]data/AboutDialog.ui.in
 [type: gettext/glade]data/AlbumWidget.ui
 [type: gettext/glade]data/app-menu.ui

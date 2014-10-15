@@ -14,7 +14,7 @@
 
 import os, time
 import sqlite3
-from _thread import start_new_thread
+from gettext import gettext as _, ngettext    
 from gi.repository import GLib, Gdk
 import mutagen
 from lollypop.database import Database
@@ -90,8 +90,12 @@ class CollectionScanner:
 		if "performer" in keys:
 			artist = tag["performer"][0]
 
-		if artist[0:4] == "The " or artist[0:4] == "the ":
-			artist = artist[4:]+"@@@@The"
+		# Handle language ordering
+		# Translators: Add here words that shoud be ignored for artist sort order
+		for special in _("The the").split():
+			if artist.startswith(special+" "):
+				strlen = len(special+" ")
+				artist = artist[strlen:]+"@@@@"+special
 
 		if "album" in keys:
 			album = tag["album"][0]
