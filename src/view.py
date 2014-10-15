@@ -197,15 +197,8 @@ class AlbumView(View):
 		We need to clean it first
 	"""
 	def update_context(self):
-		for child in self._scrolledContext.get_children():
-			self._scrolledContext.remove(child)
-			child.hide()
-			child.destroy()
-		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
-		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
-		context.connect("new-playlist", self._new_playlist)
-		self._scrolledContext.add(context)
-		self._scrolledContext.show_all()
+		self._clean_context()
+		self._populate_context(self._db.get_album_id_by_track_id(self._player.get_current_track_id()))
 
 	"""
 		Populate albums
@@ -222,25 +215,43 @@ class AlbumView(View):
 		for album_id in db.get_albums_popular():
 			widget = AlbumWidget(db, album_id)
 			widget.show()
-			self._albumbox.insert(widget, -1)	
+			self._albumbox.insert(widget, -1)
+
 #######################
 # PRIVATE             #
 #######################
 
 	"""
+		populate context view
+	"""
+	def _populate_context(self, album_id):
+		context = AlbumWidgetSongs(self._db, self._player, album_id)
+		context.connect("new-playlist", self._new_playlist)
+		self._scrolledContext.add(context)
+		self._scrolledContext.show_all()
+
+	"""
+		Clean context view
+	"""
+	def _clean_context(self):
+		for child in self._scrolledContext.get_children():
+			for widget in child.get_children():
+				widget.hide()
+				widget.destroy()
+				
+			self._scrolledContext.remove(child)
+			child.hide()
+			child.destroy()
+			
+	"""
 		Show Context view for activated album
 	"""
 	def _on_album_activated(self, obj, data):
 		if self._scrolledContext.is_visible():
-			for child in self._scrolledContext.get_children():
-				self._scrolledContext.remove(child)
-				child.hide()
-				child.destroy()
+			self._clean_context()
 			self._scrolledContext.hide()
 		else:
-			context = AlbumWidgetSongs(self._db, self._player, data.get_child().get_id())
-			context.connect("new-playlist", self._new_playlist)
-			self._scrolledContext.add(context)
+			self._populate_context(data.get_child().get_id())
 			self._scrolledContext.show_all()		
 		
 	"""
