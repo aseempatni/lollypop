@@ -5,6 +5,7 @@ app_PYTHON = \
 	toolbar.py\
 	window.py\
 	notification.py\
+	utils.py\
 	database.py \
 	albumart.py\
 	selectionlist.py\

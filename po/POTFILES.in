@@ -15,6 +15,7 @@ src/selectionlist.py
 src/playlist.py
 src/view.py
 src/mpris.py
+src/utils.py
 src/search.py
 src/widgets.py
 src/player.py

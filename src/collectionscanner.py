@@ -18,6 +18,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import GLib, Gdk
 import mutagen
 from lollypop.database import Database
+from lollypop.utils import format_artist_name
 
 class CollectionScanner:
 
@@ -90,12 +91,7 @@ class CollectionScanner:
 		if "performer" in keys:
 			artist = tag["performer"][0]
 
-		# Handle language ordering
-		# Translators: Add here words that shoud be ignored for artist sort order
-		for special in _("The the").split():
-			if artist.startswith(special+" "):
-				strlen = len(special+" ")
-				artist = artist[strlen:]+"@@@@"+special
+		artist = format_artist_name(artist)
 
 		if "album" in keys:
 			album = tag["album"][0]
