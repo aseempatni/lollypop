@@ -93,24 +93,21 @@ class ArtistView(View):
 			albums = self._db.get_albums_by_artist_id(self._artist_id)
 		else:
 			albums = self._db.get_albums_by_artist_and_genre_ids(self._artist_id, self._genre_id)
-		for id in albums:
-			self._add_album(id)
+		for album_id in albums:
+			self._populate_content(album_id)
 
 	"""
 		Update the content view
 		We need to clean it first
 	"""
 	def update_content(self):
-		for child in self._albumbox.get_children():
-			self._albumbox.remove(child)
-			child.hide()
-			child.destroy()
+		self._clean_content()
 		album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
 		artist_id = self._db.get_artist_id_by_album_id(album_id)
 		artist_name = self._db.get_artist_name_by_id(artist_id)
 		self._ui.get_object('artist').set_label(artist_name)
 		for album_id in self._db.get_albums_by_artist_id(artist_id):
-			self._add_album(album_id)
+			self._populate_content(album_id)
 
 	"""
 		Update the context view
@@ -122,16 +119,23 @@ class ArtistView(View):
 #######################
 # PRIVATE             #
 #######################
-   
+
 	"""
-    	Add album with album_id to the grid
-    	arg: int
-    	"""   
-	def _add_album(self, album_id):
+		populate content view with album_id
+	"""
+	def _populate_content(self, album_id):
 		widget = AlbumWidgetSongs(self._db, self._player, album_id)
 		widget.connect("new-playlist", self._new_playlist)
 		self._albumbox.add(widget)
-		widget.show()		
+		widget.show()	
+
+	"""
+		Clean content view
+	"""
+	def _clean_content(self):
+		for widget in self._albumbox.get_children():
+			widget.hide()
+			widget.destroy()
 
 	"""
 		Play track with track_id and set a new playlist in player
