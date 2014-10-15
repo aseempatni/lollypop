@@ -175,8 +175,6 @@ class AlbumView(View):
 		separator = Gtk.Separator()
 		separator.show()
 		
-		self._context_signal_id = None
-		
 		self.add(self._scrolledWindow)
 		self.add(separator)
 		self.add(self._scrolledContext)
@@ -202,15 +200,12 @@ class AlbumView(View):
 	"""
 	def update_context(self):
 		for child in self._scrolledContext.get_children():
-			for widget in child.get_children():
-				widget.hide()
-				widget.disconnect(self._context_signal_id)
-				widget.destroy()
+			self._scrolledContext.remove(child)
 			child.hide()
 			child.destroy()
 		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
 		context = AlbumWidgetSongs(self._db, self._player, self._context_album_id)
-		self._context_signal_id = context.connect("new-playlist", self._new_playlist)
+		context.connect("new-playlist", self._new_playlist)
 		self._scrolledContext.add(context)
 		self._scrolledContext.show_all()
 
@@ -229,8 +224,7 @@ class AlbumView(View):
 		for album_id in db.get_albums_popular():
 			widget = AlbumWidget(db, album_id)
 			widget.show()
-			self._albumbox.insert(widget, -1)
-			
+			self._albumbox.insert(widget, -1)	
 #######################
 # PRIVATE             #
 #######################
