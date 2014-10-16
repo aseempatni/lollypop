@@ -281,6 +281,7 @@ class Window(Gtk.ApplicationWindow):
 	"""
 	def _update_view_artist(self, obj, artist_id):
 		self._box.remove(self._view)
+		self._view.destroy()
 		self._view = ArtistView(self._db, self._player, self._genre_id, artist_id)
 		self._box.add(self._view)
 		self._view.populate()
@@ -290,6 +291,7 @@ class Window(Gtk.ApplicationWindow):
 	"""
 	def _update_view_populars_albums(self):
 		self._box.remove(self._view)
+		self._view.destroy()
 		self._view = AlbumView(self._db, self._player, None)
 		self._box.add(self._view)
 		self._view.populate_popular()
@@ -298,6 +300,7 @@ class Window(Gtk.ApplicationWindow):
 	"""
 	def _update_view_albums(self, obj, genre_id):
 		self._box.remove(self._view)
+		self._view.destroy()
 		self._view = AlbumView(self._db, self._player, genre_id)
 		self._box.add(self._view)
 		self._view.populate()

@@ -47,6 +47,10 @@ class View(Gtk.Grid):
 
 		self._player.connect("current-changed", self._current_changed)
 
+	def destroy(self):
+		self._player.disconnect_by_func(self._current_changed)
+		Gtk.Grid.destroy(self)
+
 	"""
 		Current song changed
 		If album changed => new context view
@@ -55,8 +59,8 @@ class View(Gtk.Grid):
 	def _current_changed(self, widget, track_id):
 		album_id = self._db.get_album_id_by_track_id(track_id)
 		if album_id == self._album_id:
-			self._update_content()
-			self._update_context()
+			self._update_content(False)
+			self._update_context(False)
 		else:
 			self._album_id = album_id
 			self._update_content(True)
@@ -174,7 +178,6 @@ class AlbumView(View):
 	def __init__(self, db, player, genre_id):
 		View.__init__(self, db, player, genre_id)
 
-		self._albumsongs_album_id = None
 		self._albumsongs = None
 
 		self._albumbox = Gtk.FlowBox()
@@ -258,13 +261,13 @@ class AlbumView(View):
 		Show Context view for activated album
 	"""
 	def _on_album_activated(self, obj, data):
-		if self._albumsongs_album_id == data.get_child().get_id():
-			self._albumsongs_album_id = None
+		if self._album_id == data.get_child().get_id():
+			self._album_id = None
 			self._scrolledContext.hide()
 		else:
 			self._clean_context()
-			self._albumsongs_album_id = data.get_child().get_id()
-			self._populate_context(self._albumsongs_album_id)
+			self._album_id = data.get_child().get_id()
+			self._populate_context(self._album_id)
 			self._scrolledContext.show_all()		
 		
 	"""
