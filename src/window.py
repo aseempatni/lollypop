@@ -325,6 +325,8 @@ class Window(Gtk.ApplicationWindow):
 		Show current album context/content
 	"""
 	def _show_current_album(self, obj, data):
-		if self._player.get_current_track_id() != -1:
-			self._view.update_context()
-			self._view.update_content()
+		track_id = self._player.get_current_track_id()
+		if  track_id != -1:
+			self._view.current_changed(False, track_id)
+
+

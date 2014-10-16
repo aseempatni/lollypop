@@ -50,7 +50,7 @@ class View(Gtk.Grid):
 		# Current object, used to handle context/content view
 		self._object_id = None
 
-		self._player.connect("current-changed", self._current_changed)
+		self._player.connect("current-changed", self.current_changed)
 
 	def destroy(self):
 		self._player.disconnect_by_func(self._current_changed)
@@ -58,10 +58,11 @@ class View(Gtk.Grid):
 
 	"""
 		Current song changed
+		widget is unused, passe None if not a callback for a signal
 		If album changed => new context view
 		else => update context view
 	"""
-	def _current_changed(self, widget, track_id):
+	def current_changed(self, widget, track_id):
 		update = False
 		object_id = self._get_object_id_by_track_id(track_id)
 		if object_id != self._object_id:
