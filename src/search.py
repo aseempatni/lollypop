@@ -47,7 +47,7 @@ class SearchRow(Gtk.ListBoxRow):
 			widget.hide()
 			widget.destroy()
 		Gtk.ListBoxRow.destroy(self)
-	
+
 	"""
 		Get row widget
 	"""
@@ -58,12 +58,19 @@ class SearchRow(Gtk.ListBoxRow):
 		Set artist label
 	"""
 	def set_artist(self, name):
+		#FIXME
+		name = translate_artist_name(name)
+		if len(name) > 30:
+			name = name[0:30] + "..."
 		self._artist.set_text(translate_artist_name(name))
 
 	"""
 		Set item label
 	"""
 	def set_item(self, name):
+		#FIXME
+		if len(name) > 30:
+			name = name[0:30] + "..."
 		self._item.set_text(name)
 
 	"""
@@ -109,8 +116,8 @@ class SearchWidget(Gtk.Popover):
 		self._timeout = None
 		self._art = AlbumArt(db)
 
-		self.set_property('height-request', 500)
-		self.set_property('width-request', 350)
+		self.set_property('height-request', 600)
+		self.set_property('width-request', 400)
 
 		grid = Gtk.Grid()
 		grid.set_property("orientation", Gtk.Orientation.VERTICAL)
@@ -125,7 +132,6 @@ class SearchWidget(Gtk.Popover):
 		self._view.show()		
 		
 		self._scroll = Gtk.ScrolledWindow()
-		self._scroll.set_hexpand(True)
 		self._scroll.set_vexpand(True)
 		self._scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		self._scroll.add(self._view)
