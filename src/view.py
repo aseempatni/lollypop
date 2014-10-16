@@ -33,6 +33,11 @@ class LoadingView(Gtk.Grid):
 		self.add(self._label)
 		self.show_all()
 
+	def destroy(self):
+		for obj in self._ui.get_objects():
+			obj.destroy()
+		Gtk.Grid.destroy(self)
+
 class View(Gtk.Grid):
 	def __init__(self, db, player, genre_id):
 		Gtk.Grid.__init__(self)
@@ -108,6 +113,11 @@ class ArtistView(View):
 		self.add(self._ui.get_object('ArtistView'))
 		self.add(self._scrolledWindow)
 		self.show_all()
+
+	def destroy(self):
+		for obj in self._ui.get_objects():
+			obj.destroy()
+		View.destroy(self)
 
 	"""
 		Populate the view

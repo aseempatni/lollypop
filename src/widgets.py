@@ -74,6 +74,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 		self._ui = Gtk.Builder()
 		self._ui.add_from_resource('/org/gnome/Lollypop/AlbumWidgetSongs.ui')
 		
+		self._tracks_ui = []
 		self._tracks = []
 		self._db = db
 		self._player = player
@@ -92,6 +93,14 @@ class AlbumWidgetSongs(Gtk.Grid):
 		self._album_id = album_id
 	
 		GLib.idle_add(self._add_tracks, album_id)
+	
+	def destroy(self):
+		for ui in self._tracks_ui:
+			for obj in ui.get_objects():
+				obj.destroy()
+		for obj in self._ui.get_objects():
+			obj.destroy()
+		Gtk.Grid.destroy(self)
 
 	"""
 		Return album id
@@ -127,6 +136,7 @@ class AlbumWidgetSongs(Gtk.Grid):
 		i = 0
 		for track_id, name, filepath, length in self._db.get_tracks_by_album_id(album_id):
 			ui = Gtk.Builder()
+			self._tracks_ui.append(ui)
 			ui.add_from_resource('/org/gnome/Lollypop/TrackWidget.ui')
 			track_widget = ui.get_object('eventbox1')
 			self._tracks.append(track_widget)
