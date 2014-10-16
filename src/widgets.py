@@ -89,8 +89,15 @@ class AlbumWidgetSongs(Gtk.Grid):
 
 		self._player.connect("playlist-changed", self._update_pos_labels)
 
+		self._album_id = album_id
+	
 		GLib.idle_add(self._add_tracks, album_id)
 
+	"""
+		Return album id
+	"""
+	def get_album_id(self):
+		return self._album_id
 
 	"""
 		Update tracks settings current tracks as bold and adding play symbol
