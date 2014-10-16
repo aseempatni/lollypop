@@ -120,9 +120,6 @@ class PlayListWidget(Gtk.Popover):
 		self._scroll.add(self._view)
 		self._scroll.show_all()
 
-		Gtk.Drag.dest_set(self._view, Gtk.DestDefaults.MOTION | Gtk.DestDefaults.HIGHLIGHT,
-			          self.TARGET_ENTRY_LIST, Gdk.DragAction.COPY | Gdk.DragAction.MOVE);
-
 		self.connect("closed", self._on_closed)	
 		self.add(self._scroll)
 
