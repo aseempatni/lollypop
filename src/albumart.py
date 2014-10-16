@@ -22,7 +22,7 @@ class AlbumArt:
 
 	_mimes = [ "jpeg", "jpg", "png", "gif" ]
 	_ART_SIZE = 200
-	_ART_SMALL_SIZE = 32
+	_ART_SMALL_SIZE = 48
 	CACHE_PATH = os.path.expanduser ("~") +  "/.cache/lollypop"
 	
 	"""
@@ -41,14 +41,14 @@ class AlbumArt:
 		get cover cache path for album_id
 	"""
 	def get_path(self, album_id):
-		album_path = self._db.get_album_path(album_id)
+		album_path = self._db.get_album_path_by_id(album_id)
 		return "%s/%s.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
 	
 	"""
 		Return pixbuf for album_id
 	"""
 	def get(self, album_id):
-		album_path = self._db.get_album_path(album_id)
+		album_path = self._db.get_album_path_by_id(album_id)
 		cache_path = "%s/%s.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
 		cached = True
 		try:
@@ -73,7 +73,7 @@ class AlbumArt:
 		Return small pixbuf for album_id
 	"""
 	def get_small(self, album_id):
-		album_path = self._db.get_album_path(album_id)
+		album_path = self._db.get_album_path_by_id(album_id)
 		cache_path = "%s/%s_small.jpg" % (self.CACHE_PATH, album_path.replace("/", "_"))
 		cached = True
 		try:

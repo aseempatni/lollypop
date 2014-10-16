@@ -17,6 +17,85 @@ from gi.repository import Gtk, GLib, GdkPixbuf, Pango
 from lollypop.albumart import AlbumArt
 from lollypop.utils import translate_artist_name
 
+class SearchRow(Gtk.ListBoxRow):
+	"""
+		Init row widgets
+	"""
+	def __init__(self):
+		Gtk.ListBoxRow.__init__(self)
+		self._object_id = None
+		self._is_track = False
+		self._ui = Gtk.Builder()
+		self._ui.add_from_resource('/org/gnome/Lollypop/SearchRow.ui')
+		self._row_widget = self._ui.get_object('row')
+		self._artist = self._ui.get_object('artist')
+		self._item = self._ui.get_object('item')
+		self._cover = self._ui.get_object('cover')
+		self.add(self._row_widget)
+		self.show()
+
+	"""
+		Destroy all widgets
+	"""
+	def destroy(self):
+		self.remove(self._row_widget)
+		del self._row_widget
+		del self._artist
+		del self._item
+		del self._cover
+		for widget in self._ui.get_objects():
+			widget.hide()
+			widget.destroy()
+		Gtk.ListBoxRow.destroy(self)
+	
+	"""
+		Get row widget
+	"""
+	def widget(self):
+		return self._row_widget
+
+	"""
+		Set artist label
+	"""
+	def set_artist(self, name):
+		self._artist.set_text(translate_artist_name(name))
+
+	"""
+		Set item label
+	"""
+	def set_item(self, name):
+		self._item.set_text(name)
+
+	"""
+		Set cover pixbuf
+	"""
+	def set_cover(self, pixbuf):
+		self._cover.set_from_pixbuf(pixbuf)
+
+	"""
+		Store object id
+	"""
+	def set_object_id(self, object_id):
+		self._object_id = object_id
+
+	"""
+		Return object id
+	"""
+	def get_object_id(self):
+		return self._object_id
+
+	"""
+		Set as a track
+	"""
+	def track(self):
+		self._is_track = True
+
+	"""
+		Return True if it's a track
+	"""
+	def is_track(self):
+		return self._is_track
+
 class SearchWidget(Gtk.Popover):
 
 	"""
@@ -30,6 +109,9 @@ class SearchWidget(Gtk.Popover):
 		self._timeout = None
 		self._art = AlbumArt(db)
 
+		self.set_property('height-request', 500)
+		self.set_property('width-request', 350)
+
 		grid = Gtk.Grid()
 		grid.set_property("orientation", Gtk.Orientation.VERTICAL)
 
@@ -38,24 +120,10 @@ class SearchWidget(Gtk.Popover):
 		self._text_entry.set_hexpand(True)
 		self._text_entry.show()
 
-
-		#self._model = Gtk.ListStore(GdkPixbuf.Pixbuf, str, int, int)
-		self._model = Gtk.ListStore(GdkPixbuf.Pixbuf, str, int, bool)
-		self._view = Gtk.TreeView(self._model)
-		self._view.set_property("activate-on-single-click", True)
-		self._view.connect('row-activated', self._new_item_selected)
-		renderer1 = Gtk.CellRendererText()
-		renderer1.set_property('ellipsize-set',True)
-		renderer1.set_property('ellipsize', Pango.EllipsizeMode.END)
-		renderer2 = Gtk.CellRendererPixbuf()
-		renderer2.set_property('stock-size', 16)
-		self._view.append_column(Gtk.TreeViewColumn("Pixbuf", renderer2, pixbuf=0))
-		self._view.append_column(Gtk.TreeViewColumn("Text", renderer1, text=1))
-		self._view.set_headers_visible(False)
+		self._view = Gtk.ListBox()
+		self._view.connect("row-activated", self._on_activate)	
 		self._view.show()		
 		
-		self.set_property('height-request', 500)
-		self.set_property('width-request', 350)
 		self._scroll = Gtk.ScrolledWindow()
 		self._scroll.set_hexpand(True)
 		self._scroll.set_vexpand(True)
@@ -70,7 +138,15 @@ class SearchWidget(Gtk.Popover):
 #######################
 # PRIVATE             #
 #######################
-		
+	
+	"""
+		Clear widget removing every row
+	"""
+	def clear(self):
+		for child in self._view.get_children():
+			child.hide()
+			child.destroy()
+
 	"""
 		Timeout filtering, call _really_do_filterting() after a small timeout
 	"""	
@@ -80,54 +156,64 @@ class SearchWidget(Gtk.Popover):
 		if self._text_entry.get_text() != "":
 			self._timeout = GLib.timeout_add(500, self._really_do_filtering)
 		else:
-			self._model.clear()
+			self.clear()
 
 	"""
 		Populate treeview searching items in db based on text entry current text
 	"""
 	def _really_do_filtering(self):
 		self._timeout = None
+		self.clear()
 		searched = self._text_entry.get_text()
-		self._model.clear()
 		self._scroll.show()
-		for album_id, album_name in self._db.search_albums(searched):
-			art = self._art.get_small(album_id)
-			self._model.append([art, album_name, album_id, False])
 
-		for artist_id, artist_name in self._db.search_artists(searched):
-			albums = self._db.get_albums_by_artist_id(artist_id)
-			artist_name = translate_artist_name(artist_name)
-			for album_id in albums:
-				album_name = self._db.get_album_name(album_id)
-				art = self._art.get_small(album_id)
-				self._model.append([art, artist_name, album_id, False])
-				break #Only first album
+		albums = self._db.search_albums(searched)
+		
+		for artist_id in self._db.search_artists(searched):
+			for album_id in self._db.get_albums_by_artist_id(artist_id):
+				if (album_id, artist_id) not in albums:
+					albums.append((album_id, artist_id))
+
+		for album_id, artist_id in albums:
+			artist = self._db.get_artist_name_by_id(artist_id)
+			album = self._db.get_album_name_by_id(album_id)
+			search_row = SearchRow()
+			search_row.set_artist(artist)
+			search_row.set_item(album)
+			search_row.set_cover(self._art.get_small(album_id))
+			search_row.set_object_id(album_id)			
+			self._view.add(search_row)
 
 		for track_id, track_name in self._db.search_tracks(searched):
 			album_id = self._db.get_album_id_by_track_id(track_id)
-			art = self._art.get_small(album_id)
-			self._model.append([art, track_name, track_id, True])
+			artist_id = self._db.get_artist_id_by_album_id(album_id)
+			artist = self._db.get_artist_name_by_id(artist_id)
+			search_row = SearchRow()
+			search_row.set_artist(artist)
+			search_row.set_item(track_name)
+			search_row.set_cover(self._art.get_small(album_id))
+			search_row.set_object_id(track_id)
+			search_row.track()
+			self._view.add(search_row)
 
+		
 	"""
 		Play searched item when selected
 		If item is an album, play first track
 	"""
-	def _new_item_selected(self, view, path, column):
-		iter = self._model.get_iter(path)
-		if iter:
-			value_id = self._model.get_value(iter, 2)
-			is_track = self._model.get_value(iter, 3)
-			if is_track:
-				self._player.load(value_id)
-			else:
+	def _on_activate(self, widget, row):
+		value_id = row.get_object_id()
+		if row.is_track():
+			self._player.load(value_id)
+		else:
+			self._db.set_more_popular(value_id)
+			genre_id = self._db.get_genre_id_by_album_id(value_id)
+			# Get first track from album
+			track_id = self._db.get_track_ids_by_album_id(value_id)[0]
+			artist_id = self._db.get_artist_id_by_album_id(value_id)
+			self._player.load(track_id)
+			if not self._player.is_party():
 				self._db.set_more_popular(value_id)
-				genre_id = self._db.get_genre_id_by_album_id(value_id)
-				# Get first track from album
-				track_id = self._db.get_track_ids_by_album_id(value_id)[0]
-				artist_id = self._db.get_artist_id_by_album_id(value_id)
-				self._player.load(track_id)
-				if not self._player.is_party():
-					self._db.set_more_popular(value_id)
-					self._player.set_albums(artist_id, genre_id, track_id)
+				self._player.set_albums(artist_id, genre_id, track_id)
 
 

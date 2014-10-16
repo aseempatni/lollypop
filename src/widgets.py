@@ -40,7 +40,7 @@ class AlbumWidget(Gtk.Grid):
 		
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
 		#TODO Can't find a way to have ellipsized label
-		label = self._db.get_album_name(album_id)
+		label = self._db.get_album_name_by_id(album_id)
 		if len(label) > 20:
 			label = label[0:20] + "..."
 		self._ui.get_object('title').set_label(label)
@@ -84,8 +84,8 @@ class AlbumWidgetSongs(Gtk.Grid):
 		grid = self._ui.get_object('grid2')
 		self._nb_tracks = self._db.get_tracks_count_for_album_id(album_id)
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
-		self._ui.get_object('title').set_label(self._db.get_album_name(album_id))
-		self._ui.get_object('year').set_label(self._db.get_album_year(album_id))
+		self._ui.get_object('title').set_label(self._db.get_album_name_by_id(album_id))
+		self._ui.get_object('year').set_label(self._db.get_album_year_by_id(album_id))
 		self.add(self._ui.get_object('AlbumWidgetSongs'))
 
 		self._player.connect("playlist-changed", self._update_pos_labels)
