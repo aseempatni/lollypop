@@ -82,22 +82,36 @@ class AlbumWidgetSongs(Gtk.Grid):
 		self.set_hexpand(False)
 		grid = self._ui.get_object('grid2')
 		self._nb_tracks = self._db.get_tracks_count_for_album_id(album_id)
-		self._player.connect("current-changed", self._update_tracks)
-		self._player.connect("playlist-changed", self._update_pos_labels)
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
 		self._ui.get_object('title').set_label(self._db.get_album_name(album_id))
 		self._ui.get_object('year').set_label(self._db.get_album_year(album_id))
 		self.add(self._ui.get_object('AlbumWidgetSongs'))
+
+		self._player.connect("playlist-changed", self._update_pos_labels)
+
 		GLib.idle_add(self._add_tracks, album_id)
-	
+
 
 	"""
-		Delete signals on destroy
+		Update tracks settings current tracks as bold and adding play symbol
 	"""
-	def destroy(self):
-		self._player.disconnect_by_func(self._update_tracks)
-		self._player.disconnect_by_func(self._update_pos_labels)
-		Gtk.Grid.destroy(self)
+	def update_tracks(self, track_id):
+		for track_widget in self._tracks:
+			# Update position label
+			self._update_pos_label(track_widget)
+
+			# Update playing label
+			if track_widget.id == track_id:
+				track_widget.title.set_markup('<b>%s</b>' % self._db.get_track_name(track_widget.id))
+				track_widget.playing.show()
+			else:
+				if track_widget.playing.is_visible():
+					track_widget.playing.hide()
+					track_widget.title.set_text(self._db.get_track_name(track_widget.id))
+
+#######################
+# PRIVATE             #
+#######################
 
 	"""
 		Add tracks for album_id to Album widget
@@ -168,19 +182,3 @@ class AlbumWidgetSongs(Gtk.Grid):
 		else:
 			track_widget.play_pos.set_text("")
 
-	"""
-		Update tracks settings current tracks as bold and adding play symbol
-	"""
-	def _update_tracks(self, widget, track_id):
-		for track_widget in self._tracks:
-			# Update position label
-			self._update_pos_label(track_widget)
-
-			# Update playing label
-			if track_widget.id == track_id:
-				track_widget.title.set_markup('<b>%s</b>' % self._db.get_track_name(track_widget.id))
-				track_widget.playing.show()
-			else:
-				if track_widget.playing.is_visible():
-					track_widget.playing.hide()
-					track_widget.title.set_text(self._db.get_track_name(track_widget.id))

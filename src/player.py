@@ -28,7 +28,6 @@ class Player(GObject.GObject):
 	
 	__gsignals__ = {
         'current-changed': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
-        'album-changed': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
         'playback-status-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'playlist-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
@@ -255,10 +254,7 @@ class Player(GObject.GObject):
 				self._albums = self._db.get_all_albums_ids()
 			track_id = self._get_random()
 			self.load(track_id)
-			new_album_id = self._db.get_album_id_by_track_id(track_id)
-			if self._current_track_album_id != new_album_id:
-				self._current_track_album_id = new_album_id
-				self.emit("album-changed", new_album_id)
+			self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
 		else:
 			album_id = self._db.get_album_id_by_track_id(self._current_track_id)
 			artist_id = self._db.get_artist_id_by_album_id(album_id)
@@ -413,10 +409,7 @@ class Player(GObject.GObject):
 			self._shuffle_next()
 			return
 		self.load(track_id)
-		new_album_id = self._db.get_album_id_by_track_id(track_id)
-		if new_album_id != self._current_track_album_id:
-			self._current_track_album_id = new_album_id
-			self.emit("album-changed", new_album_id)
+		self._current_track_album_id = self._db.get_album_id_by_track_id(track_id)
 
 	"""
 		Return a random track and make sure it has never been played

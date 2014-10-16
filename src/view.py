@@ -32,11 +32,6 @@ class LoadingView(Gtk.Grid):
 		self._label.set_label(_("Loading please wait..."))
 		self.add(self._label)
 		self.show_all()
-		
-	def _update_content(self):
-		pass
-	def _update_context(self):
-		pass
 
 class View(Gtk.Grid):
 	def __init__(self, db, player, genre_id):
@@ -45,7 +40,41 @@ class View(Gtk.Grid):
 		self.set_border_width(0)
 		self._db = db
 		self._player = player
+		# Current genre
 		self._genre_id = genre_id
+		# Current album, used to handle context/content view
+		self._album_id = None
+
+		self._player.connect("current-changed", self._current_changed)
+
+	"""
+		Current song changed
+		If album changed => new context view
+		else => update context view
+	"""
+	def _current_changed(self, widget, track_id):
+		album_id = self._db.get_album_id_by_track_id(track_id)
+		if album_id == self._album_id:
+			self._update_content()
+			self._update_context()
+		else:
+			self._album_id = album_id
+			self._update_content(True)
+			self._update_context(True)
+
+	"""
+		Update content view
+		If replace True, create a new content view
+	"""
+	def _update_content(self, replace):
+		pass
+
+	"""
+		Update context view
+		if replace True, create a new context view
+	"""
+	def _update_context(self, replace):
+		pass
 
 class ArtistView(View):
 
@@ -60,8 +89,6 @@ class ArtistView(View):
 
 		self._artist_id = artist_id
 
-		self._player.connect("album-changed", self._update_view)
-
 		artist_name = self._db.get_artist_name_by_id(artist_id)
 		artist_name = translate_artist_name(artist_name)
 		self._ui.get_object('artist').set_label(artist_name)
@@ -74,16 +101,10 @@ class ArtistView(View):
 		self._scrolledWindow.set_policy(Gtk.PolicyType.NEVER,
 						Gtk.PolicyType.AUTOMATIC)
 		self._scrolledWindow.add(self._albumbox)
+
 		self.add(self._ui.get_object('ArtistView'))
 		self.add(self._scrolledWindow)
 		self.show_all()
-
-	"""
-		Update content if in party mode
-	"""
-	def _update_view(self, widget, track_id):
-		if self._player.is_party():
-			self.update_content()	 
 
 	"""
 		Populate the view
@@ -98,23 +119,20 @@ class ArtistView(View):
 
 	"""
 		Update the content view
-		We need to clean it first
+		New view if replace True
 	"""
-	def update_content(self):
-		self._clean_content()
-		album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
-		artist_id = self._db.get_artist_id_by_album_id(album_id)
-		artist_name = self._db.get_artist_name_by_id(artist_id)
-		self._ui.get_object('artist').set_label(artist_name)
-		for album_id in self._db.get_albums_by_artist_id(artist_id):
-			self._populate_content(album_id)
-
-	"""
-		Update the context view
-		Do nothing here
-	"""
-	def update_context(self):
-		pass
+	def update_content(self, replace):
+		if replace:
+			self._clean_content()
+			album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
+			artist_id = self._db.get_artist_id_by_album_id(album_id)
+			artist_name = self._db.get_artist_name_by_id(artist_id)
+			self._ui.get_object('artist').set_label(artist_name)
+			for album_id in self._db.get_albums_by_artist_id(artist_id):
+				self._populate_content(album_id)
+		else:
+			for widget in self._albumbox.get_children():
+				widget.update_tracks(self._player.get_current_track_id())
 
 #######################
 # PRIVATE             #
@@ -156,9 +174,8 @@ class AlbumView(View):
 	def __init__(self, db, player, genre_id):
 		View.__init__(self, db, player, genre_id)
 
-		self._player.connect("album-changed", self._update_view)
-
-		self._context_album_id = None
+		self._albumsongs_album_id = None
+		self._albumsongs = None
 
 		self._albumbox = Gtk.FlowBox()
 		self._albumbox.set_homogeneous(True)
@@ -175,7 +192,8 @@ class AlbumView(View):
 		self._scrolledContext = Gtk.ScrolledWindow()
 		self._scrolledContext.set_min_content_height(250)
 		self._scrolledContext.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-		
+		self._viewport = Gtk.Viewport()
+		Gtk.Container.add(self._scrolledContext ,self._viewport)
 		separator = Gtk.Separator()
 		separator.show()
 		
@@ -183,29 +201,6 @@ class AlbumView(View):
 		self.add(separator)
 		self.add(self._scrolledContext)
 		self.show()
-    
-	"""
-		Update context if in party mode
-	"""
-	def _update_view(self, widget, track_id):
-		if self._player.is_party():
-			self.update_context()
-
-	"""
-		Update the content view
-		Do nothing
-	"""
-	def update_content(self	):
-		pass
-
-	"""
-		Update the context view
-		We need to clean it first
-	"""
-	def update_context(self):
-		self._clean_context()
-		self._context_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
-		self._populate_context(self._context_album_id)
 
 	"""
 		Populate albums
@@ -229,38 +224,47 @@ class AlbumView(View):
 #######################
 
 	"""
+		Update the context view
+		New view if replace True
+	"""
+	def _update_context(self, replace):
+		if replace:
+			self._clean_context()
+			self._albumsongs_album_id = self._db.get_album_id_by_track_id(self._player.get_current_track_id())
+			self._populate_context(self._albumsongs_album_id)
+		elif self._albumsongs:
+			self._albumsongs.update_tracks(self._player.get_current_track_id())
+		if self._player.is_party():
+			self._scrolledContext.show_all()
+
+	"""
 		populate context view
 	"""
 	def _populate_context(self, album_id):
-		context = AlbumWidgetSongs(self._db, self._player, album_id)
-		context.connect("new-playlist", self._new_playlist)
-		self._scrolledContext.add(context)
+		self._albumsongs = AlbumWidgetSongs(self._db, self._player, album_id)
+		self._albumsongs.connect("new-playlist", self._new_playlist)
+		self._viewport.add(self._albumsongs)
 		self._scrolledContext.show_all()
 
 	"""
 		Clean context view
 	"""
 	def _clean_context(self):
-		for child in self._scrolledContext.get_children():
-			for widget in child.get_children():
-				widget.hide()
-				widget.destroy()
-				
-			self._scrolledContext.remove(child)
-			child.hide()
-			child.destroy()
+		if self._albumsongs:
+			self._viewport.remove(self._albumsongs)
+			self._albumsongs.destroy()
 			
 	"""
 		Show Context view for activated album
 	"""
 	def _on_album_activated(self, obj, data):
-		if self._context_album_id == data.get_child().get_id():
-			self._context_album_id = None
+		if self._albumsongs_album_id == data.get_child().get_id():
+			self._albumsongs_album_id = None
 			self._scrolledContext.hide()
 		else:
 			self._clean_context()
-			self._context_album_id = data.get_child().get_id()
-			self._populate_context(self._context_album_id)
+			self._albumsongs_album_id = data.get_child().get_id()
+			self._populate_context(self._albumsongs_album_id)
 			self._scrolledContext.show_all()		
 		
 	"""
