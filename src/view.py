@@ -53,7 +53,7 @@ class View(Gtk.Grid):
 		self._player.connect("current-changed", self.current_changed)
 
 	def destroy(self):
-		self._player.disconnect_by_func(self._current_changed)
+		self._player.disconnect_by_func(self.current_changed)
 		Gtk.Grid.destroy(self)
 
 	"""
