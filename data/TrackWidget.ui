@@ -85,9 +85,9 @@
                 <property name="valign">start</property>
                 <property name="xalign">1</property>
                 <property name="yalign">0</property>
-                <attributes>
-                  <attribute name="foreground" value="#bababdbdb6b6"/>
-                </attributes>
+		<style>
+                  <class name="dim-label"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
