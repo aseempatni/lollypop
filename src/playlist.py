@@ -18,7 +18,82 @@ from gettext import gettext as _, ngettext
 from lollypop.albumart import AlbumArt
 from lollypop.utils import translate_artist_name
 
+
+class PlayListRow(Gtk.ListBoxRow):
+	"""
+		Init row widgets
+	"""
+	def __init__(self):
+		Gtk.ListBoxRow.__init__(self)
+		self._object_id = None
+		self._is_track = False
+		self._ui = Gtk.Builder()
+		self._ui.add_from_resource('/org/gnome/Lollypop/PlayListRow.ui')
+		self._row_widget = self._ui.get_object('row')
+		self._artist = self._ui.get_object('artist')
+		self._title = self._ui.get_object('title')
+		self._cover = self._ui.get_object('cover')
+		self._button = self._ui.get_object('delete')
+		self.add(self._row_widget)
+		self.show()
+
+	"""
+		Destroy all widgets
+	"""
+	def destroy(self):
+		self.remove(self._row_widget)
+		for widget in self._ui.get_objects():
+			widget.destroy()
+		Gtk.ListBoxRow.destroy(self)
+
+	"""
+		Set artist label
+	"""
+	def set_artist(self, name):
+		self._artist.set_text(translate_artist_name(name))
+
+	"""
+		Set title label
+	"""
+	def set_title(self, name):
+		self._title.set_text(name)
+
+	"""
+		Show message about how to use playlist
+	"""
+	def show_help(self):
+		self._button.hide()
+		self._title.hide()
+		self._cover.hide()
+		self._artist.set_text(_("Right click on a song to add it to playlist"))
+	
+	"""
+		Set cover pixbuf
+	"""
+	def set_cover(self, pixbuf):
+		self._cover.set_from_pixbuf(pixbuf)
+
+	"""
+		Store object id
+	"""
+	def set_object_id(self, object_id):
+		self._object_id = object_id
+
+	"""
+		Return object id
+	"""
+	def get_object_id(self):
+		return self._object_id
+
+	"""
+		Return True if button is active
+	"""
+	def is_button_active(self):
+		return self._button.get_active()
+
+
 class PlayListWidget(Gtk.Popover):
+	TARGET_ENTRY_LIST = ["application/x-lollypop-widget", Gtk.TargetFlags.SAME_APP, 0 ]
 
 	"""
 		Init Popover ui with a text entry and a scrolled treeview
@@ -32,22 +107,12 @@ class PlayListWidget(Gtk.Popover):
 		self._art = AlbumArt(db)
 		self._row_signal = None
 
-		self._model = Gtk.ListStore(GdkPixbuf.Pixbuf, str, int)
-		self._view = Gtk.TreeView(self._model)
-		self._view.set_property("activate-on-single-click", False)
-		self._view.set_property("reorderable", True)
-		renderer1 = Gtk.CellRendererText()
-		renderer1.set_property('ellipsize-set',True)
-		renderer1.set_property('ellipsize', Pango.EllipsizeMode.END)
-		renderer2 = Gtk.CellRendererPixbuf()
-		renderer2.set_property('stock-size', 16)
-		self._view.append_column(Gtk.TreeViewColumn("Pixbuf", renderer2, pixbuf=0))
-		self._view.append_column(Gtk.TreeViewColumn("Text", renderer1, text=1))
-		self._view.set_headers_visible(False)		
-		self._view.connect('row-activated', self._new_item_selected)
-		self._view.connect('key-release-event', self._on_keyboard_event)
-		self.set_property('height-request', 700)
+		self._view = Gtk.ListBox()
+		#self._view.connect("row-activated", self._on_activate)	
+		self._view.show()
+
 		self.set_property('width-request', 500)
+		self.set_property('height-request', 700)
 		self._scroll = Gtk.ScrolledWindow()
 		self._scroll.set_hexpand(True)
 		self._scroll.set_vexpand(True)
@@ -55,16 +120,18 @@ class PlayListWidget(Gtk.Popover):
 		self._scroll.add(self._view)
 		self._scroll.show_all()
 
+		Gtk.Drag.dest_set(self._view, Gtk.DestDefaults.MOTION | Gtk.DestDefaults.HIGHLIGHT,
+			          self.TARGET_ENTRY_LIST, Gdk.DragAction.COPY | Gdk.DragAction.MOVE);
+
 		self.connect("closed", self._on_closed)	
 		self.add(self._scroll)
-
 
 	"""
 		Show playlist popover		
 		Populate treeview with current playlist
 	"""
 	def show(self):
-		self._model.clear()
+		self._clear()
 		tracks = self._player.get_playlist()
 		if len(tracks) > 0:
 			for track_id in tracks:
@@ -72,17 +139,29 @@ class PlayListWidget(Gtk.Popover):
 				album_id = self._db.get_album_id_by_track_id(track_id)
 				artist_id = self._db.get_artist_id_by_album_id(album_id)
 				artist_name = self._db.get_artist_name_by_id(artist_id)
-				artist_name = translate_artist_name(artist_name)
 				art = self._art.get_small(album_id)
-				self._model.append([art, artist_name + " - " + track_name, track_id])
-			self._row_signal = self._model.connect("row-deleted", self._reordered_playlist)
+				playlist_row = PlayListRow()
+				playlist_row.set_artist(artist_name)
+				playlist_row.set_title(track_name)
+				playlist_row.set_cover(self._art.get_small(album_id))
+				playlist_row.set_object_id(track_id)
+				self._view.add(playlist_row)
 		else:
-			self._model.append([None, _("Right click on a song to add it to playlist"), None])
+			playlist_row = PlayListRow()
+			playlist_row.show_help()
+			self._view.add(playlist_row)
 		Gtk.Popover.show(self)
 
 #######################
 # PRIVATE             #
 #######################
+
+	"""
+		Clear widget removing every row
+	"""
+	def _clear(self):
+		for child in self._view.get_children():
+			child.destroy()
 
 	"""
 		Delete item if Delete was pressed
@@ -104,7 +183,8 @@ class PlayListWidget(Gtk.Popover):
 	"""
 		Update playlist order after user drag&drop reorder
 	"""
-	def _reordered_playlist(self, view,  path):
+	def _reordered_playlist(self, row1 ,row2):
+		return
 		new_playlist = []
 		for row in self._model:
 			if row[2]:
