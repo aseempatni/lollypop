@@ -39,20 +39,9 @@ class SearchRow(Gtk.ListBoxRow):
 	"""
 	def destroy(self):
 		self.remove(self._row_widget)
-		del self._row_widget
-		del self._artist
-		del self._item
-		del self._cover
 		for widget in self._ui.get_objects():
-			widget.hide()
 			widget.destroy()
 		Gtk.ListBoxRow.destroy(self)
-
-	"""
-		Get row widget
-	"""
-	def widget(self):
-		return self._row_widget
 
 	"""
 		Set artist label
@@ -148,9 +137,8 @@ class SearchWidget(Gtk.Popover):
 	"""
 		Clear widget removing every row
 	"""
-	def clear(self):
+	def _clear(self):
 		for child in self._view.get_children():
-			child.hide()
 			child.destroy()
 
 	"""
@@ -162,14 +150,14 @@ class SearchWidget(Gtk.Popover):
 		if self._text_entry.get_text() != "":
 			self._timeout = GLib.timeout_add(500, self._really_do_filtering)
 		else:
-			self.clear()
+			self._clear()
 
 	"""
 		Populate treeview searching items in db based on text entry current text
 	"""
 	def _really_do_filtering(self):
 		self._timeout = None
-		self.clear()
+		self._clear()
 		searched = self._text_entry.get_text()
 		self._scroll.show()
 
@@ -181,11 +169,11 @@ class SearchWidget(Gtk.Popover):
 					albums.append((album_id, artist_id))
 
 		for album_id, artist_id in albums:
-			artist = self._db.get_artist_name_by_id(artist_id)
-			album = self._db.get_album_name_by_id(album_id)
+			artist_name = self._db.get_artist_name_by_id(artist_id)
+			album_name = self._db.get_album_name_by_id(album_id)
 			search_row = SearchRow()
-			search_row.set_artist(artist)
-			search_row.set_item(album)
+			search_row.set_artist(artist_name)
+			search_row.set_item(album_name)
 			search_row.set_cover(self._art.get_small(album_id))
 			search_row.set_object_id(album_id)			
 			self._view.add(search_row)
@@ -193,9 +181,9 @@ class SearchWidget(Gtk.Popover):
 		for track_id, track_name in self._db.search_tracks(searched):
 			album_id = self._db.get_album_id_by_track_id(track_id)
 			artist_id = self._db.get_artist_id_by_album_id(album_id)
-			artist = self._db.get_artist_name_by_id(artist_id)
+			artist_name = self._db.get_artist_name_by_id(artist_id)
 			search_row = SearchRow()
-			search_row.set_artist(artist)
+			search_row.set_artist(artist_name)
 			search_row.set_item(track_name)
 			search_row.set_cover(self._art.get_small(album_id))
 			search_row.set_object_id(track_id)
