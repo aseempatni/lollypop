@@ -32,6 +32,10 @@ class SearchRow(Gtk.ListBoxRow):
 		self._item = self._ui.get_object('item')
 		self._cover = self._ui.get_object('cover')
 		self.add(self._row_widget)
+
+		self._artist.set_max_width_chars(28)
+		self._item.set_max_width_chars(28)
+
 		self.show()
 
 	"""
@@ -117,7 +121,8 @@ class SearchWidget(Gtk.Popover):
 		self._scroll.set_vexpand(True)
 		self._scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		self._scroll.add(self._view)
-		
+		self._scroll.show()
+
 		grid.add(self._text_entry)
 		grid.add(self._scroll)
 		grid.show()
@@ -127,6 +132,13 @@ class SearchWidget(Gtk.Popover):
 # PRIVATE             #
 #######################
 	
+	"""
+		Give focus to text entry on show
+	"""
+	def show(self):
+		Gtk.Popover.show(self)		
+		self._text_entry.grab_focus()
+
 	"""
 		Clear widget removing every row
 	"""
@@ -152,7 +164,6 @@ class SearchWidget(Gtk.Popover):
 		self._timeout = None
 		self._clear()
 		searched = self._text_entry.get_text()
-		self._scroll.show()
 
 		albums = self._db.search_albums(searched)
 		

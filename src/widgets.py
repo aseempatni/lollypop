@@ -39,16 +39,16 @@ class AlbumWidget(Gtk.Grid):
 		self._art = AlbumArt(db)
 		
 		self._ui.get_object('cover').set_from_pixbuf(self._art.get(album_id))
-		#TODO Can't find a way to have ellipsized label
+
 		label = self._db.get_album_name_by_id(album_id)
-		if len(label) > 20:
-			label = label[0:20] + "..."
-		self._ui.get_object('title').set_label(label)
+		title = self._ui.get_object('title')
+		title.set_max_width_chars(20)
+		title.set_label(label)
 		label = self._db.get_artist_name_by_album_id(album_id)
 		label = translate_artist_name(label)
-		if len(label) > 20:
-			label = label[0:20] + "..."
-		self._ui.get_object('artist').set_label(label)
+		artist = self._ui.get_object('artist')
+		artist.set_max_width_chars(20)
+		artist.set_label(label)
 		self.add(self._ui.get_object('AlbumWidget'))
 	
 	"""
