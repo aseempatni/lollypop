@@ -34,9 +34,11 @@ class PlayListRow(Gtk.ListBoxRow):
 		self._title = self._ui.get_object('title')
 		self._cover = self._ui.get_object('cover')
 		self._button = self._ui.get_object('delete')
+		self._button.connect("clicked", self.destroy_callback)
 		self.add(self._row_widget)
 		self.show()
 
+	
 	"""
 		Destroy all widgets
 	"""
@@ -45,6 +47,8 @@ class PlayListRow(Gtk.ListBoxRow):
 		for widget in self._ui.get_objects():
 			widget.destroy()
 		Gtk.ListBoxRow.destroy(self)
+	def destroy_callback(self, event):
+		self.destroy()
 
 	"""
 		Set artist label
@@ -108,7 +112,8 @@ class PlayListWidget(Gtk.Popover):
 		self._row_signal = None
 
 		self._view = Gtk.ListBox()
-		#self._view.connect("row-activated", self._on_activate)	
+		self._view.connect("row-activated", self._on_activate)	
+		self._view.connect("remove", self._on_remove)
 		self._view.show()
 
 		self.set_property('width-request', 500)
@@ -120,7 +125,6 @@ class PlayListWidget(Gtk.Popover):
 		self._scroll.add(self._view)
 		self._scroll.show_all()
 
-		self.connect("closed", self._on_closed)	
 		self.add(self._scroll)
 
 	"""
@@ -161,22 +165,14 @@ class PlayListWidget(Gtk.Popover):
 			child.destroy()
 
 	"""
-		Delete item if Delete was pressed
+		Delete item when item have been destroyed
 	"""
-	def _on_keyboard_event(self, obj, event):
-		if len(self._player.get_playlist()) > 0:
-			if event.keyval == 65535:
-				path, column = self._view.get_cursor()
-				iter = self._model.get_iter(path)
-				self._model.remove(iter)
-	"""
-		Clear reorderer signal
-	"""
-	def _on_closed(self, widget):
-		if self._row_signal:
-			self._model.disconnect(self._row_signal)
-			self._row_signal = None
-			
+	def _on_remove(self, container, widget):
+		new_playlist = []
+		for child in self._view.get_children():
+			new_playlist.append(child.get_object_id())
+		self._player.set_playlist(new_playlist)
+
 	"""
 		Update playlist order after user drag&drop reorder
 	"""
@@ -191,10 +187,10 @@ class PlayListWidget(Gtk.Popover):
 	"""
 		Play clicked item
 	"""
-	def _new_item_selected(self, view, path, column):
-		iter = self._model.get_iter(path)
-		if iter:
-			value_id = self._model.get_value(iter, 2)
-			self._player.del_from_playlist(value_id)
-			self._player.load(value_id)
-		self.hide()
+	def _on_activate(self, view, row):
+		
+		value_id = row.get_object_id()
+		self._player.del_from_playlist(value_id)
+		self._player.load(value_id)
+		view.remove(row)
+		row.destroy()
