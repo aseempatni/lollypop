@@ -47,19 +47,12 @@ class SearchRow(Gtk.ListBoxRow):
 		Set artist label
 	"""
 	def set_artist(self, name):
-		#FIXME
-		name = translate_artist_name(name)
-		if len(name) > 30:
-			name = name[0:30] + "..."
 		self._artist.set_text(translate_artist_name(name))
 
 	"""
 		Set item label
 	"""
 	def set_item(self, name):
-		#FIXME
-		if len(name) > 30:
-			name = name[0:30] + "..."
 		self._item.set_text(name)
 
 	"""
