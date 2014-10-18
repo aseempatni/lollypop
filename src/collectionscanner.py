@@ -117,7 +117,7 @@ class CollectionScanner:
 		
 		if "date" in keys:
 			string = tag["date"][0]
-			if "-" in year:
+			if "-" in string:
 				index = string.find("-")
 				year = string[0:index]
 			else:
