@@ -120,7 +120,7 @@ class CollectionScanner:
 			if "-" in year:
 				index = string.find("-")
 				year = string[0:index]
-			else
+			else:
 				year = string
 				
 		else:
