@@ -106,17 +106,23 @@ class CollectionScanner:
 		length = int(tag.info.length)
 
 		if "tracknumber" in keys:
-			str = tag["tracknumber"][0]
-			if "/" in str:
-				index = str.find("/")
-				tracknumber = int(str[0:index])
+			string = tag["tracknumber"][0]
+			if "/" in string:
+				index = string.find("/")
+				tracknumber = int(string[0:index])
 			else:
-				tracknumber = int(str)
+				tracknumber = int(string)
 		else:
 			tracknumber = 0
 		
 		if "date" in keys:
-			year = tag["date"][0]
+			string = tag["date"][0]
+			if "-" in year:
+				index = string.find("-")
+				year = string[0:index])
+			else
+				year = string
+				
 		else:
 			year = 0
 		if not year: year = 0
