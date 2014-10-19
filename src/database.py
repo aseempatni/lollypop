@@ -21,24 +21,20 @@ class Database:
 	LOCAL_PATH = os.path.expanduser ("~") +  "/.local/share/lollypop"
 	DB_PATH = "%s/lollypop.db" % LOCAL_PATH
 
-	create_albums = '''CREATE TABLE albums (id INTEGER PRIMARY KEY AUTOINCREMENT,
-						name TEXT NOT NULL,
+	create_albums = '''CREATE TABLE albums (name TEXT NOT NULL,
 						artist_id INT NOT NULL,
 						genre_id INT NOT NULL,
 						year INT NOT NULL,
 						popularity INT NOT NULL)'''
 
-	create_artists = '''CREATE TABLE artists (id INTEGER PRIMARY KEY AUTOINCREMENT,
-						  name TEXT NOT NULL)'''
-	create_genres = '''CREATE TABLE genres (id INTEGER PRIMARY KEY AUTOINCREMENT,
-						name TEXT NOT NULL)'''
-	create_tracks = '''CREATE TABLE tracks (id INTEGER PRIMARY KEY AUTOINCREMENT,
-				          name TEXT NOT NULL,
-					      filepath TEXT NOT NULL,
-			              length INT,
-					      tracknumber INT,
-					      album_id INT NOT NULL)'''
-	create_sort_index = '''CREATE INDEX index_name ON table_name(tracknumber ASC)'''
+	create_artists = '''CREATE TABLE artists (name TEXT NOT NULL)'''
+	create_genres = '''CREATE TABLE genres (name TEXT NOT NULL)'''
+	create_tracks = '''CREATE TABLE tracks (name TEXT NOT NULL,
+						filepath TEXT NOT NULL,
+						length INT,
+						tracknumber INT,
+						album_id INT NOT NULL)'''
+#	create_sort_index = '''CREATE INDEX index_name ON table_name(tracknumber ASC)'''
 							   
 	def __init__(self):
 		# Create db directory if missing
@@ -57,7 +53,7 @@ class Database:
 				self._sql.execute(self.create_artists)
 				self._sql.execute(self.create_genres)
 				self._sql.execute(self.create_tracks)
-				self._sql.execute(self.create_sort_index)
+#				self._sql.execute(self.create_sort_index)
 				self._sql.commit()
 			except:
 				#TODO: REMOVE ME => Add year to album table
@@ -102,9 +98,9 @@ class Database:
 		Clean database deleting orphaned entries
 	"""
 	def clean(self):
-		self._sql.execute("DELETE FROM albums WHERE NOT EXISTS (SELECT id FROM tracks where albums.id = tracks.album_id)")
-		self._sql.execute("DELETE FROM artists WHERE NOT EXISTS (SELECT id FROM albums where artists.id = albums.artist_id)")
-		self._sql.execute("DELETE FROM genres WHERE NOT EXISTS (SELECT id FROM albums where genres.id = albums.genre_id)")
+		self._sql.execute("DELETE FROM albums WHERE NOT EXISTS (SELECT rowid FROM tracks where albums.rowid = tracks.album_id)")
+		self._sql.execute("DELETE FROM artists WHERE NOT EXISTS (SELECT rowid FROM albums where artists.rowid = albums.artist_id)")
+		self._sql.execute("DELETE FROM genres WHERE NOT EXISTS (SELECT rowid FROM albums where genres.rowid = albums.genre_id)")
 		self._sql.commit()
 
 	"""
@@ -140,23 +136,23 @@ class Database:
 		arg: int
 	"""
 	def set_more_popular(self, album_id):
-		result = self._sql.execute("SELECT popularity from albums where id=?", (album_id,))
+		result = self._sql.execute("SELECT popularity from albums where rowid=?", (album_id,))
 		pop = result.fetchone()
 		if pop:
 			current = pop[0]
 		else:
 			current = 0
 		current += 1
-		self._sql.execute("UPDATE albums set popularity=? where id=?", (current, album_id))
+		self._sql.execute("UPDATE albums set popularity=? where rowid=?", (current, album_id))
 		self._sql.commit()
 		
 	"""
-		Get genre id by album_id
+		Get genre rowid by album_id
 		arg: int
 		ret: int
 	"""
 	def get_genre_id_by_album_id(self, album_id):
-		result = self._sql.execute("SELECT genre_id from albums where id=?", (album_id,))
+		result = self._sql.execute("SELECT genre_id from albums where rowid=?", (album_id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -164,12 +160,12 @@ class Database:
 			return -1
 			
 	"""
-		Get genre id by album_id
+		Get genre rowid by album_id
 		arg: string
 		ret: int
 	"""
 	def get_genre_id_by_name(self, name):
-		result = self._sql.execute("SELECT id from genres where name=?", (name,))
+		result = self._sql.execute("SELECT rowid from genres where name=?", (name,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -182,7 +178,7 @@ class Database:
 		ret: int
 	"""
 	def get_genre_name(self, genre_id):
-		result = self._sql.execute("SELECT name from genres where id=?", (genre_id,))
+		result = self._sql.execute("SELECT name from genres where rowid=?", (genre_id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -195,20 +191,20 @@ class Database:
 	"""
 	def get_all_genres(self):
 		genres = []
-		result = self._sql.execute("SELECT id, name FROM genres ORDER BY name COLLATE NOCASE")
+		result = self._sql.execute("SELECT rowid, name FROM genres ORDER BY name COLLATE NOCASE")
 		for row in result:
 			genres += (row,)
 		return genres
 
 
 	"""
-		Get artist id by name
+		Get artist rowid by name
 		arg: string
 		ret: int
 	"""
 	def get_artist_id_by_name(self, name):
 
-		result = self._sql.execute("SELECT id from artists where name=?", (name,))
+		result = self._sql.execute("SELECT rowid from artists where name=?", (name,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -221,7 +217,7 @@ class Database:
 		ret: string
 	"""
 	def get_artist_name_by_id(self, id):
-		result = self._sql.execute("SELECT name from artists where id=?", (id,))
+		result = self._sql.execute("SELECT name from artists where rowid=?", (id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -229,12 +225,12 @@ class Database:
 			return _("Unknown")
 	
 	"""
-		Get artist id by album id
+		Get artist rowid by album id
 		arg: int
 		ret: int
 	"""
 	def get_artist_id_by_album_id(self, album_id):
-		result = self._sql.execute("SELECT artist_id from albums where id=?", (album_id,))
+		result = self._sql.execute("SELECT artist_id from albums where rowid=?", (album_id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -247,7 +243,7 @@ class Database:
 		ret: string
 	"""
 	def get_artist_name_by_album_id(self, album_id):
-		result = self._sql.execute("SELECT artists.name from artists,albums where albums.id=? AND albums.artist_id == artists.id", (album_id,))
+		result = self._sql.execute("SELECT artists.name from artists,albums where albums.rowid=? AND albums.artist_id == artists.rowid", (album_id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -261,7 +257,7 @@ class Database:
 	"""
 	def get_artists_by_genre_id(self, genre_id):
 		artists = []
-		result = self._sql.execute("SELECT DISTINCT artists.id, artists.name FROM artists,albums WHERE artists.id == albums.artist_id AND albums.genre_id=? ORDER BY artists.name COLLATE NOCASE", (genre_id,))
+		result = self._sql.execute("SELECT DISTINCT artists.rowid, artists.name FROM artists,albums WHERE artists.rowid == albums.artist_id AND albums.genre_id=? ORDER BY artists.name COLLATE NOCASE", (genre_id,))
 		for row in result:
 			artists += (row,)
 		return artists
@@ -273,18 +269,18 @@ class Database:
 	"""
 	def get_all_artists(self):
 		artists = []
-		result = self._sql.execute("SELECT id, name FROM artists ORDER BY name COLLATE NOCASE")
+		result = self._sql.execute("SELECT rowid, name FROM artists ORDER BY name COLLATE NOCASE")
 		for row in result:
 			artists += (row,)
 		return artists
 
 	"""
-		Get album id with name, artist id and genre id
+		Get album rowid with name, artist rowid and genre id
 		arg: string, int, int
 		ret: int
 	"""
 	def get_album_id(self, name, artist_id, genre_id):
-		result = self._sql.execute("SELECT id FROM albums where name=? AND artist_id=? AND genre_id=?", (name, artist_id, genre_id))
+		result = self._sql.execute("SELECT rowid FROM albums where name=? AND artist_id=? AND genre_id=?", (name, artist_id, genre_id))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -292,12 +288,12 @@ class Database:
 			return -1
 
 	"""
-		Get album id for track id
+		Get album rowid for track id
 		arg: int
 		ret: int
 	"""
 	def get_album_id_by_track_id(self, track_id):
-		result = self._sql.execute("SELECT albums.id FROM albums,tracks where tracks.album_id=albums.id AND tracks.id=?", (track_id,))
+		result = self._sql.execute("SELECT albums.rowid FROM albums,tracks where tracks.album_id=albums.rowid AND tracks.rowid=?", (track_id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -310,7 +306,7 @@ class Database:
 		ret: int
 	"""
 	def get_album_genre_by_id(self, album_id):
-		result = self._sql.execute("SELECT genre_id FROM albums WHERE id=?", (album_id,))
+		result = self._sql.execute("SELECT genre_id FROM albums WHERE rowid=?", (album_id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -323,7 +319,7 @@ class Database:
 		ret: string
 	"""
 	def get_album_name_by_id(self, album_id):
-		result = self._sql.execute("SELECT name FROM albums where id=?", (album_id,))
+		result = self._sql.execute("SELECT name FROM albums where rowid=?", (album_id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -336,7 +332,7 @@ class Database:
 		ret: string
 	"""
 	def get_album_year_by_id(self, album_id):
-		result = self._sql.execute("SELECT year FROM albums where id=?", (album_id,))
+		result = self._sql.execute("SELECT year FROM albums where rowid=?", (album_id,))
 		v = result.fetchone()
 		if v:
 			if v[0] == 0:
@@ -366,7 +362,7 @@ class Database:
 	"""
 	def get_albums_popular(self):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums where popularity!=0 ORDER BY popularity LIMIT 40")
+		result = self._sql.execute("SELECT rowid FROM albums where popularity!=0 ORDER BY popularity LIMIT 40")
 		for row in result:
 			albums += row
 		return albums
@@ -377,7 +373,7 @@ class Database:
 	"""
 	def get_all_albums_ids(self):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums")
+		result = self._sql.execute("SELECT rowid FROM albums")
 		for row in result:
 			albums += row
 		return albums
@@ -402,31 +398,31 @@ class Database:
 	"""
 	def get_all_albums(self):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums ORDER BY artist_id")
+		result = self._sql.execute("SELECT rowid FROM albums ORDER BY artist_id")
 		for row in result:
 			albums += row
 		return albums
 	
 	"""
-		Get all albums for artist id and genre id
+		Get all albums for artist rowid and genre id
 		arg: int, int
 		ret: [int]
 	"""
 	def get_albums_by_artist_and_genre_ids(self, artist_id, genre_id):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=? and genre_id=? ORDER BY year", (artist_id, genre_id))
+		result = self._sql.execute("SELECT rowid FROM albums WHERE artist_id=? and genre_id=? ORDER BY year", (artist_id, genre_id))
 		for row in result:
 			albums += row
 		return albums
 
 	"""
-		Get all albums for artist id and not prohibed id
+		Get all albums for artist rowid and not prohibed id
 		arg: int, int
 		ret: [int]
 	"""	
 	def get_albums_by_artist_id(self, artist_id):
 		albums = []
-		result = self._sql.execute("SELECT id FROM albums WHERE artist_id=? ORDER BY year", (artist_id,))
+		result = self._sql.execute("SELECT rowid FROM albums WHERE artist_id=? ORDER BY year", (artist_id,))
 		for row in result:
 			albums += row
 		return albums
@@ -438,7 +434,7 @@ class Database:
 	"""	
 	def get_albums_by_genre_id(self, genre_id):
 		albums = []
-		result = self._sql.execute("SELECT albums.id FROM albums, artists WHERE genre_id=? and artists.id=artist_id ORDER BY artists.name COLLATE NOCASE, albums.year", (genre_id,))
+		result = self._sql.execute("SELECT albums.rowid FROM albums, artists WHERE genre_id=? and artists.rowid=artist_id ORDER BY artists.name COLLATE NOCASE, albums.year", (genre_id,))
 		for row in result:
 			albums += row
 		return albums
@@ -457,13 +453,13 @@ class Database:
 			return -1
 
 	"""
-		Get track id for album id
+		Get track rowid for album id
 		arg: int
 		ret: [int]
 	"""
 	def get_track_ids_by_album_id(self, album_id):
 		tracks = []
-		result = self._sql.execute("SELECT id FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
+		result = self._sql.execute("SELECT rowid FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
 		for row in result:
 			tracks += row
 		return tracks
@@ -475,7 +471,7 @@ class Database:
 	"""
 	def get_tracks_by_album_id(self, album_id):
 		tracks = []
-		result = self._sql.execute("SELECT id, name, filepath, length FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
+		result = self._sql.execute("SELECT rowid, name, filepath, length FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
 		for row in result:
 			tracks += (row,)
 		return tracks
@@ -487,7 +483,7 @@ class Database:
 	"""
 	def get_track_infos(self, track_id):
 		tracks = []
-		result = self._sql.execute("SELECT name, filepath, length, tracknumber, album_id FROM tracks WHERE id=?" , (track_id,))
+		result = self._sql.execute("SELECT name, filepath, length, tracknumber, album_id FROM tracks WHERE rowid=?" , (track_id,))
 		v = result.fetchone()
 		if v:
 			return v
@@ -495,13 +491,13 @@ class Database:
 			return ()
 
 	"""
-		Get tracks id for album id
+		Get tracks rowid for album id
 		arg: int
 		ret: [int]
 	"""
 	def get_tracks_ids_by_album_id(self, album_id):
 		tracks = []
-		result = self._sql.execute("SELECT id FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
+		result = self._sql.execute("SELECT rowid FROM tracks WHERE album_id=? ORDER BY tracknumber" , (album_id,))
 		for row in result:
 			tracks += row
 		return tracks
@@ -512,7 +508,7 @@ class Database:
 		ret: string
 	"""
 	def get_track_filepath(self, id):
-		result = self._sql.execute("SELECT filepath FROM tracks where id=?", (id,))
+		result = self._sql.execute("SELECT filepath FROM tracks where rowid=?", (id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -537,7 +533,7 @@ class Database:
 		ret: string
 	"""
 	def get_track_name(self, id):
-		result = self._sql.execute("SELECT name FROM tracks where id=?", (id,))
+		result = self._sql.execute("SELECT name FROM tracks where rowid=?", (id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -550,7 +546,7 @@ class Database:
 		ret: int
 	"""
 	def get_track_length(self, id):
-		result = self._sql.execute("SELECT length FROM tracks where id=?", (id,))
+		result = self._sql.execute("SELECT length FROM tracks where rowid=?", (id,))
 		v = result.fetchone()
 		if v:
 			return v[0]
@@ -564,7 +560,7 @@ class Database:
 	"""
 	def search_albums(self, string):
 		albums = []
-		result = self._sql.execute("SELECT id, artist_id FROM albums where name like ? LIMIT 100", ('%'+string+'%',))
+		result = self._sql.execute("SELECT rowid, artist_id FROM albums where name like ? LIMIT 100", ('%'+string+'%',))
 		for row in result:
 			albums += (row,)
 		return albums
@@ -576,7 +572,7 @@ class Database:
 	"""
 	def search_artists(self, string):
 		artists = []
-		result = self._sql.execute("SELECT id FROM artists where name like ? LIMIT 100", ('%'+string+'%',))
+		result = self._sql.execute("SELECT rowid FROM artists where name like ? LIMIT 100", ('%'+string+'%',))
 		for row in result:
 			artists += row
 		return artists
@@ -588,7 +584,7 @@ class Database:
 	"""
 	def search_tracks(self, string):
 		tracks = []
-		result = self._sql.execute("SELECT id, name FROM tracks where name like ? LIMIT 100", ('%'+string+'%',))
+		result = self._sql.execute("SELECT rowid, name FROM tracks where name like ? LIMIT 100", ('%'+string+'%',))
 		for row in result:
 			tracks += (row,)
 		return tracks
