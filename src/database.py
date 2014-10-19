@@ -309,7 +309,7 @@ class Database:
 		arg: int
 		ret: int
 	"""
-	def get_album_genre(self, album_id):
+	def get_album_genre_by_id(self, album_id):
 		result = self._sql.execute("SELECT genre_id FROM albums WHERE id=?", (album_id,))
 		v = result.fetchone()
 		if v:

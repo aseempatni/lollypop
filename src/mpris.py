@@ -171,7 +171,7 @@ class MediaPlayer2Service(dbus.service.Object):
 		album = self._db.get_album_name_by_id(album_id)
 		artist = self._db.get_artist_name_by_album_id(album_id)
 		artist = translate_artist_name(artist)
-		genre_id = self._db.get_album_genre(album_id)
+		genre_id = self._db.get_album_genre_by_id(album_id)
 		genre = self._db.get_genre_name(genre_id)
 		album_art = AlbumArt(self._db)
 		
